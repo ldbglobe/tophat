@@ -57,46 +57,59 @@ $tophat->appendModule('social.items',['icon'=>'<i class="fa fa-instagram"></i>',
 // Building a navigation tree (you can have more than one)
 // ----------------------------------------------------------------------------------------------
 
-$tophat->appendNav('main',[
-	'url'=>'#home',
-	'target'=>null,
-	'icon'=>'<i class="fa fa-home"></i>',
-	'label'=>'Home',
-	'active'=>false, // Tophat can force item as active if any of this subnav items is active
-	'important'=>true,
-	'subnav'=>[
-		[
-			'url'=>'#rooms',
-			'label'=>'Rooms',
-			'active'=>true,
-		],
-		[
-			'url'=>'#offers',
-			'label'=>'Offers',
-			'active'=>false,
-		],
-	]
-]);
-$tophat->appendNav('main',[ 'url'=>'#services',   'label'=>'Services' ]);
-$tophat->appendNav('main',[ 'url'=>'#our-work',   'label'=>'Our Work' ]);
-$tophat->appendNav('main',[ 'url'=>'#about-us',   'label'=>'About Us' ]);
-$tophat->appendNav('main',[ 'url'=>'#blog',       'label'=>'Blog', 'skin'=>'color' ]);
-$tophat->appendNav('main',[ 'url'=>'#contact-us', 'label'=>'Contact Us', 'important'=>true, 'skin'=>'button' ]);
+$navigation = [
+	[
+		'url'=>'#home',
+		'target'=>null,
+		'icon'=>'<i class="fa fa-home"></i>',
+		'label'=>'Home',
+		'active'=>false, // Tophat can force item as active if any of this subnav items is active
+		'important'=>true,
+		'subnav'=>[
+			[
+				'url'=>'#rooms',
+				'label'=>'Rooms',
+				'active'=>true,
+			],
+			[
+				'url'=>'#offers',
+				'label'=>'Offers',
+				'active'=>false,
+			],
+		]
+	],
+	[ 'url'=>'#services',   'label'=>'Services' ],
+	[ 'url'=>'#our-work',   'label'=>'Our Work' ],
+	[ 'url'=>'#about-us',   'label'=>'About Us' ],
+	[ 'url'=>'#blog',       'label'=>'Blog', 'skin'=>'color' ],
+	[ 'url'=>'#contact-us', 'label'=>'Contact Us', 'important'=>true, 'skin'=>'button' ],
+];
 
+$tophat->setModule('navtree.type','nav');
+$tophat->setModule('navtree.items',$navigation);
 
 // ----------------------------------------------------------------------------------------------
 // Set Bars containing previously created content
 // ----------------------------------------------------------------------------------------------
 
 $tophat->setBar('topbar.i',1);
+$tophat->setBar('topbar.rwd',['m','l']); // [s,m,l]
 $tophat->setBar('topbar.class','topbar');
-$tophat->setBar('topbar.left',['module.language','module.contact']);
-$tophat->setBar('topbar.right',['module.book']);
+$tophat->setBar('topbar.left',['language','contact']);
+$tophat->setBar('topbar.right',['social','book']);
 
 $tophat->setBar('navigation.i',2);
+$tophat->setBar('navigation.rwd',['m','l']);
 $tophat->setBar('navigation.class','navigation');
 $tophat->setBar('navigation.logo','left');
-$tophat->setBar('navigation.right',['nav.main','module.book']);
+$tophat->setBar('navigation.right',['navtree','book']);
+
+$tophat->setBar('mobile.i',3);
+$tophat->setBar('mobile.rwd',['s']);
+$tophat->setBar('mobile.class','navigation-mobile');
+$tophat->setBar('mobile.logo','left');
+$tophat->setBar('mobile.left',['navtree']);
+$tophat->setBar('mobile.right',['book']);
 
 // ----------------------------------------------------------------------------------------------
 // Execution des builders

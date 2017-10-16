@@ -82,19 +82,4 @@ class Tophat {
 	{
 		$this->settings->append('bars.'.$k, $v);
 	}
-
-	// ----------------------------------------
-	// NAVS
-	public function setNav($k,$v)
-	{
-		$this->settings->set('navs.'.$k,$v);
-	}
-	public function getNav($k)
-	{
-		$this->settings->get('navs.'.$k);
-	}
-	public function appendNav($k,$v)
-	{
-		$this->settings->append('navs.'.$k, $v);
-	}
 }
