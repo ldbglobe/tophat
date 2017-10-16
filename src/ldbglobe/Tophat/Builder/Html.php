@@ -5,7 +5,7 @@ class Html
 {
 	public function __construct($tophat)
 	{
-		print_r($tophat->getAll());
+		echo '<pre>'.print_r($tophat->getAll(),1).'</pre>';
 	}
 }
 ?>

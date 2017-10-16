@@ -5,9 +5,9 @@ use ldbglobe\Tophat\Tophat;
 
 $tophat = new Tophat();
 
-// ----------------------------------
-// available module Skin
-// ----------------------------------
+// ----------------------------------------------------------------------------------------------
+// available skin for module or navigation item
+// ----------------------------------------------------------------------------------------------
 // color
 // color-alt
 // background
@@ -32,18 +32,21 @@ $tophat->setModule('contact.type','button');
 $tophat->setModule('contact.skin','color');
 $tophat->setModule('contact.icon','<i class="fa fa-phone"></i>');
 $tophat->setModule('contact.label','+33 (0)1 23 45 67 89');
+$tophat->setModule('contact.url',null); // default value / optionnal - If url is set <a> tag will be used
+$tophat->setModule('contact.target',null); // default value / optionnal - used only on link
+
+$tophat->setModule('book.type','button');
+$tophat->setModule('book.skin','background');
+$tophat->setModule('book.class','trigger-booking-panel');
+$tophat->setModule('book.icon','<i class="fa fa-calendar"></i>');
+$tophat->setModule('book.label',"Réserver");
+$tophat->setModule('book.arrow','<i class="fa fa-angle-right"></i>');
 
 $tophat->setModule('language.type','select');
 $tophat->setModule('language.options.fr','Français');
 $tophat->setModule('language.options.en','English');
 $tophat->setModule('language.options.de','Deutsch');
 $tophat->setModule('language.selected','fr');
-
-$tophat->setModule('book.type','button');
-$tophat->setModule('book.skin','background');
-$tophat->setModule('book.icon','<i class="fa fa-calendar"></i>');
-$tophat->setModule('book.label',"Réserver");
-$tophat->setModule('book.arrow','<i class="fa fa-angle-right"></i>');
 
 $tophat->setModule('social.type','list');
 $tophat->appendModule('social.items',['icon'=>'<i class="fa fa-facebook-official"></i>','label'=>'Facebook', 'url'=>'#facebook']);
@@ -56,6 +59,7 @@ $tophat->appendModule('social.items',['icon'=>'<i class="fa fa-instagram"></i>',
 
 $tophat->appendNav('main',[
 	'url'=>'#home',
+	'target'=>null,
 	'icon'=>'<i class="fa fa-home"></i>',
 	'label'=>'Home',
 	'active'=>false, // Tophat can force item as active if any of this subnav items is active
@@ -76,8 +80,8 @@ $tophat->appendNav('main',[
 $tophat->appendNav('main',[ 'url'=>'#services',   'label'=>'Services' ]);
 $tophat->appendNav('main',[ 'url'=>'#our-work',   'label'=>'Our Work' ]);
 $tophat->appendNav('main',[ 'url'=>'#about-us',   'label'=>'About Us' ]);
-$tophat->appendNav('main',[ 'url'=>'#blog',       'label'=>'Blog' ]);
-$tophat->appendNav('main',[ 'url'=>'#contact-us', 'label'=>'Contact Us' ]);
+$tophat->appendNav('main',[ 'url'=>'#blog',       'label'=>'Blog', 'skin'=>'color' ]);
+$tophat->appendNav('main',[ 'url'=>'#contact-us', 'label'=>'Contact Us', 'important'=>true, 'skin'=>'button' ]);
 
 
 // ----------------------------------------------------------------------------------------------
@@ -85,12 +89,14 @@ $tophat->appendNav('main',[ 'url'=>'#contact-us', 'label'=>'Contact Us' ]);
 // ----------------------------------------------------------------------------------------------
 
 $tophat->setBar('topbar.i',1);
+$tophat->setBar('topbar.class','topbar');
 $tophat->setBar('topbar.left',['module.language','module.contact']);
 $tophat->setBar('topbar.right',['module.book']);
 
-$tophat->setBar('mainbar.i',2);
-$tophat->setBar('mainbar.logo','left');
-$tophat->setBar('mainbar.right',['nav.main','module.book']);
+$tophat->setBar('navigation.i',2);
+$tophat->setBar('navigation.class','navigation');
+$tophat->setBar('navigation.logo','left');
+$tophat->setBar('navigation.right',['nav.main','module.book']);
 
 // ----------------------------------------------------------------------------------------------
 // Execution des builders
