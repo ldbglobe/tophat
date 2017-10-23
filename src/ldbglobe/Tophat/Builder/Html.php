@@ -8,14 +8,15 @@ class Html
 		$this->tophat = $tophat;
 
 		$bars = $tophat->getBars();
+		$i=0;
 		foreach($bars as $key=>$bar)
 		{
-			$this->BuildBar($key,$bar);
+			$this->BuildBar($i++,$key,$bar);
 		}
 		//echo '<pre>'.print_r($tophat->getAll(),1).'</pre>';
 	}
 
-	public function BuildBar($key,$bar)
+	public function BuildBar($index,$key,$bar)
 	{
 		$classes = array();
 		if($bar->get('class'))
@@ -25,7 +26,7 @@ class Html
 
 		$available_parts = $this->AvailabaleParts($bar);
 
-		echo '<div class="tophat-bar '.implode(' ',$classes).'" data-tophat-key="'.$key.'" '.($bar->get('logo') ? 'data-tophat-logo="'.$bar->get('logo').'"':'').'" data-tophat-parts="'.implode(',',$available_parts).'">';
+		echo '<div style="z-index:'.(100-$index).';" class="tophat-bar '.implode(' ',$classes).'" data-tophat-key="'.$key.'" '.($bar->get('logo') ? 'data-tophat-logo="'.$bar->get('logo').'"':'').'" data-tophat-parts="'.implode(',',$available_parts).'">';
 		echo $logo;
 		foreach($available_parts as $part_code)
 			$this->BuildBarPart($bar,$part_code);
