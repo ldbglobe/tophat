@@ -1,0 +1,116 @@
+$color:#222;
+$colorAlt:#ff614b;
+$background:#fff;
+$backgroundAlt:#ff614b;
+
+body:before {
+	z-index: 100;
+	content:"\2000";
+	display: block;
+	position: fixed;
+	top: 0;
+	left: 50%;
+	width: 0;
+	height: 100%;
+	border-left: 1px dotted red;
+}
+body:after {
+	z-index: 100;
+	content:"\2000";
+	display: block;
+	position: fixed;
+	top: 0;
+	left: 40%;
+	width: 20%;
+	height: 100%;
+	border-left: 1px dotted orange;
+	border-right: 1px dotted orange;
+}
+
+.tophat-bar {
+	position: relative;
+	border: 1px solid violet;
+	padding: 0;
+	margin: 1em .5em;
+	display: flex;
+	font-family: sans-serif;
+	background:$background;
+	color:$color;
+	a {
+		color:inherit;
+	}
+	&,& * {
+		box-sizing: border-box;
+	}
+}
+.tophat-bar-part {
+	border: 1px solid #8bcfe1;
+	padding: .2em;
+	margin: .2em;
+
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: flex-start;
+	align-items: center;
+
+	[data-tophat-parts*="middle"] & {
+		flex: 1;
+		background: yellow;
+	}
+
+
+	> * {
+		order:1;
+	}
+
+	&[data-tophat-part-key="left"] {}
+	&[data-tophat-part-key="middle"] {
+		flex-wrap: nowrap;
+		justify-content: center;
+		border: 1px dashed red;
+	}
+	&[data-tophat-part-key="right"] {
+		margin-left: auto;
+		justify-content: flex-end;
+		.tophat-bar-part-logo {
+			order:999;
+		}
+	}
+
+	.nav-item {
+		display: inline-block;
+
+		&[data-tophat-module="navigation"] {
+			> ul {
+				-display: none;
+				position: absolute;
+				border: 1px solid blue;
+				padding: 0;
+				margin: 0;
+				list-style: none;
+			}
+			&:hover > ul {
+				display: block;
+			}
+		}
+
+		> .nav-link {
+			display: inline-block;
+			text-decoration: none;
+		}
+		> .nav-link .label {
+			display: block;
+			padding: 1em .5em;
+			border-bottom: 3px solid transparent;
+		}
+		&.active > .nav-link .label {
+			color:$colorAlt;
+			border-bottom-color: $colorAlt;
+		}
+	}
+}
+
+// centered logo will be handle by javasdcript => so they remain hidden at startup
+.tophat-bar[data-tophat-logo="middle"] .tophat-bar-logo {
+	display: none;
+}
