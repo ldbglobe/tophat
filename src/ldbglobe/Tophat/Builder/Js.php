@@ -23,7 +23,9 @@ class Js
 
 	public function BuildCommon()
 	{
-		echo '<script type="text/javascript">'.file_get_contents(__DIR__.'/Js/common.js').'</script>';
+		$js = file_get_contents(__DIR__.'/Js/common.js');
+		$minijs = \JShrink\Minifier::minify($js);
+		echo '<script type="text/javascript">'.$minijs.'</script>';
 	}
 }
 ?>
