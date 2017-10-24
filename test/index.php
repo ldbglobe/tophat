@@ -29,81 +29,62 @@ $tophat->setLogo('http://via.placeholder.com/350x150/81d0e3/fff?text=Hotel+logo'
 // Building some custom content module
 // ----------------------------------------------------------------------------------------------
 
-$tophat->setModule('contact.type','button');
-$tophat->setModule('contact.skin','color');
-$tophat->setModule('contact.prepend','<i class="fa fa-phone"></i>');
-$tophat->setModule('contact.label','+33 (0)1 23 45 67 89');
-$tophat->setModule('contact.url',null); // default value / optionnal - If url is set <a> tag will be used
-$tophat->setModule('contact.target',null); // default value / optionnal - used only on link
+$tophat->setModule('contact.level',50);
+$tophat->setModule('contact.button.skin','color');
+$tophat->setModule('contact.button.prepend','<i class="fa fa-phone"></i>');
+$tophat->setModule('contact.button.label','+33 (0)1 23 45 67 89');
+$tophat->setModule('contact.button.url',null); // default value / optionnal - If url is set <a> tag will be used
+$tophat->setModule('contact.button.target',null); // default value / optionnal - used only on link
 
-$tophat->setModule('book.type','button');
-$tophat->setModule('book.skin','background');
-$tophat->setModule('book.class','trigger-booking-panel');
-$tophat->setModule('book.prepend','<i class="fa fa-calendar"></i>');
-$tophat->setModule('book.label',"Réserver");
-$tophat->setModule('book.append','<i class="fa fa-angle-right"></i>');
+$tophat->setModule('book.level',99);
+$tophat->setModule('book.button.skin','background');
+$tophat->setModule('book.button.class','trigger-booking-panel');
+$tophat->setModule('book.button.prepend','<i class="fa fa-calendar"></i>');
+$tophat->setModule('book.button.label',"Réserver");
+$tophat->setModule('book.button.append','<i class="fa fa-angle-right"></i>');
 
 
-$languages = [
-	[
-		'url'=>'#fr',
-		'label'=>'Français',
-		'important'=>true,
-		'skin'=>'button',
-		'subskin'=>'dropdown',
-		'subnav'=>[
-			['label'=>'Français', 'url'=>'#fr'],
-			['label'=>'English', 'url'=>'#en'],
-			['label'=>'Deutsch', 'url'=>'#de'],
-		]
-	],
-];
-$tophat->setModule('language.type','navigation');
-$tophat->setModule('language.items',$languages);
+$tophat->setModule('language.level',99);
+$tophat->setModule('language.button.skin','button');
+$tophat->setModule('language.button.subskin','dropdown');
+$tophat->setModule('language.button.label',"Français");
+$tophat->setModule('language.button.url','#fr');
+$tophat->setModule('language.dropdown',[
+	['label'=>'Français', 'url'=>'#fr'],
+	['label'=>'English', 'url'=>'#en'],
+	['label'=>'Deutsch', 'url'=>'#de'],
+]);
 
-$tophat->setModule('social.type','navigation');
-$tophat->appendModule('social.items',['prepend'=>'<i class="fa fa-facebook-official"></i>','label'=>'Facebook', 'url'=>'#facebook']);
-$tophat->appendModule('social.items',['prepend'=>'<i class="fa fa-twitter"></i>', 'url'=>'#twitter']);
-$tophat->appendModule('social.items',['prepend'=>'<i class="fa fa-instagram"></i>', 'url'=>'#instagram']);
+// social module are declare as a group via 'social__' prefix
+$tophat->setModule('social__facebook.button',['prepend'=>'<i class="fa fa-facebook-official"></i>','label'=>'Facebook', 'url'=>'#facebook']);
+$tophat->setModule('social__twitter.button',['prepend'=>'<i class="fa fa-twitter"></i>', 'url'=>'#twitter']);
+$tophat->setModule('social__instagram.button',['prepend'=>'<i class="fa fa-instagram"></i>', 'url'=>'#instagram']);
 
 // ----------------------------------------------------------------------------------------------
-// Building a navigation tree (you can have more than one)
+// Building a navigation tree
 // ----------------------------------------------------------------------------------------------
 
-$navigation = [
-	[
+$tophat->setModule('navtree__home',[
+	'button'=>[
 		'url'=>'#home',
 		'target'=>null,
 		'prepend'=>'<i class="fa fa-home"></i>',
 		'label'=>'Home',
 		'active'=>false, // Tophat can force item as active if any of this subnav items is active
-		'important'=>true,
+		'level'=>99,
 		'subskin'=>'panel',
-		'subnav'=>[
-			[
-				'url'=>'#rooms',
-				'label'=>'Rooms',
-				'active'=>true,
-				//'media'=>'http://via.placeholder.com/100x60/f0f/fff',
-			],
-			[
-				'url'=>'#offers',
-				'label'=>'Offers',
-				'active'=>false,
-				//'media'=>'http://via.placeholder.com/100x60/ff0/000',
-			],
-		]
 	],
-	[ 'url'=>'#services',   'label'=>'Services' ],
-	[ 'url'=>'#services',   'label'=>'Services' ],
-	[ 'url'=>'#our-work',   'label'=>'Our Work' ],
-	[ 'url'=>'#about-us',   'label'=>'About Us' ],
-	[ 'url'=>'#blog',       'label'=>'Blog', 'skin'=>'color' ],
-	[ 'url'=>'#contact-us', 'label'=>'Contact Us', 'important'=>true, 'skin'=>'button' ],
-];
-
-$tophat->setModule('navtree.type','navigation');
-$tophat->setModule('navtree.items',$navigation);
+	'dropdown'=>[
+		['url'=>'#rooms','label'=>'Rooms','active'=>true],// 'media'=>'http://via.placeholder.com/100x60/f0f/fff'],
+		['url'=>'#offers','label'=>'Offers'],// 'media'=>'http://via.placeholder.com/100x60/ff0/000'],
+	]
+]);
+$tophat->setModule('navtree__1.button',[ 'url'=>'#services',   'label'=>'Services' ]);
+$tophat->setModule('navtree__2.button',[ 'url'=>'#services',   'label'=>'Services' ]);
+$tophat->setModule('navtree__3.button',[ 'url'=>'#our-work',   'label'=>'Our Work' ]);
+$tophat->setModule('navtree__4.button',[ 'url'=>'#about-us',   'label'=>'About Us' ]);
+$tophat->setModule('navtree__5.button',[ 'url'=>'#blog',       'label'=>'Blog', 'skin'=>'color' ]);
+$tophat->setModule('navtree__6.button',[ 'url'=>'#contact-us', 'label'=>'Contact Us', 'level'=>50, 'skin'=>'button' ]);
 
 // ----------------------------------------------------------------------------------------------
 // Set Bars containing previously created content

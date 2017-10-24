@@ -61,28 +61,16 @@ class Html
 
 	public function BuildModule($module_code)
 	{
-		if($this->tophat->hasModule($module_code))
+		$module_code = $this->tophat->hasModule($module_code);
+		if(is_string($module_code))
 		{
-			$module_data = $this->tophat->getModuleData($module_code);
-			$module_type = $module_data->get('type');
-			if($module_type)
+			echo $this->BuildModuleContent($module_code);
+		}
+		else if(is_array($module_code))
+		{
+			foreach($module_code as $real_code)
 			{
-				$classname = '\\ldbglobe\\Tophat\\Builder\\Type\\'.$module_type;
-				if(class_exists($classname))
-				{
-					$module = new $classname($module_data);
-					//echo '<div data-tophat-module="'.$module_data->get('type').'" data-tophat-skin="'.$module_data->get('skin').'" '.($module_data->get('class') ? 'class="'.$module_data->get('class').'"':'').'>';
-					echo $module->html();
-					//echo '</div>';
-				}
-				else
-				{
-					throw new \Exception("Class $classname does not exist", 1);
-				}
-			}
-			else
-			{
-				throw new \Exception("Module $module_code have no type defined", 1);
+				$this->BuildModule($real_code);
 			}
 		}
 		else
@@ -97,6 +85,46 @@ class Html
 		if($data->has('media'))
 			$r .= '<span class="media"><img src="'.$data->get('media').'"></span>';
 		return $r;
+	}
+
+	public function BuildModuleContent($module_code)
+	{
+		$data = $this->tophat->getModuleData($module_code);
+
+		$button = $data->getData('button');
+
+        $active = $button->get('active');
+        $dropdown = [];
+
+        if($data->has('dropdown') && !$active)
+        foreach($data->get('dropdown') as $dropdown_item)
+        {
+            $dropdown_item = new \Dflydev\DotAccessData\Data($dropdown_item);
+            $dropdown[] = $dropdown_item;
+
+            $active = $active || $dropdown_item->get('active');
+        }
+
+		$content .= '<div class="nav-item '.($active ? 'active':'').' '.$button->get('class').'" data-tophat-level="'.$button->get('level').'" data-tophat-skin="'.$button->get('skin').'" data-tophat-module="navigation">';
+            $content .= '<a class="nav-link" href="'.$button->get('url').'">';
+                $content .= \ldbglobe\Tophat\Builder\Html::BuildModuleLabel($button);
+            $content .= '</a>';
+            if($dropdown)
+            {
+                $content .= '<ul data-tophat-skin="'.$button->get('subskin').'">';
+                foreach($dropdown as $dropdown_item)
+                {
+                    $content .= '<li class="'.($dropdown_item->get('active') ? 'active':'').'">';
+                        $content .= '<a href="'.$dropdown_item->get('url').'">';
+                            $content .= \ldbglobe\Tophat\Builder\Html::BuildModuleLabel($dropdown_item);
+                        $content .= '</a>';
+                    $content .= '</li>';
+                }
+                $content .= '</ul>';
+            }
+        $content .= '</div>';
+
+        return $content;
 	}
 }
 ?>

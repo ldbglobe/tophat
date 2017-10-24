@@ -89,7 +89,21 @@ class Tophat {
 	}
 	public function hasModule($k)
 	{
-		return $this->settings->has('modules.'.$k);
+		if($this->settings->has('modules.'.$k))
+			return $k;
+		else
+		{
+			$codes = array_keys($this->settings->getData('modules')->export());
+			$response = [];
+			foreach($codes as $code)
+			{
+				if(strpos($code,$k.'__')===0)
+					$response[] = $code;
+			}
+			if($response)
+				return $response;
+		}
+		return false;
 	}
 
 	// ----------------------------------------

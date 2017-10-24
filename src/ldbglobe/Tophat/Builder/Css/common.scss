@@ -72,8 +72,8 @@ body:after {
 	&[data-tophat-part-key="right"] {
 		margin-left: auto;
 		justify-content: flex-end;
-		.tophat-bar-part-logo {
-			order:999;
+		.tophat-bar-logo {
+			order:999 !important;
 		}
 	}
 
