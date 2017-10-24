@@ -1,9 +1,20 @@
 $color:#222;
-$colorAlt:#ff614b;
+$color-alt:#ff614b;
 $background:#fff;
-$backgroundAlt:#ff614b;
+
+$button-background:#ff614b;
+$button-color:#fff;
+$button-alt-background:#da5340;
+$button-alt-color:#fff;
+
+$logo-max-size : 200px;
+
+body {
+	background: #B1D5EB;
+}
 
 body:before {
+	pointer-events: none;
 	z-index: 100;
 	content:"\2000";
 	display: block;
@@ -15,6 +26,7 @@ body:before {
 	border-left: 1px dotted red;
 }
 body:after {
+	pointer-events: none;
 	z-index: 100;
 	content:"\2000";
 	display: block;
@@ -29,9 +41,8 @@ body:after {
 
 .tophat-bar {
 	position: relative;
-	border: 1px solid violet;
 	padding: 0;
-	margin: 1em .5em;
+	margin: 0 0 10em;
 	display: flex;
 	font-family: sans-serif;
 	background:$background;
@@ -44,14 +55,29 @@ body:after {
 	}
 }
 .tophat-bar-part {
-	border: 1px solid #8bcfe1;
-	padding: .2em;
-	margin: .2em;
+	padding: 0;
+	margin: 0;
+	
+	border: 1px solid violet;
 
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: flex-start;
 	align-items: center;
+
+	.tophat-bar-logo {
+		position: relative;
+		width: $logo-max-size;
+		height: 100%;
+		img {
+			top: 0;
+			left: 50%;
+			max-width: 100%;
+			max-height: $logo-max-size;
+			position: absolute;
+			transform:translateX(-50%);
+		}
+	}
 
 	[data-tophat-parts*="middle"] & {
 		flex: 1;
@@ -79,34 +105,8 @@ body:after {
 
 	.nav-item {
 		display: inline-block;
-
-		&[data-tophat-module="navigation"] {
-			> ul {
-				-display: none;
-				position: absolute;
-				border: 1px solid blue;
-				padding: 0;
-				margin: 0;
-				list-style: none;
-			}
-			&:hover > ul {
-				display: block;
-			}
-		}
-
-		> .nav-link {
-			display: inline-block;
-			text-decoration: none;
-		}
-		> .nav-link .label {
-			display: block;
-			padding: 1em .5em;
-			border-bottom: 3px solid transparent;
-		}
-		&.active > .nav-link .label {
-			color:$colorAlt;
-			border-bottom-color: $colorAlt;
-		}
+		@import "./nav-link.scss";
+		@import "./nav-dropdown.scss";
 	}
 }
 

@@ -8,17 +8,6 @@ class Js
 		$this->tophat = $tophat;
 
 		$this->BuildCommon();
-
-		$bars = $tophat->getBars();
-		foreach($bars as $key=>$bar)
-		{
-			$this->BuildBar($key,$bar);
-		}
-	}
-
-	public function BuildBar($key,$bar)
-	{
-		/// Todo
 	}
 
 	public function BuildCommon()

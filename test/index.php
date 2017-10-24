@@ -30,7 +30,7 @@ $tophat->setLogo('http://via.placeholder.com/350x150/81d0e3/fff?text=Hotel+logo'
 // ----------------------------------------------------------------------------------------------
 
 $tophat->setModule('contact.level',50);
-$tophat->setModule('contact.button.skin','color');
+$tophat->setModule('contact.button.skin','button-rounded');
 $tophat->setModule('contact.button.prepend','<i class="fa fa-phone"></i>');
 $tophat->setModule('contact.button.label','+33 (0)1 23 45 67 89');
 $tophat->setModule('contact.button.url',null); // default value / optionnal - If url is set <a> tag will be used
@@ -45,12 +45,13 @@ $tophat->setModule('book.button.append','<i class="fa fa-angle-right"></i>');
 
 
 $tophat->setModule('language.level',99);
-$tophat->setModule('language.button.skin','button');
-$tophat->setModule('language.button.subskin','dropdown');
+$tophat->setModule('language.button.skin','none');
+$tophat->setModule('language.button.subskin','balloon');
+$tophat->setModule('language.button.prepend',"Langue :");
 $tophat->setModule('language.button.label',"Français");
 $tophat->setModule('language.button.url','#fr');
 $tophat->setModule('language.dropdown',[
-	['label'=>'Français', 'url'=>'#fr'],
+	['label'=>'Français', 'url'=>'#fr', 'active'=>true],
 	['label'=>'English', 'url'=>'#en'],
 	['label'=>'Deutsch', 'url'=>'#de'],
 ]);
@@ -72,6 +73,7 @@ $tophat->setModule('navtree__home',[
 		'label'=>'Home',
 		'active'=>false, // Tophat can force item as active if any of this subnav items is active
 		'level'=>99,
+		'skin'=>'underline',
 		'subskin'=>'panel',
 	],
 	'dropdown'=>[
@@ -79,12 +81,26 @@ $tophat->setModule('navtree__home',[
 		['url'=>'#offers','label'=>'Offers'],// 'media'=>'http://via.placeholder.com/100x60/ff0/000'],
 	]
 ]);
-$tophat->setModule('navtree__1.button',[ 'url'=>'#services',   'label'=>'Services' ]);
-$tophat->setModule('navtree__2.button',[ 'url'=>'#services',   'label'=>'Services' ]);
-$tophat->setModule('navtree__3.button',[ 'url'=>'#our-work',   'label'=>'Our Work' ]);
-$tophat->setModule('navtree__4.button',[ 'url'=>'#about-us',   'label'=>'About Us' ]);
-$tophat->setModule('navtree__5.button',[ 'url'=>'#blog',       'label'=>'Blog', 'skin'=>'color' ]);
-$tophat->setModule('navtree__6.button',[ 'url'=>'#contact-us', 'label'=>'Contact Us', 'level'=>50, 'skin'=>'button' ]);
+$tophat->setModule('navtree__0',[
+	'button'=>[
+		'target'=>null,
+		'label'=>'Test',
+		'active'=>false, // Tophat can force item as active if any of this subnav items is active
+		'level'=>99,
+		'skin'=>'underline',
+		'subskin'=>'default',
+	],
+	'dropdown'=>[
+		['url'=>'#rooms','label'=>'Rooms','active'=>true],// 'media'=>'http://via.placeholder.com/100x60/f0f/fff'],
+		['url'=>'#offers','label'=>'Offers'],// 'media'=>'http://via.placeholder.com/100x60/ff0/000'],
+	]
+]);
+$tophat->setModule('navtree__1.button',[ 'skin'=>'underline', 'url'=>'#services', 'label'=>'Services' ]);
+$tophat->setModule('navtree__2.button',[ 'skin'=>'underline', 'url'=>'#services', 'label'=>'Services' ]);
+$tophat->setModule('navtree__3.button',[ 'skin'=>'underline', 'url'=>'#our-work', 'label'=>'Our Work' ]);
+$tophat->setModule('navtree__4.button',[ 'skin'=>'underline', 'url'=>'#about-us', 'label'=>'About Us' ]);
+$tophat->setModule('navtree__5.button',[ 'skin'=>'button', 'url'=>'#blog', 'prepend'=>'<i class="fa fa-rss-square"></i>', 'label'=>'Blog' ]);
+$tophat->setModule('navtree__6.button',[ 'skin'=>'flat-alt', 'url'=>'#contact-us', 'label'=>'Contact Us', 'level'=>50 ]);
 
 // ----------------------------------------------------------------------------------------------
 // Set Bars containing previously created content

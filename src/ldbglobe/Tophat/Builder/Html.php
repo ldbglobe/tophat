@@ -105,13 +105,15 @@ class Html
             $active = $active || $dropdown_item->get('active');
         }
 
-		$content .= '<div class="nav-item '.($active ? 'active':'').' '.$button->get('class').'" data-tophat-level="'.$button->get('level').'" data-tophat-skin="'.$button->get('skin').'" data-tophat-module="navigation">';
-            $content .= '<a class="nav-link" href="'.$button->get('url').'">';
+		$url = $button->get('url');
+
+		$content .= '<div class="nav-item '.($active ? 'active':'').' '.$button->get('class').'" data-tophat-level="'.$button->get('level',0).'" data-tophat-skin="'.$button->get('skin','default').'">';
+           	$content .= $url ? '<a class="nav-link" href="'.$button->get('url').'">' : '<span class="nav-link">';
                 $content .= \ldbglobe\Tophat\Builder\Html::BuildModuleLabel($button);
-            $content .= '</a>';
+            $content .= $url ? '</a>' : '</span>';
             if($dropdown)
             {
-                $content .= '<ul data-tophat-skin="'.$button->get('subskin').'">';
+                $content .= '<ul class="nav-dropdown" data-tophat-skin="'.$button->get('subskin','default').'">';
                 foreach($dropdown as $dropdown_item)
                 {
                     $content .= '<li class="'.($dropdown_item->get('active') ? 'active':'').'">';

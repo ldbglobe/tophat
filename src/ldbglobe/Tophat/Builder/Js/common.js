@@ -1,5 +1,45 @@
 // require jQuery 3.x
 
+function tophat_touch_support()
+{
+	return window.TouchEvent && 'ontouchstart' in window && 'ontouchend' in document;
+}
+
+function tophat_dropdown(){
+	var menuDelay = null;
+	var menuToActivate = null;
+	$('.tophat-bar-part > .nav-item').on('mouseover click',function(event){
+		console.log(event);
+		menuToActivate = this;
+		clearTimeout(menuDelay);
+		menuDelay = setTimeout(function(){
+			if(!$(menuToActivate).hasClass('hover'))
+			{
+				$('.tophat-bar-part > .nav-item').removeClass('hover');
+				$(menuToActivate).addClass('hover');
+			}
+			else if(tophat_touch_support() && event.type=='click')
+			{
+				$('.tophat-bar-part > .nav-item').removeClass('hover');
+			}
+		},150);
+	})
+	$('.tophat-bar-part > .nav-item').on('mouseout',function(){
+		menuToActivate = null;
+		clearTimeout(menuDelay);
+		menuDelay = setTimeout(function(){
+			$('.tophat-bar-part > .nav-item').removeClass('hover');
+		},250);
+	})
+	$('.tophat-bar-part .nav-link').on('mouseover click',function(event){
+		if(tophat_touch_support() && !$(this).parent('.nav-item').hasClass('hover'))
+		{
+			console.log('yes for sure !');
+			event.preventDefault();
+		}
+	});
+}
+
 function tophat_centered_logo_fix()
 {
 	var centeredLogos = $('.tophat-bar[data-tophat-logo="middle"]');
@@ -69,4 +109,5 @@ function tophat_centered_logo_fix()
 
 $(document).ready(function() {
 	setInterval(tophat_centered_logo_fix,500);
+	tophat_dropdown();
 });
