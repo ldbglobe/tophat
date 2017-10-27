@@ -113,6 +113,13 @@ body:after {
 		@import "./nav-link.scss";
 		@import "./nav-dropdown.scss";
 	}
+
+	.tophat-burger {
+		display: none;
+		&.visible {
+			display: inline-block;
+		}
+	}
 }
 
 // centered logo will be handle by javasdcript => so they remain hidden at startup
