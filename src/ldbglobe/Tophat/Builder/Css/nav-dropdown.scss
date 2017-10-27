@@ -7,13 +7,16 @@
 	li {
 		padding: 0;
 		margin: 0;
-		a {
+		>a,
+		>span {
 			display: block;
 			text-decoration: none;
 			padding: 0.5em 1em;
-			&:hover {
-				color:$color-alt;
-			}
+			cursor: default;
+		}
+		>a:hover {
+			cursor: pointer;
+			color:$color-alt;
 		}
 		&.active a, &.hover a{
 			color:$color-alt;
@@ -57,4 +60,19 @@
 }
 &.hover .nav-dropdown[data-tophat-skin="panel"] {
 	display: flex;
+}
+
+.nav-dropdown[data-tophat-skin="burger"] {
+	left: 0;
+	width: 100%;
+	padding: 2em;
+	background:$background;
+	flex-wrap:wrap;
+}
+&.hover .nav-dropdown[data-tophat-skin="burger"] {
+	display: flex;
+	> li > * {
+		display: block;
+		padding: 2em;
+	}
 }

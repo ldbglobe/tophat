@@ -124,7 +124,6 @@ function tophat_burger_init()
 		if($(this).find('.tophat-burger').length==0)
 		{
 			$(this).find('.nav-item').eq(0).before(burger_base);
-			// TODO : inject all nav-item in burger menu
 		}
 	})
 }
@@ -142,7 +141,47 @@ function tophat_burger_refresh()
 		{
 			$bar.find('.tophat-burger').removeClass('visible');
 		}
-		// TODO reveal currently hidden nav-item in the burger menu panel (and keep hidden element remaining in main bar)
+
+		// TODO gérer les sections pour les différencier dans le dropdown burger
+
+		$dropdown = $bar.find('.tophat-burger .nav-dropdown');
+		$dropdown.empty();
+		$(this).find('.nav-item:hidden').each(function(){
+			let $link = $(this).find('.nav-link');
+			let $subitems = $(this).find('.nav-dropdown li');
+			let $burgerlink = null;
+			if($link.attr('href'))
+				$burgerlink = $('<a href="'+$link.attr('href')+'"><span class="label">'+$link.find('.label').html()+'</span></a>');
+			else if($subitems.length)
+				$burgerlink = $('<span><span class="label">'+$link.find('.label').html()+'</span></span>');
+
+			if($burgerlink)
+			{
+				let $burgeritem = $('<li></li>');
+				$burgeritem.append($burgerlink);
+				if($subitems.length)
+				{
+					$subnav = $('<ul></ul>');
+					$sublink = null;
+					// add dropdown item content as sub item
+					$subitems.each(function(){
+						let $link = $(this).children();
+						if($link.attr('href'))
+							$sublink = $('<li><a href="'+$link.attr('href')+'"><span class="label">'+$link.find('.label').html()+'</span></a></li>');
+						else
+							$sublink = $('<li><span><span class="label">'+$link.find('.label').html()+'</span></span></li>');
+
+						if($sublink)
+						{
+							$subnav.append($sublink);
+						}
+					})
+
+					$burgeritem.append($subnav)
+				}
+				$dropdown.append($burgeritem);
+			}
+		})
 	});
 }
 
@@ -368,10 +407,8 @@ function debug(message_or_title,message){
 //----------------------------------------------------------------------
 
 $(document).ready(function() {
-	tophat_item_visibility_refresh
-	tophat_dropdown();
-
 	tophat_burger_init();
+	tophat_dropdown();
 
 	setInterval(tophat_cron,500);
 });
