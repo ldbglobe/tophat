@@ -1,0 +1,3 @@
+@function tool-contrast($color,$iflight,$ifdark) {
+    @return if(lightness($color) < 51, $ifdark, $iflight);
+}

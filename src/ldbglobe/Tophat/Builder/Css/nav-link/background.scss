@@ -1,0 +1,27 @@
+// background
+&[data-tophat-skin="background"] {
+	> .nav-link .label {
+		color: $button-color;
+		background: $button-background;
+		border-top: 3px solid $button-background;
+		border-bottom: 3px solid $button-background;
+	}
+	&.active > .nav-link .label,
+	&:hover > a.nav-link .label {
+		color: $button-alt-color;
+		background: $button-alt-background;
+		border-top: 3px solid $button-alt-background;
+		border-bottom: 3px solid $button-alt-background;
+	}
+}
+&[data-tophat-skin="background-alt"] {
+	> .nav-link .label {
+		color: $button-alt-color;
+		background: $button-alt-background;
+	}
+	&.active > .nav-link .label,
+	&:hover > a.nav-link .label {
+		color: $button-color;
+		background: $button-background;
+	}
+}
