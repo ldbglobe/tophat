@@ -43,12 +43,18 @@ class Html
 				$available_parts[] = $part_code;
 			}
 		}
+		// si on à un élément au centre et un latéral alors on doit avoir les trois pour que l'alignement flex fonctionne
+		if(in_array('middle', $available_parts) && count($available_parts)>1)
+		{
+			$available_parts = ['left','middle','right'];
+		}
+
 		return $available_parts;
 	}
 
 	public function BuildBarPart($bar,$part_code)
 	{
-		echo '<div class="tophat-bar-part" data-tophat-part-key="'.$part_code.'">';
+		echo '<div class="tophat-bar-part" data-tophat-align="'.$part_code.'">';
 		$logo = null;
 		if($bar->get('logo')==$part_code)
 			echo '<div class="tophat-bar-logo"><img src="'.$this->tophat->getLogo().'"></div>';
@@ -91,6 +97,7 @@ class Html
 	{
 		$data = $this->tophat->getModuleData($module_code);
 
+		$level = $data->get('level',0);
 		$button = $data->getData('button');
 
         $active = $button->get('active');
@@ -107,7 +114,7 @@ class Html
 
 		$url = $button->get('url');
 
-		$content .= '<div class="nav-item '.($active ? 'active':'').' '.$button->get('class').'" data-tophat-level="'.$button->get('level',0).'" data-tophat-skin="'.$button->get('skin','default').'">';
+		$content .= '<div class="nav-item '.($active ? 'active':'').' '.$button->get('class').'" data-tophat-level="'.$level.'" data-tophat-skin="'.$button->get('skin','default').'">';
            	$content .= $url ? '<a class="nav-link" href="'.$button->get('url').'">' : '<span class="nav-link">';
                 $content .= \ldbglobe\Tophat\Builder\Html::BuildModuleLabel($button);
             $content .= $url ? '</a>' : '</span>';

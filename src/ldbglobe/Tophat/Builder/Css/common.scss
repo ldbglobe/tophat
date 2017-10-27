@@ -86,16 +86,16 @@ body:after {
 
 
 	> * {
-		order:1;
+		order:0;
 	}
 
-	&[data-tophat-part-key="left"] {}
-	&[data-tophat-part-key="middle"] {
+	&[data-tophat-align="left"] {}
+	&[data-tophat-align="middle"] {
 		flex-wrap: nowrap;
 		justify-content: center;
 		border: 1px dashed red;
 	}
-	&[data-tophat-part-key="right"] {
+	&[data-tophat-align="right"] {
 		margin-left: auto;
 		justify-content: flex-end;
 		.tophat-bar-logo {
@@ -105,6 +105,9 @@ body:after {
 
 	.nav-item {
 		display: inline-block;
+		.nav-link {
+			white-space: nowrap;
+		}
 		@import "./nav-link.scss";
 		@import "./nav-dropdown.scss";
 	}
