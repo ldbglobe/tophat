@@ -139,7 +139,6 @@ $tophat->setBar('navigation4.logo','middle');
 $tophat->setBar('navigation4.middle',['navtree']);
 $tophat->setBar('navigation4.right',['book']);
 
-
 $tophat->setBar('mobile.i',3);
 $tophat->setBar('mobile.rwd',['s']);
 $tophat->setBar('mobile.class','nav-mobile');
@@ -158,12 +157,35 @@ $tophat->setBar('mobile2.right',['book']);
 <html>
 <head>
 	<meta id="custom_viewport" name="viewport" content="width=device-width, user-scalable=no" />
-	<link rel="stylesheet" href="https://use.fontawesome.com/767c1ad785.css">
+	<style>
+	/*!
+	*  Font Awesome v4.7.0 by @davegandy - http://fontawesome.io - @fontawesome
+	*  License - http://fontawesome.io/license (Font: SIL OFL 1.1, CSS: MIT License)
+	*/
+	@import url('https://use.fontawesome.com/releases/v4.7.0/css/font-awesome-css.min.css');
+	/* FONT PATH
+	* -------------------------- */
+	@font-face {
+	font-family: 'FontAwesome';
+	src: url('https://use.fontawesome.com/releases/v4.7.0/fonts/fontawesome-webfont.eot');
+	src: url('https://use.fontawesome.com/releases/v4.7.0/fonts/fontawesome-webfont.eot?#iefix') format('embedded-opentype'),
+	   url('https://use.fontawesome.com/releases/v4.7.0/fonts/fontawesome-webfont.woff2') format('woff2'),
+	   url('https://use.fontawesome.com/releases/v4.7.0/fonts/fontawesome-webfont.woff') format('woff'),
+	   url('https://use.fontawesome.com/releases/v4.7.0/fonts/fontawesome-webfont.ttf') format('truetype'),
+	   url('https://use.fontawesome.com/releases/v4.7.0/fonts/fontawesome-webfont.svg#fontawesomeregular') format('svg');
+	font-weight: normal;
+	font-style: normal;
+	}
+	/*
+	Embed code 767c1ad785
+	*/
+	</style>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 </head>
 <body>
 	<?php
-	//<button onclick="tophat_cron()">Yolo !</button>
+	// <button onclick="tophat_cron()">Yolo !</button>
+	//
 	// ----------------------------------------------------------------------------------------------
 	// Execution des builders
 	// ----------------------------------------------------------------------------------------------

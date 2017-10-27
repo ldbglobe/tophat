@@ -123,7 +123,7 @@ var barPad = 10; // bar lost space compensation
 function tophat_burger_menu_refresh(){
 	$bars = $('.tophat-bar');
 	$bars.each(function(){
-		$bar = $(this);
+		let $bar = $(this);
 		if(tophat_burger_menu_overall_detection($bar))
 		{
 			tophat_burger_menu_AI_show($bar)
@@ -138,7 +138,7 @@ function tophat_burger_menu_refresh(){
 function tophat_burger_menu_item_width($container) {
 	let itemWidth = 0;
 
-	var logo = $container.find('.tophat-bar-logo');
+	let logo = $container.find('.tophat-bar-logo');
 	if(logo.length)
 		itemWidth += logo.width();
 
@@ -164,7 +164,7 @@ function tophat_burger_menu_overall_detection($bar) {
 		//debug('part('+i+') : '+W+'px');
 
 		let iW = 0;
-		var logo = $part.find('.tophat-bar-logo');
+		let logo = $part.find('.tophat-bar-logo');
 		if(logo.length)
 			iW += logo.width();
 
@@ -190,12 +190,10 @@ function tophat_burger_menu_AI_hide($bar)
 	if($bar.find('.tophat-bar-part[data-tophat-align="middle"]').length > 0 && $bar.find('.tophat-bar-part').length > 1)
 	{
 		tophat_burger_menu_AI_hide_width_middle($bar);
-		setTimeout(function(){
-			$bar.find('.tophat-bar-part').each(function(i){
-				debug('part '+i);
-				tophat_burger_menu_AI_hide_items($(this));
-			})
-		},10);
+		$bar.find('.tophat-bar-part').each(function(i){
+			debug('part '+i);
+			tophat_burger_menu_AI_hide_items($(this));
+		})
 	}
 	else
 	{
@@ -208,12 +206,10 @@ function tophat_burger_menu_AI_show($bar)
 	if($bar.find('.tophat-bar-part[data-tophat-align="middle"]').length > 0 && $bar.find('.tophat-bar-part').length > 1)
 	{
 		tophat_burger_menu_AI_show_width_middle($bar);
-		setTimeout(function(){
-			$bar.find('.tophat-bar-part').each(function(){
-				debug('part '+i);
-				tophat_burger_menu_AI_show_items($(this));
-			})
-		},10);
+		$bar.find('.tophat-bar-part').each(function(i){
+			debug('part '+i);
+			tophat_burger_menu_AI_show_items($(this));
+		})
 	}
 	else
 	{
@@ -276,6 +272,9 @@ function tophat_burger_menu_AI_hide_width_middle($bar,param)
 {
 	debug('tophat_burger_menu_AI_hide_width_middle');
 
+	debug('new flex ratio for middle part is reset to 1 before try some optimisation');
+	$bar.find('.tophat-bar-part[data-tophat-align="middle"]').css({flex:'1 1'});
+
 	let W = $bar.width();
 	let lW = 0;
 	let mW = 0;
@@ -284,22 +283,20 @@ function tophat_burger_menu_AI_hide_width_middle($bar,param)
 	$bar.find('.tophat-bar-part[data-tophat-align="middle"] > *').each(function(){ mW += $(this).outerWidth(true); });
 	$bar.find('.tophat-bar-part[data-tophat-align="right"] > *').each(function(){ rW += $(this).outerWidth(true); });
 
+	debug(lW+' '+mW+' '+rW);
+	let A = (mW / W)*3;
+	let B = 1/((2*Math.max(lW,rW)) / W) ;
 	// si la partie centrale fait moins de 1/3 de la largeur total on accorde plus de place sur les cotés
-	if(mW / W < 1 / 3)
+	if(A < 1)
 	{
-		debug('new flex ratio for middle part is '+(mW / (W/3)));
-		$bar.find('.tophat-bar-part[data-tophat-align="middle"]').css({flex:(mW / (W/3))+' 1'});
+		debug('A : new flex ratio for middle part is '+(A));
+		$bar.find('.tophat-bar-part[data-tophat-align="middle"]').css({flex:(A)+' 1'});
 	}
 	// sinon on regarde si les éléments latéraux ont encore de la marge pour accorder de l'espace au centre
-	else if(Math.max(lW,rW) / W < 1 / 3)
+	else if(B > 1)
 	{
-		debug('new flex ratio for middle part is '+(mW / (W/3)));
-		$bar.find('.tophat-bar-part[data-tophat-align="middle"]').css({flex:(Math.max(lW,rW) / (W/3))+' 1'});
-	}
-	else
-	{
-		debug('new flex ratio for middle part is 1');
-		$bar.find('.tophat-bar-part[data-tophat-align="middle"]').css({flex:'1 1'});
+		debug('B : new flex ratio for middle part is '+(B));
+		$bar.find('.tophat-bar-part[data-tophat-align="middle"]').css({flex:(B)+' 1'});
 	}
 }
 function tophat_burger_menu_AI_show_width_middle($bar,param)
