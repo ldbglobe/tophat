@@ -15,11 +15,21 @@
 		border-top: 3px solid transparent;
 		border-bottom: 3px solid transparent;
 	}
-	&.active,&:hover {
-		> .nav-link .label {
-			color:$color-alt;
-			border-bottom-color: $color-alt;
-		}
+	&.active > .nav-link .label,
+	&:hover > a.nav-link .label {
+		color:$color-alt;
+	}
+}
+
+&[data-tophat-skin="underline"] {
+	> .nav-link .label {
+		border-top: 3px solid transparent;
+		border-bottom: 3px solid transparent;
+	}
+	&.active > .nav-link .label,
+	&:hover > a.nav-link .label {
+		color:$color-alt;
+		border-bottom-color: $color-alt;
 	}
 }
 
@@ -31,13 +41,12 @@
 		border-top: 3px solid $button-background;
 		border-bottom: 3px solid $button-background;
 	}
-	&.active,&:hover {
-		> .nav-link .label {
-			color: $button-alt-color;
-			background: $button-alt-background;
-			border-top: 3px solid $button-alt-background;
-			border-bottom: 3px solid $button-alt-background;
-		}
+	&.active > .nav-link .label,
+	&:hover > a.nav-link .label {
+		color: $button-alt-color;
+		background: $button-alt-background;
+		border-top: 3px solid $button-alt-background;
+		border-bottom: 3px solid $button-alt-background;
 	}
 }
 &[data-tophat-skin="background-alt"] {
@@ -45,11 +54,10 @@
 		color: $button-alt-color;
 		background: $button-alt-background;
 	}
-	&.active,&:hover {
-		> .nav-link .label {
-			color: $button-color;
-			background: $button-background;
-		}
+	&.active > .nav-link .label,
+	&:hover > a.nav-link .label {
+		color: $button-color;
+		background: $button-background;
 	}
 }
 
@@ -62,11 +70,10 @@
 		margin: .4em .5em;
 		padding: 0.6em .75em;
 	}
-	&.active,&:hover {
-		> .nav-link .label {
-			color: $button-alt-color;
-			background: $button-alt-background;
-		}
+	&.active > .nav-link .label,
+	&:hover > a.nav-link .label {
+		color: $button-alt-color;
+		background: $button-alt-background;
 	}
 }
 &[data-tophat-skin^="button-alt"] {
@@ -74,11 +81,10 @@
 		color: $button-alt-color;
 		background: $button-alt-background;
 	}
-	&.active,&:hover {
-		> .nav-link .label {
-			color: $button-color;
-			background: $button-background;
-		}
+	&.active > .nav-link .label,
+	&:hover > a.nav-link .label {
+		color: $button-color;
+		background: $button-background;
 	}
 }
 &[data-tophat-skin="button"],

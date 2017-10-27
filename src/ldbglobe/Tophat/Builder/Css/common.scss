@@ -108,6 +108,8 @@ body:after {
 		.nav-link {
 			white-space: nowrap;
 		}
+		span.nav-link { cursor: default; }
+
 		@import "./nav-link.scss";
 		@import "./nav-dropdown.scss";
 	}

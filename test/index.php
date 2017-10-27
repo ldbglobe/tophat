@@ -37,6 +37,7 @@ $tophat->setModule('contact.button.url',null); // default value / optionnal - If
 $tophat->setModule('contact.button.target',null); // default value / optionnal - used only on link
 
 $tophat->setModule('book.level',99);
+$tophat->setModule('book.button.url',"#book-url");
 $tophat->setModule('book.button.skin','background');
 $tophat->setModule('book.button.class','trigger-booking-panel');
 $tophat->setModule('book.button.prepend','<i class="fa fa-calendar"></i>');
@@ -87,7 +88,7 @@ $tophat->setModule('navtree__0',[
 		'label'=>'Test',
 		'active'=>false, // Tophat can force item as active if any of this subnav items is active
 		'level'=>99,
-		'skin'=>'underline',
+		'skin'=>'default',
 		'subskin'=>'default',
 	],
 	'dropdown'=>[
