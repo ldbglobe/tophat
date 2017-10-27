@@ -26,6 +26,14 @@ class Tophat {
 	{
 		return new \ldbglobe\Tophat\Builder\Html($this);
 	}
+	public function buildCss()
+	{
+		return new \ldbglobe\Tophat\Builder\Css($this);
+	}
+	public function buildJs()
+	{
+		return new \ldbglobe\Tophat\Builder\Js($this);
+	}
 
 	// ----------------------------------------
 	// Generic accessors
@@ -37,9 +45,17 @@ class Tophat {
 	{
 		$this->settings->append($k, $v);
 	}
+	public function has($k)
+	{
+		return $this->settings->has($k);
+	}
 	public function get($k)
 	{
 		return $this->settings->get($k);
+	}
+	public function getData($k)
+	{
+		return $this->settings->getData($k);
 	}
 	public function getAll()
 	{
@@ -52,6 +68,10 @@ class Tophat {
 	{
 		$this->settings->set('logo', $v);
 	}
+	public function getLogo()
+	{
+		return $this->settings->get('logo');
+	}
 
 	// ----------------------------------------
 	// MODULES
@@ -59,13 +79,31 @@ class Tophat {
 	{
 		$this->settings->set('modules.'.$k, $v);
 	}
-	public function getModule($k)
+	public function getModuleData($k)
 	{
-		$this->settings->get('modules.'.$k);
+		return $this->settings->getData('modules.'.$k);
 	}
 	public function appendModule($k,$v)
 	{
 		$this->settings->append('modules.'.$k, $v);
+	}
+	public function hasModule($k)
+	{
+		if($this->settings->has('modules.'.$k))
+			return $k;
+		else
+		{
+			$codes = array_keys($this->settings->getData('modules')->export());
+			$response = [];
+			foreach($codes as $code)
+			{
+				if(strpos($code,$k.'__')===0)
+					$response[] = $code;
+			}
+			if($response)
+				return $response;
+		}
+		return false;
 	}
 
 	// ----------------------------------------
@@ -74,27 +112,27 @@ class Tophat {
 	{
 		$this->settings->set('bars.'.$k,$v);
 	}
-	public function getBar($k)
+	public function getBarData($k)
 	{
-		$this->settings->get('bars.'.$k);
+		return $this->settings->getData('bars.'.$k);
+	}
+	public function getBars()
+	{
+		$bars = $this->get('bars',array());
+		foreach($bars as $key=>$null)
+		{
+			$bars[$key] = $this->getData('bars.'.$key);
+		}
+		uasort($bars,function($a,$b){
+			$_a = (float)$a->get('i',9999);
+			$_b = (float)$b->get('i',9999);
+			$r = ($_a - $_b);
+			return $r > 0 ? 1 : ( $r < 0 ? -1 : 0 );
+		});
+		return $bars;
 	}
 	public function appendBar($k,$v)
 	{
 		$this->settings->append('bars.'.$k, $v);
-	}
-
-	// ----------------------------------------
-	// NAVS
-	public function setNav($k,$v)
-	{
-		$this->settings->set('navs.'.$k,$v);
-	}
-	public function getNav($k)
-	{
-		$this->settings->get('navs.'.$k);
-	}
-	public function appendNav($k,$v)
-	{
-		$this->settings->append('navs.'.$k, $v);
 	}
 }
