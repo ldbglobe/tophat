@@ -1,0 +1,14 @@
+.nav-dropdown[data-tophat-skin="burger"] {
+	left: 0;
+	width: 100%;
+	padding: 2em;
+	background:$background;
+	flex-wrap:wrap;
+}
+&.hover .nav-dropdown[data-tophat-skin="burger"] {
+	display: flex;
+	> li > * {
+		display: block;
+		padding: 2em;
+	}
+}

@@ -1,0 +1,11 @@
+// default
+&[data-tophat-skin="default"] {
+	> .nav-link .label {
+		border-top: 3px solid transparent;
+		border-bottom: 3px solid transparent;
+	}
+	&.active > .nav-link .label,
+	&:hover > a.nav-link .label {
+		color:$color-alt;
+	}
+}

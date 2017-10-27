@@ -1,3 +1,5 @@
+@import "./tools-color.scss";
+
 $color:#222;
 $color-alt:#ff614b;
 $background:#fff;
@@ -9,40 +11,9 @@ $button-alt-color:#fff;
 
 $logo-max-size : 200px;
 
-body {
-	background: #B1D5EB;
-}
-
-body:before {
-	pointer-events: none;
-	z-index: 100;
-	content:"\2000";
-	display: block;
-	position: fixed;
-	top: 0;
-	left: 50%;
-	width: 0;
-	height: 100%;
-	border-left: 1px dotted red;
-}
-body:after {
-	pointer-events: none;
-	z-index: 100;
-	content:"\2000";
-	display: block;
-	position: fixed;
-	top: 0;
-	left: 40%;
-	width: 20%;
-	height: 100%;
-	border-left: 1px dotted orange;
-	border-right: 1px dotted orange;
-}
-
 .tophat-bar {
 	position: relative;
 	padding: 0;
-	margin: 0 0 10em;
 	display: flex;
 	font-family: sans-serif;
 	background:$background;
@@ -57,8 +28,6 @@ body:after {
 .tophat-bar-part {
 	padding: 0;
 	margin: 0;
-	
-	border: 1px solid violet;
 
 	display: flex;
 	flex-wrap: wrap;
@@ -66,6 +35,7 @@ body:after {
 	align-items: center;
 
 	.tophat-bar-logo {
+		z-index: 10;
 		position: relative;
 		width: $logo-max-size;
 		height: 100%;
@@ -81,7 +51,6 @@ body:after {
 
 	[data-tophat-parts*="middle"] & {
 		flex: 1;
-		background: yellow;
 	}
 
 
@@ -93,7 +62,6 @@ body:after {
 	&[data-tophat-align="middle"] {
 		flex-wrap: nowrap;
 		justify-content: center;
-		border: 1px dashed red;
 	}
 	&[data-tophat-align="right"] {
 		margin-left: auto;

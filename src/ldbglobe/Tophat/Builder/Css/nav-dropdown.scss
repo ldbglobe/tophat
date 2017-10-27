@@ -27,52 +27,7 @@
 	display: block;
 }
 
-.nav-dropdown[data-tophat-skin="default"] {
-	background:$background;
-	border-radius: .25em;
-	box-shadow: 0px 0px 5px 0 rgba(#000,0.2);
-}
-
-.nav-dropdown[data-tophat-skin="balloon"] {
-	background:$background;
-	border-radius: .25em;
-	margin-top: 1.5em;
-	box-shadow: 0px 0px 5px 0 rgba(#000,0.2);
-	&:before {
-		position: absolute;
-		top: -.5em;
-		left: 1.5em;
-		content:"\2000";
-		display: block;
-		width: 0;
-		height: 0;
-		border-style: solid;
-		border-width: 0 .5em .5em .5em;
-		border-color: transparent transparent #ffffff transparent;
-	}
-}
-
-.nav-dropdown[data-tophat-skin="panel"] {
-	left: 0;
-	width: 100%;
-	padding: 3em;
-	background:$background;
-}
-&.hover .nav-dropdown[data-tophat-skin="panel"] {
-	display: flex;
-}
-
-.nav-dropdown[data-tophat-skin="burger"] {
-	left: 0;
-	width: 100%;
-	padding: 2em;
-	background:$background;
-	flex-wrap:wrap;
-}
-&.hover .nav-dropdown[data-tophat-skin="burger"] {
-	display: flex;
-	> li > * {
-		display: block;
-		padding: 2em;
-	}
-}
+@import "./nav-dropdown/default.scss";
+@import "./nav-dropdown/balloon.scss";
+@import "./nav-dropdown/panel.scss";
+@import "./nav-dropdown/burger.scss";
