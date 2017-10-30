@@ -9,6 +9,7 @@ class Tophat {
 
 	public function __construct($initial_settings=null)
 	{
+		$this->debug = false;
 		//https://packagist.org/packages/dflydev/dot-access-data
 		$this->settings = new \Dflydev\DotAccessData\Data($initial_settings);
 		// get
@@ -22,9 +23,12 @@ class Tophat {
 		// export
 	}
 
-	public function buildHtml()
+	public function buildHtml($key=null,$index=null)
 	{
-		return new \ldbglobe\Tophat\Builder\Html($this);
+		if($key)
+			new \ldbglobe\Tophat\Builder\Html($this,$key,$index);
+		else
+			return new \ldbglobe\Tophat\Builder\Html($this);
 	}
 	public function buildCss()
 	{

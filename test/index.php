@@ -69,13 +69,13 @@ $tophat->setModule('social__instagram.button',['prepend'=>'<i class="fa fa-insta
 // ----------------------------------------------------------------------------------------------
 
 $tophat->setModule('navtree__home',[
+	'level'=>99,
 	'button'=>[
 		'url'=>'#home',
 		'target'=>null,
 		'prepend'=>'<i class="fa fa-home"></i>',
 		'label'=>'Home',
 		'active'=>false, // Tophat can force item as active if any of this subnav items is active
-		'level'=>99,
 		'skin'=>'underline',
 		'subskin'=>'panel',
 	],
@@ -85,11 +85,11 @@ $tophat->setModule('navtree__home',[
 	]
 ]);
 $tophat->setModule('navtree__0',[
+	'level'=>99,
 	'button'=>[
 		'target'=>null,
 		'label'=>'Test',
 		'active'=>false, // Tophat can force item as active if any of this subnav items is active
-		'level'=>99,
 		'skin'=>'default',
 		'subskin'=>'default',
 	],
@@ -98,12 +98,12 @@ $tophat->setModule('navtree__0',[
 		['url'=>'#offers','label'=>'Offers'],// 'media'=>'http://via.placeholder.com/100x60/ff0/000'],
 	]
 ]);
-$tophat->setModule('navtree__1.button',[ 'skin'=>'underline', 'url'=>'#services', 'label'=>'Services' ]);
-$tophat->setModule('navtree__2.button',[ 'skin'=>'underline', 'url'=>'#services', 'label'=>'Services' ]);
-$tophat->setModule('navtree__3.button',[ 'skin'=>'underline', 'url'=>'#our-work', 'label'=>'Our Work' ]);
-$tophat->setModule('navtree__4.button',[ 'skin'=>'underline', 'url'=>'#about-us', 'label'=>'About Us' ]);
-$tophat->setModule('navtree__5.button',[ 'skin'=>'button', 'url'=>'#blog', 'prepend'=>'<i class="fa fa-rss-square"></i>', 'label'=>'Blog' ]);
-$tophat->setModule('navtree__6.button',[ 'skin'=>'flat-alt', 'url'=>'#contact-us', 'label'=>'Contact Us', 'level'=>50 ]);
+$tophat->setModule('navtree__1',[ 'level'=>10, 'button' => [ 'skin'=>'underline', 'url'=>'#services', 'label'=>'Services' ] ]);
+$tophat->setModule('navtree__2',[ 'level'=>10, 'button' => [ 'skin'=>'underline', 'url'=>'#advantages', 'label'=>'Advantages' ] ]);
+$tophat->setModule('navtree__3',[ 'level'=>5,  'button' => [ 'skin'=>'underline', 'url'=>'#our-work', 'label'=>'Our Work' ] ]);
+$tophat->setModule('navtree__4',[ 'level'=>5,  'button' => [ 'skin'=>'underline', 'url'=>'#about-us', 'label'=>'About Us' ] ]);
+$tophat->setModule('navtree__5',[ 'level'=>1,  'button' => [ 'skin'=>'button', 'url'=>'#blog', 'prepend'=>'<i class="fa fa-rss-square"></i>', 'label'=>'Blog' ] ]);
+$tophat->setModule('navtree__6',[ 'level'=>50, 'button' => [ 'skin'=>'flat-alt', 'url'=>'#contact-us', 'label'=>'Contact Us' ] ]);
 
 // ----------------------------------------------------------------------------------------------
 // Set Bars containing previously created content
@@ -183,6 +183,7 @@ $tophat->setBar('mobile2.right',['book']);
 	*/
 	body {
 		background: #B1D5EB;
+		padding-top: 2em;
 	}
 
 	body:before {
@@ -225,11 +226,13 @@ $tophat->setBar('mobile2.right',['book']);
 <body>
 	<div class="wrapper">
 	<?php
-	// <button onclick="tophat_cron()">Yolo !</button>
+	//echo '<p style="margin-bottom:3em;"><button onclick="tophat_cron()">Yolo !</button></p>';
 	//
 	// ----------------------------------------------------------------------------------------------
 	// Execution des builders
 	// ----------------------------------------------------------------------------------------------
+	//$tophat->debug = true;
+	//$tophat->buildHtml('mobile',1000);
 	$tophat->buildHtml();
 	$tophat->buildCss();
 	$tophat->buildJs();

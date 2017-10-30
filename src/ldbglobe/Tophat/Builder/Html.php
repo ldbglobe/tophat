@@ -3,20 +3,30 @@ namespace ldbglobe\Tophat\Builder;
 
 class Html
 {
-	public function __construct($tophat)
+	public function __construct($tophat,$key=null,$index=null)
 	{
 		$this->tophat = $tophat;
 
-		$bars = $tophat->getBars();
-		$i=0;
-		foreach($bars as $key=>$bar)
+		if($key)
 		{
-			$this->BuildBar($i++,$key,$bar);
+			$bar = $tophat->getBarData($key);
+			if($bar)
+			{
+				$this->BuildBar($key,$bar,$index>0 ? $index:100);
+			}
 		}
-		//echo '<pre>'.print_r($tophat->getAll(),1).'</pre>';
+		else
+		{
+			$bars = $tophat->getBars();
+			$i=100;
+			foreach($bars as $key=>$bar)
+			{
+				$this->BuildBar($key,$bar,$i--);
+			}
+		}
 	}
 
-	public function BuildBar($index,$key,$bar)
+	public function BuildBar($key,$bar,$index)
 	{
 		$classes = array();
 		if($bar->get('class'))
@@ -26,7 +36,7 @@ class Html
 
 		$available_parts = $this->AvailabaleParts($bar);
 
-		echo '<div style="z-index:'.(100-$index).';" class="tophat-bar '.implode(' ',$classes).'" data-tophat-key="'.$key.'" '.($bar->get('logo') ? 'data-tophat-logo="'.$bar->get('logo').'"':'').'" data-tophat-parts="'.implode(',',$available_parts).'">';
+		echo '<div style="z-index:'.($index).';" class="tophat-bar '.($this->tophat->debug ? 'tophat-debug ':'').implode(' ',$classes).'" data-tophat-key="'.$key.'" '.($bar->get('logo') ? 'data-tophat-logo="'.$bar->get('logo').'"':'').'" data-tophat-parts="'.implode(',',$available_parts).'">';
 		echo $logo;
 		foreach($available_parts as $part_code)
 			$this->BuildBarPart($bar,$part_code);
