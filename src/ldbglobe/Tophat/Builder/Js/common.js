@@ -45,7 +45,8 @@ function tophat_dropdown(){
 	});
 
 	$(document).on('click','.burger-item',function(event){
-		console.log(this);
+		console.log('click .burger-item');
+		clearTimeout(menuDelay);
 		event.stopPropagation();
 		if($(this).find('.burger-subnav').length>0)
 		{
@@ -54,22 +55,24 @@ function tophat_dropdown(){
 		}
 		else
 		{
-			clearTimeout(menuDelay);
 			$('.tophat-bar-part > .nav-item').removeClass('hover');
 		}
 	})
 	$(document).on('click','.burger-back',function(event){
+		console.log('click .burger-back');
 		event.stopPropagation();
 		$(this).parents('.burger-item').removeClass('active');
 	});
 
-	$(document).on('click','.burger-subnav > *',function(event){
+	$(document).on('click','.burger-subnav-item',function(event){
+		console.log('click .burger-subnav-item');
 		event.stopPropagation();
 		clearTimeout(menuDelay);
 		$('.tophat-bar-part > .nav-item').removeClass('hover');
 	});
 
 	$(document).on('click','.burger-subnav',function(event){
+		console.log('click .burger-subnav');
 		event.stopPropagation();
 	});
 }
@@ -200,16 +203,16 @@ function tophat_burger_refresh()
 					$subnav = $('<ul class="burger-subnav"><li class="burger-back"><span><span class="label">&lt;</span></span></li></ul>');
 
 					if($link.attr('href'))
-						$subnav.append('<li><a href="'+$link.attr('href')+'"><span class="label">'+$link.find('.label').html()+'</span></a></li>');
+						$subnav.append('<li class="burger-subnav-item"><a href="'+$link.attr('href')+'"><span class="label">'+$link.find('.label').html()+'</span></a></li>');
 
 					$sublink = null;
 					// add dropdown item content as sub item
 					$subitems.each(function(){
 						let $link = $(this).children();
 						if($link.attr('href'))
-							$sublink = $('<li><a href="'+$link.attr('href')+'"><span class="label">'+$link.find('.label').html()+'</span></a></li>');
+							$sublink = $('<li class="burger-subnav-item"><a href="'+$link.attr('href')+'"><span class="label">'+$link.find('.label').html()+'</span></a></li>');
 						else
-							$sublink = $('<li><span><span class="label">'+$link.find('.label').html()+'</span></span></li>');
+							$sublink = $('<li class="burger-subnav-item"><span><span class="label">'+$link.find('.label').html()+'</span></span></li>');
 
 						if($sublink)
 						{
