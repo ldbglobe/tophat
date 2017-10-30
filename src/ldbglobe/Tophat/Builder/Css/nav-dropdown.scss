@@ -18,7 +18,7 @@
 			cursor: pointer;
 			color:$color-alt;
 		}
-		&.active a, &.hover a{
+		&.active > a, &.hover > a{
 			color:$color-alt;
 		}
 	}
