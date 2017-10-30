@@ -105,8 +105,12 @@ function tophat_centered_logo_refresh()
 					order:niPad+1,
 				});
 
-				if(W - lw - niw - delta < 0)
-					delta = 0;
+				debug('Logo centering extracted informations : W='+W+', lw='+lw+', niw='+niw+', delta='+delta);
+
+				if(W - lw - niw - Math.abs(delta) < 0)
+				{
+					delta = (delta>1 ? 1:-1)*Math.round((W - lw - niw)/2);
+				}
 
 				centeredPart.css((delta>0 ? 'paddingRight':'paddingLeft'),(2*Math.abs(delta))+'px');
 			}
@@ -224,8 +228,7 @@ function tophat_item_visibility_refresh(){
 //----------------------------------------------------------------------
 //----------------------------------------------------------------------
 
-var burger_width = 50;
-var barPad = 10; // bar lost space compensation
+var barPad = 0; // bar lost space compensation
 
 function tophat_item_visibility_overall_detection($bar) {
 
@@ -310,14 +313,24 @@ function tophat_item_visibility_AI_hide_items($container)
 	});
 	$items.reverse();
 	$items.sort(function(a,b){ return a.data('tophatLevel') - b.data('tophatLevel'); });
+
+	let itemLevel = null;
 	for(i=0 ; i < $items.length ; i++)
 	{
+		// si on doit encore supprimer des items on met à jour le level de l'item en court de traitement
+		if(iW > W)
+			itemLevel = $items[i].data('tophatLevel');
+		// sinon si le level n'est pas le même que celui précédement masqué on arrète la boucle
+		else if(itemLevel != $items[i].data('tophatLevel'))
+			break;
+
+		// on masque ensuite l'élément
 		iW -= $items[i].outerWidth();
 		debug(W+' ? '+iW);
-
 		$items[i].hide();
-		if(iW <= W)
-			break;
+
+		// condition d'arrêt immédiat si la limite est atteinte (pas par groupe de level)
+		//if(iW <= W) break;
 	}
 }
 function tophat_item_visibility_AI_show_items($container)
@@ -333,13 +346,44 @@ function tophat_item_visibility_AI_show_items($container)
 	$items.reverse();
 	$items.sort(function(a,b){ return a.data('tophatLevel') - b.data('tophatLevel'); });
 	$items.reverse();
-	for(i=0 ; i < $items.length ; i++)
+
+	// on construit des group d'items en fonction de leur LEVEL
+	var groups = [];
+	var group = [];
+	let itemLevel = null;
+	for(let i=0 ; i < $items.length ; i++)
 	{
-		iW += $items[i].outerWidth();
+		if(itemLevel != $items[i].data('tophatLevel'))
+		{
+			if(itemLevel!=null)
+				groups.push(group);
+			group = [];
+			itemLevel = $items[i].data('tophatLevel');
+		}
+		group.push($items[i]);
+	}
+	if(group.length)
+		groups.push(group);
+	delete group;
+	debug(groups);
+
+	// pour réafficher un groupe il doit pouvoir être affiché en intégralité
+	for(let i=0 ; i < groups.length ; i++)
+	{
+		let group = groups[i];
+		for(let j=0 ; j < group.length ; j++)
+		{
+			iW += group[j].outerWidth();
+		}
+
 		debug(W+' ? '+iW);
 		if(iW >= W)
 			break;
-		$items[i].show();
+
+		for(let j=0 ; j < group.length ; j++)
+		{
+			group[j].show();
+		}
 	}
 }
 

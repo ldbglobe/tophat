@@ -16,7 +16,11 @@ class Css
 		$scss_compiler->setFormatter('Leafo\ScssPhp\Formatter\Compressed');
 
 		$scss = $this->ImportScss(__DIR__.'/Css/common.scss');
+		if($this->tophat->debug)
+			$scss .= "\n".$this->ImportScss(__DIR__.'/Css/_debug.scss');
+
 		$css = $scss_compiler->compile($scss);
+
 		echo '<style type="text/css">'.$css.'</style>';
 	}
 
