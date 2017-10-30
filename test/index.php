@@ -159,6 +159,7 @@ $tophat->setBar('mobile2.right',['book']);
 <html>
 <head>
 	<meta id="custom_viewport" name="viewport" content="width=device-width, user-scalable=no" />
+	<meta charset="UTF-8">
 	<style>
 	/*!
 	*  Font Awesome v4.7.0 by @davegandy - http://fontawesome.io - @fontawesome
