@@ -69,7 +69,7 @@ $tophat->setModule('social__instagram.button',['prepend'=>'<i class="fa fa-insta
 // ----------------------------------------------------------------------------------------------
 
 $tophat->setModule('navtree__home',[
-	'level'=>99,
+	'level'=>90,
 	'button'=>[
 		'url'=>'#home',
 		'target'=>null,
@@ -85,7 +85,7 @@ $tophat->setModule('navtree__home',[
 	]
 ]);
 $tophat->setModule('navtree__0',[
-	'level'=>99,
+	'level'=>90,
 	'button'=>[
 		'target'=>null,
 		'label'=>'Test',
@@ -226,12 +226,13 @@ $tophat->setBar('mobile2.right',['book']);
 <body>
 	<div class="wrapper">
 	<?php
-	//echo '<p style="margin-bottom:3em;"><button onclick="tophat_cron()">Yolo !</button></p>';
+	//$tophat->debug = true;
+	if($tophat->debug)
+		echo '<p style="margin-bottom:3em;"><button onclick="tophat_cron()">Yolo !</button></p>';
 	//
 	// ----------------------------------------------------------------------------------------------
 	// Execution des builders
 	// ----------------------------------------------------------------------------------------------
-	//$tophat->debug = true;
 	//$tophat->buildHtml('mobile',1000);
 	$tophat->buildHtml();
 	$tophat->buildCss();

@@ -1,4 +1,5 @@
 // require jQuery 3.x
+var TOPHAT_DEBUG = false;
 
 function tophat_touch_support()
 {
@@ -302,7 +303,9 @@ function tophat_item_visibility_AI_show($bar)
 function tophat_item_visibility_AI_hide_items($container)
 {
 	debug('tophat_item_visibility_AI_hide_items');
+	$container.css({flexWrap:'wrap'});
 	var W = $container.width() - barPad;
+	$container.css({flexWrap:''});
 	var iW = tophat_container_item_width($container);
 	if(iW <= W)
 		return;
@@ -438,7 +441,9 @@ function tophat_cron()
 //----------------------------------------------------------------------
 
 function debug(message_or_title,message){
-	if(true) return;
+	if(!TOPHAT_DEBUG)
+		return;
+
 	if(typeof message !== 'undefined')
 	{
 		console.log(message_or_title,message);
@@ -454,5 +459,6 @@ $(document).ready(function() {
 	tophat_burger_init();
 	tophat_dropdown();
 
-	setInterval(tophat_cron,500);
+	if(!TOPHAT_DEBUG)
+		setInterval(tophat_cron,500);
 });
