@@ -1,4 +1,5 @@
 // require jQuery 3.x
+var TOPHAT_DEBUG = false;
 
 function tophat_touch_support()
 {
@@ -11,33 +12,65 @@ function tophat_touch_support()
 function tophat_dropdown(){
 	var menuDelay = null;
 	var menuToActivate = null;
-	$('.tophat-bar-part > .nav-item').on('mouseover click',function(event){
+	$(document).on('mouseover click','.tophat-bar-part > .nav-item',function(event){
 		menuToActivate = this;
 		clearTimeout(menuDelay);
 		menuDelay = setTimeout(function(){
 			if(!$(menuToActivate).hasClass('hover'))
 			{
 				$('.tophat-bar-part > .nav-item').removeClass('hover');
+				$('.tophat-bar-part .burger-item').removeClass('active');
 				$(menuToActivate).addClass('hover');
 			}
 			else if(tophat_touch_support() && event.type=='click')
 			{
 				$('.tophat-bar-part > .nav-item').removeClass('hover');
+				$('.tophat-bar-part .burger-item').removeClass('active');
 			}
 		},150);
 	})
-	$('.tophat-bar-part > .nav-item').on('mouseout',function(){
+	$(document).on('mouseout','.tophat-bar-part > .nav-item',function(){
 		menuToActivate = null;
 		clearTimeout(menuDelay);
 		menuDelay = setTimeout(function(){
 			$('.tophat-bar-part > .nav-item').removeClass('hover');
+			$('.tophat-bar-part .burger-item').removeClass('active');
 		},250);
 	})
-	$('.tophat-bar-part .nav-link').on('mouseover click',function(event){
+	$(document).on('mouseover click','.tophat-bar-part .nav-link',function(event){
 		if(tophat_touch_support() && !$(this).parent('.nav-item').hasClass('hover'))
 		{
 			event.preventDefault();
 		}
+	});
+
+	$(document).on('click','.burger-item',function(event){
+		console.log(this);
+		event.stopPropagation();
+		if($(this).find('.burger-subnav').length>0)
+		{
+			event.preventDefault();
+			$(this).addClass('active');
+		}
+		else
+		{
+			clearTimeout(menuDelay);
+			$('.tophat-bar-part > .nav-item').removeClass('hover');
+		}
+	})
+	$(document).on('click','.burger-back',function(event){
+		event.stopPropagation();
+		$(this).parents('.burger-item').removeClass('active');
+	});
+
+	$(document).on('click','.burger-subnav > *',function(event){
+		event.stopPropagation();
+		clearTimeout(menuDelay);
+		$('.tophat-bar-part > .nav-item').removeClass('hover');
+	});
+
+	$(document).on('click','.burger-subnav',function(event){
+		event.stopPropagation();
 	});
 }
 
@@ -121,13 +154,12 @@ function tophat_centered_logo_refresh()
 //----------------------------------------------------------------------
 //----------------------------------------------------------------------
 
-var burger_base = '<div class="tophat-burger nav-item" data-tophat-level="9999" data-tophat-skin="burger"><span class="nav-link"><span class="label"><i class="fa fa-bars"></i></span></span><ul class="nav-dropdown" data-tophat-skin="burger"></ul></div>';
 function tophat_burger_init()
 {
 	$('.tophat-bar').each(function(){
 		if($(this).find('.tophat-burger').length==0)
 		{
-			$(this).find('.nav-item').eq(0).before(burger_base);
+			$(this).find('.nav-item').eq(0).before('<div class="tophat-burger nav-item" data-tophat-level="9999" data-tophat-skin="burger"><span class="nav-link"><span class="label"><span></span><span></span><span></span></span></span><ul class="nav-dropdown" data-tophat-skin="burger"></ul></div>');
 		}
 	})
 }
@@ -154,18 +186,22 @@ function tophat_burger_refresh()
 			let $link = $(this).find('.nav-link');
 			let $subitems = $(this).find('.nav-dropdown li');
 			let $burgerlink = null;
-			if($link.attr('href'))
-				$burgerlink = $('<a href="'+$link.attr('href')+'"><span class="label">'+$link.find('.label').html()+'</span></a>');
-			else if($subitems.length)
-				$burgerlink = $('<span><span class="label">'+$link.find('.label').html()+'</span></span>');
+			if(!$link.attr('href') || $subitems.length)
+				$burgerlink = $('<span class="burger-link" ><span class="label">'+$link.find('.label').html()+'</span></span>');
+			else
+				$burgerlink = $('<a class="burger-link" href="'+$link.attr('href')+'"><span class="label">'+$link.find('.label').html()+'</span></a>');
 
 			if($burgerlink)
 			{
-				let $burgeritem = $('<li></li>');
+				let $burgeritem = $('<li class="burger-item"></li>');
 				$burgeritem.append($burgerlink);
 				if($subitems.length)
 				{
-					$subnav = $('<ul></ul>');
+					$subnav = $('<ul class="burger-subnav"><li class="burger-back"><span><span class="label">&lt;</span></span></li></ul>');
+
+					if($link.attr('href'))
+						$subnav.append('<li><a href="'+$link.attr('href')+'"><span class="label">'+$link.find('.label').html()+'</span></a></li>');
+
 					$sublink = null;
 					// add dropdown item content as sub item
 					$subitems.each(function(){
@@ -266,35 +302,41 @@ function tophat_item_visibility_overall_detection($bar) {
 
 function tophat_item_visibility_AI_hide($bar)
 {
+	var refresh_needed = false;
 	debug('tophat_item_visibility_AI_hide');
 	if($bar.find('.tophat-bar-part[data-tophat-align="middle"]').length > 0 && $bar.find('.tophat-bar-part').length > 1)
 	{
 		tophat_item_visibility_AI_hide_width_middle($bar);
 		$bar.find('.tophat-bar-part').each(function(i){
 			debug('part '+i);
-			tophat_item_visibility_AI_hide_items($(this));
+			refresh_needed = tophat_item_visibility_AI_hide_items($(this));
 		})
 	}
 	else
 	{
-		tophat_item_visibility_AI_hide_items($bar);
+		refresh_needed = tophat_item_visibility_AI_hide_items($bar);
 	}
+	if(refresh_needed)
+		$bar.addClass('content-updated');
 }
 function tophat_item_visibility_AI_show($bar)
 {
+	var refresh_needed = false;
 	debug('tophat_item_visibility_AI_show');
 	if($bar.find('.tophat-bar-part[data-tophat-align="middle"]').length > 0 && $bar.find('.tophat-bar-part').length > 1)
 	{
 		tophat_item_visibility_AI_show_width_middle($bar);
 		$bar.find('.tophat-bar-part').each(function(i){
 			debug('part '+i);
-			tophat_item_visibility_AI_show_items($(this));
+			refresh_needed =tophat_item_visibility_AI_show_items($(this));
 		})
 	}
 	else
 	{
-		tophat_item_visibility_AI_show_items($bar);
+		refresh_needed =tophat_item_visibility_AI_show_items($bar);
 	}
+	if(refresh_needed)
+		$bar.addClass('content-updated');
 }
 
 //----------------------------------------------------------------------
@@ -302,7 +344,11 @@ function tophat_item_visibility_AI_show($bar)
 function tophat_item_visibility_AI_hide_items($container)
 {
 	debug('tophat_item_visibility_AI_hide_items');
+
+	var refresh_needed = false;
+	$container.css({flexWrap:'wrap'});
 	var W = $container.width() - barPad;
+	$container.css({flexWrap:''});
 	var iW = tophat_container_item_width($container);
 	if(iW <= W)
 		return;
@@ -328,14 +374,18 @@ function tophat_item_visibility_AI_hide_items($container)
 		iW -= $items[i].outerWidth();
 		debug(W+' ? '+iW);
 		$items[i].hide();
+		refresh_needed = true;
 
 		// condition d'arrêt immédiat si la limite est atteinte (pas par groupe de level)
 		//if(iW <= W) break;
 	}
+	return refresh_needed;
 }
 function tophat_item_visibility_AI_show_items($container)
 {
 	debug('tophat_item_visibility_AI_show_items');
+
+	var refresh_needed = false;
 	var W = $container.width() - barPad;
 	var iW = tophat_container_item_width($container);
 
@@ -383,8 +433,10 @@ function tophat_item_visibility_AI_show_items($container)
 		for(let j=0 ; j < group.length ; j++)
 		{
 			group[j].show();
+			refresh_needed = true;
 		}
 	}
+	return refresh_needed;
 }
 
 //----------------------------------------------------------------------
@@ -431,14 +483,19 @@ function tophat_cron()
 {
 	tophat_item_visibility_refresh();
 	tophat_centered_logo_refresh();
-	tophat_burger_refresh();
+
+	if($('.tophat-bar.content-updated').length>0)
+		tophat_burger_refresh();
+	$('.tophat-bar.content-updated').removeClass('content-updated');
 }
 
 //----------------------------------------------------------------------
 //----------------------------------------------------------------------
 
 function debug(message_or_title,message){
-	if(true) return;
+	if(!TOPHAT_DEBUG)
+		return;
+
 	if(typeof message !== 'undefined')
 	{
 		console.log(message_or_title,message);
@@ -454,5 +511,8 @@ $(document).ready(function() {
 	tophat_burger_init();
 	tophat_dropdown();
 
-	setInterval(tophat_cron,500);
+	if(!TOPHAT_DEBUG)
+		setInterval(tophat_cron,500);
+
+	tophat_cron();
 });
