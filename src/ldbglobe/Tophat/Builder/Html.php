@@ -122,12 +122,10 @@ class Html
             $active = $active || $dropdown_item->get('active');
         }
 
-		$url = $button->get('url');
-
 		$content .= '<div class="nav-item '.($active ? 'active':'').' '.$button->get('class').'" data-tophat-level="'.$level.'" data-tophat-skin="'.$button->get('skin','default').'">';
-           	$content .= $url ? '<a class="nav-link" href="'.$button->get('url').'">' : '<span class="nav-link">';
+           	$content .= '<a class="nav-link '.($button->get('url') ? '':'nolink').'"" href="'.$button->get('url','javascript:void(0);').'">';
                 $content .= \ldbglobe\Tophat\Builder\Html::BuildModuleLabel($button);
-            $content .= $url ? '</a>' : '</span>';
+            $content .= '</a>';
             if($dropdown)
             {
                 $content .= '<ul class="nav-dropdown" data-tophat-skin="'.$button->get('subskin','default').'">';

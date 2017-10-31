@@ -24,6 +24,10 @@ $logo-max-size : 200px;
 	&,& * {
 		box-sizing: border-box;
 	}
+
+	@media screen and (max-width: 640px) {
+		font-size: 0.8em;
+	}
 }
 .tophat-bar-part {
 	padding: 0;
@@ -37,8 +41,9 @@ $logo-max-size : 200px;
 	.tophat-bar-logo {
 		z-index: 10;
 		position: relative;
+		align-self:start;
+		height: 0;
 		width: $logo-max-size;
-		height: 100%;
 		img {
 			top: 0;
 			left: 50%;
@@ -46,6 +51,21 @@ $logo-max-size : 200px;
 			max-height: $logo-max-size;
 			position: absolute;
 			transform:translateX(-50%);
+		}
+		@media screen and (max-width: 1024px) {
+			$ratio : 0.8;
+			width: ($logo-max-size * $ratio);
+			img { max-height: ($logo-max-size * $ratio); }
+		}
+		@media screen and (max-width: 640px) {
+			$ratio : 0.7;
+			width: ($logo-max-size * $ratio);
+			img { max-height: ($logo-max-size * $ratio); }
+		}
+		@media screen and (max-width: 480px) {
+			$ratio : 0.6;
+			width: ($logo-max-size * $ratio);
+			img { max-height: ($logo-max-size * $ratio); }
 		}
 	}
 
@@ -75,8 +95,8 @@ $logo-max-size : 200px;
 		display: inline-block;
 		.nav-link {
 			white-space: nowrap;
+			&.nolink { cursor: default; }
 		}
-		span.nav-link { cursor: default; }
 
 		@import "./nav-link.scss";
 		@import "./nav-dropdown.scss";
