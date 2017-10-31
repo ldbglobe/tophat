@@ -52,6 +52,7 @@ $tophat->setModule('language.button.skin','none');
 $tophat->setModule('language.button.subskin','balloon');
 $tophat->setModule('language.button.prepend',"Langue :");
 $tophat->setModule('language.button.label',"Français");
+$tophat->setModule('language.button.append','<i class="fa fa-angle-down"></i>');
 $tophat->setModule('language.button.url','#fr');
 $tophat->setModule('language.dropdown',[
 	['label'=>'Français', 'url'=>'#fr', 'active'=>true],
