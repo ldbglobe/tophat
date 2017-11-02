@@ -116,17 +116,17 @@ $tophat->setModule('navtree__6',[ 'level'=>50, 'button' => [ 'skin'=>'flat-alt',
 $tophat->setBar('topbar.i',1);
 $tophat->setBar('topbar.rwd',['m','l']); // [s,m,l]
 $tophat->setBar('topbar.class','topbar');
-$tophat->setBar('topbar.left',['language','contact']);
-$tophat->setBar('topbar.right',['social','contact','book']);
+$tophat->setBar('topbar.left',['language','book']);
+$tophat->setBar('topbar.right',['social','contact']);
 //variables css personnalisées
 $tophat->setBar('topbar.css.color','#fff');
 $tophat->setBar('topbar.css.color-alt','#ff9800');
 $tophat->setBar('topbar.css.background','#222');
 $tophat->setBar('topbar.css.button-background','#ff9800');
 $tophat->setBar('topbar.css.button-color','#222');
-$tophat->setBar('topbar.css.button-alt-background','#e9c341');
+$tophat->setBar('topbar.css.button-alt-background','#ffa117');
 $tophat->setBar('topbar.css.button-alt-color','#222');
-$tophat->setBar('topbar.css.base-size','0.8em');
+$tophat->setBar('topbar.css.base-size','0.7em');
 
 
 $tophat->setBar('navigation.i',2);
@@ -135,7 +135,13 @@ $tophat->setBar('navigation.class','nav-desktop');
 $tophat->setBar('navigation.logo','left');
 $tophat->setBar('navigation.right',['navtree','book']);
 //variables css personnalisées
-$tophat->setBar('navigation.css.logo-max-size','300px');
+$tophat->setBar('navigation.css.color','#fff');
+$tophat->setBar('navigation.css.color-alt','#ff9800');
+$tophat->setBar('navigation.css.background','#444');
+$tophat->setBar('navigation.css.button-background','#ff9800');
+$tophat->setBar('navigation.css.button-color','#222');
+$tophat->setBar('navigation.css.button-alt-background','#ffa117');
+$tophat->setBar('navigation.css.button-alt-color','#222');
 
 $tophat->setBar('navigation3.i',2.1);
 $tophat->setBar('navigation3.rwd',['m','l']);
@@ -170,6 +176,8 @@ $tophat->setBar('mobile2.class','nav-mobile');
 $tophat->setBar('mobile2.logo','right');
 $tophat->setBar('mobile2.left',['navtree']);
 $tophat->setBar('mobile2.right',['book']);
+
+//echo $tophat->buildCss('navigation');die();
 ?>
 <!DOCTYPE html>
 <html>
@@ -236,6 +244,9 @@ $tophat->setBar('mobile2.right',['book']);
 
 	.tophat-bar {
 		margin-bottom: 10em;
+	}
+	.tophat-bar:first-child {
+		margin-bottom: 0;
 	}
 	</style>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>

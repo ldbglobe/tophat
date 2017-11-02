@@ -39,7 +39,7 @@ class Css
 		if($this->tophat->debug)
 			$scss .= "\n".$this->ImportScss(__DIR__.'/Css/_debug.scss');
 
-		$css = $scss_compiler->compile($scss);
+		$css = $scss_compiler->compile($scss).' ';
 
 		echo $css;
 	}
@@ -54,7 +54,7 @@ class Css
 			$scss = $this->ImportScss(__DIR__.'/Css/index.scss');
 
 			// Keep only scss function and variable related css rules
-			$scss = preg_replace('/(.*)([@${}])(.*)/','#KEEP_THIS_LINE#\\1\\2\\3',$scss);
+			$scss = preg_replace('/(.*)([@&${}])(.*)/','#KEEP_THIS_LINE#\\1\\2\\3',$scss);
 			$scss = preg_replace('/^(?!#KEEP_THIS_LINE#).+$/m','',$scss);
 			$scss = str_replace('#KEEP_THIS_LINE#','',$scss);
 
@@ -82,7 +82,7 @@ class Css
 			foreach($scss as $i=>$line)
 			{
 				// keep the line
-				if(preg_match('/[@{}]/',$line) || preg_match_all("/^[\t ]*\\$([a-z0-9_-]+)[\t ]*:/i",$line,$reg))
+				if(preg_match('/[@&{}]/',$line) || preg_match_all("/^[\t ]*\\$([a-z0-9_-]+)[\t ]*:/i",$line,$reg))
 				{
 					// echo 'KEEP'.$line."\n";
 					// nothing to do
@@ -117,7 +117,7 @@ class Css
 
 			$scss = '.tophat-bar[data-tophat-key="'.$key.'"] { '.preg_replace("/[\r\n]+/","\n",$scss).' } ';
 
-			$css = $scss_compiler->compile($scss);
+			$css = $scss_compiler->compile($scss).' ';
 			echo $css;
 		}
 	}
