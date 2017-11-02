@@ -5,6 +5,9 @@ use ldbglobe\Tophat\Tophat;
 
 $tophat = new Tophat();
 
+// activate cache procedure to optimize speed
+$tophat->setCacheFolder(__DIR__.'/_cache');
+
 // ----------------------------------------------------------------------------------------------
 // available skin for module or navigation item
 // ----------------------------------------------------------------------------------------------
@@ -115,12 +118,24 @@ $tophat->setBar('topbar.rwd',['m','l']); // [s,m,l]
 $tophat->setBar('topbar.class','topbar');
 $tophat->setBar('topbar.left',['language','contact']);
 $tophat->setBar('topbar.right',['social','contact','book']);
+//variables css personnalisées
+$tophat->setBar('topbar.css.color','#fff');
+$tophat->setBar('topbar.css.color-alt','#ff9800');
+$tophat->setBar('topbar.css.background','#222');
+$tophat->setBar('topbar.css.button-background','#ff9800');
+$tophat->setBar('topbar.css.button-color','#222');
+$tophat->setBar('topbar.css.button-alt-background','#e9c341');
+$tophat->setBar('topbar.css.button-alt-color','#222');
+$tophat->setBar('topbar.css.base-size','0.8em');
+
 
 $tophat->setBar('navigation.i',2);
 $tophat->setBar('navigation.rwd',['m','l']);
 $tophat->setBar('navigation.class','nav-desktop');
 $tophat->setBar('navigation.logo','left');
 $tophat->setBar('navigation.right',['navtree','book']);
+//variables css personnalisées
+$tophat->setBar('navigation.css.logo-max-size','300px');
 
 $tophat->setBar('navigation3.i',2.1);
 $tophat->setBar('navigation3.rwd',['m','l']);
@@ -236,9 +251,11 @@ $tophat->setBar('mobile2.right',['book']);
 	// Execution des builders
 	// ----------------------------------------------------------------------------------------------
 	//$tophat->buildHtml('mobile',1000);
-	$tophat->buildHtml();
-	$tophat->buildCss();
-	$tophat->buildJs();
+	echo $tophat->buildHtml();
+	echo '<style type="text/css">'.$tophat->buildCss(true).'</style>'; // build common + all bars
+	//echo '<style type="text/css">'.$tophat->buildCss(false).'</style>'; // build only common CSS
+	//echo '<style type="text/css">'. $tophat->buildCss('topbar').'</style>'; // build only specifics bars CSS
+	echo '<script type="text/javascript">'.$tophat->buildJs().'</script>';
 	?>
 	</div>
 </body>

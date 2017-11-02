@@ -6,6 +6,8 @@ namespace ldbglobe\Tophat;
 class Tophat {
 
 	private $settings = null;
+	private $cacheFolder = false;
+	private $cacheFilesSignature = null;
 
 	public function __construct($initial_settings=null)
 	{
@@ -23,20 +25,86 @@ class Tophat {
 		// export
 	}
 
+	public function setCacheFolder($path)
+	{
+		$this->cacheFolder = realpath($path);
+	}
+	public function cacheSignature()
+	{
+		$signature = '';
+		if($this->cacheFilesSignature!==null)
+		{
+			$signature .= $this->cacheFilesSignature;
+		}
+		else
+		{
+			$files = $this->glob_recursive(__DIR__."/**/*.*");
+			foreach($files as $file)
+				$signature .= md5_file($file);
+		}
+		$signature .= md5(serialize($this->settings->export()));
+		return sha1($signature);
+	}
+	public function cacheExist($code)
+	{
+		return $this->cacheFolder && file_exists($this->cacheFolder.'/'.$this->cacheSignature().'.'.$code);
+	}
+	public function cacheRead($code)
+	{
+		if($this->cacheExist($code))
+			return file_get_contents($this->cacheFolder.'/'.$this->cacheSignature().'.'.$code);
+		else
+			return null;
+	}
+	public function cacheWrite($code,$content)
+	{
+		if($this->cacheFolder && is_dir($this->cacheFolder))
+		{
+			file_put_contents($this->cacheFolder.'/'.$this->cacheSignature().'.'.$code,$content);
+			return $this->cacheRead($code);
+		}
+		else
+			return $content;
+	}
+
+	public function glob_recursive($pattern, $flags = 0)
+	{
+		$files = glob($pattern, $flags);
+		foreach (glob(dirname($pattern).'/*', GLOB_ONLYDIR|GLOB_NOSORT) as $dir)
+		{
+			$files = array_merge($files, $this->glob_recursive($dir.'/'.basename($pattern), $flags));
+		}
+		return $files;
+	}
+
 	public function buildHtml($key=null,$index=null)
 	{
+		if($this->cacheExist(($key ? $key:'_common').'.html'))
+			return $this->cacheRead(($key ? $key:'_common').'.html');
+		ob_start();
 		if($key)
 			new \ldbglobe\Tophat\Builder\Html($this,$key,$index);
 		else
-			return new \ldbglobe\Tophat\Builder\Html($this);
+			new \ldbglobe\Tophat\Builder\Html($this);
+		return $this->cacheWrite(($key ? $key:'_common').'.html',ob_get_clean());
 	}
-	public function buildCss()
+	public function buildCss($key=null)
 	{
-		return new \ldbglobe\Tophat\Builder\Css($this);
+		$cacheCode = (is_string($key) ? $key : ($key ? '_all' : 'common')).'.css';
+
+		if($this->cacheExist($cacheCode))
+			return $this->cacheRead($cacheCode);
+		ob_start();
+		new \ldbglobe\Tophat\Builder\Css($this,$key);
+		return $this->cacheWrite($cacheCode,ob_get_clean());
 	}
 	public function buildJs()
 	{
-		return new \ldbglobe\Tophat\Builder\Js($this);
+		if($this->cacheExist('_common.js'))
+			return $this->cacheRead('_common.js');
+		ob_start();
+		new \ldbglobe\Tophat\Builder\Js($this);
+		return $this->cacheWrite('_common.js',ob_get_clean());
 	}
 
 	// ----------------------------------------

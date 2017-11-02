@@ -14,7 +14,7 @@ class Js
 	{
 		$js = file_get_contents(__DIR__.'/Js/common.js');
 		$minijs = \JShrink\Minifier::minify($js);
-		echo '<script type="text/javascript">'.$minijs.'</script>';
+		echo $minijs;
 	}
 }
 ?>
