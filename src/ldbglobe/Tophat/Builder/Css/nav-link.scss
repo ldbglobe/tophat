@@ -4,7 +4,7 @@
 }
 > .nav-link .label {
 	display: block;
-	padding: 1em 1em;
+	padding: $nav-link-vpad $nav-link-hpad;
 	line-height: 1.3em;
 }
 

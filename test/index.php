@@ -105,7 +105,7 @@ $tophat->setModule('navtree__0',[
 $tophat->setModule('navtree__1',[ 'level'=>10, 'button' => [ 'skin'=>'underline', 'url'=>'#services', 'label'=>'Services' ] ]);
 $tophat->setModule('navtree__2',[ 'level'=>10, 'button' => [ 'skin'=>'underline', 'url'=>'#advantages', 'label'=>'Advantages' ] ]);
 $tophat->setModule('navtree__3',[ 'level'=>5,  'button' => [ 'skin'=>'underline', 'url'=>'#our-work', 'label'=>'Our Work' ] ]);
-$tophat->setModule('navtree__4',[ 'level'=>5,  'button' => [ 'skin'=>'underline', 'url'=>'#about-us', 'label'=>'About Us' ] ]);
+$tophat->setModule('navtree__4',[ 'level'=>5,  'button' => [ 'skin'=>'button-square', 'url'=>'#about-us', 'label'=>'About Us' ] ]);
 $tophat->setModule('navtree__5',[ 'level'=>1,  'button' => [ 'skin'=>'button', 'url'=>'#blog', 'prepend'=>'<i class="fa fa-rss-square"></i>', 'label'=>'Blog' ] ]);
 $tophat->setModule('navtree__6',[ 'level'=>50, 'button' => [ 'skin'=>'flat-alt', 'url'=>'#contact-us', 'label'=>'Contact Us' ] ]);
 
@@ -127,6 +127,7 @@ $tophat->setBar('topbar.css.button-color','#222');
 $tophat->setBar('topbar.css.button-alt-background','#ffa117');
 $tophat->setBar('topbar.css.button-alt-color','#222');
 $tophat->setBar('topbar.css.base-size','0.7em');
+//$tophat->setBar('topbar.css.nav-link-hpad','0.5em');
 
 
 $tophat->setBar('navigation.i',2);
