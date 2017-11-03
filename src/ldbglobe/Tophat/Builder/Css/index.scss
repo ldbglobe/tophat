@@ -69,11 +69,6 @@ font-size: $base-size;
 		}
 	}
 
-	[data-tophat-parts*="middle"] & {
-		flex: 1;
-	}
-
-
 	> * {
 		order:0;
 	}
@@ -110,6 +105,10 @@ font-size: $base-size;
 			display: inline-block;
 		}
 	}
+}
+
+&[data-tophat-parts*="middle"] .tophat-bar-part {
+	flex: 1;
 }
 
 // centered logo will be handle by javasdcript => so they remain hidden at startup

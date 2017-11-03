@@ -112,7 +112,6 @@ $tophat->setModule('navtree__6',[ 'level'=>50, 'button' => [ 'skin'=>'flat-alt',
 // ----------------------------------------------------------------------------------------------
 // Set Bars containing previously created content
 // ----------------------------------------------------------------------------------------------
-
 $tophat->setBar('topbar.i',1);
 $tophat->setBar('topbar.rwd',['m','l']); // [s,m,l]
 $tophat->setBar('topbar.class','topbar');
@@ -143,6 +142,7 @@ $tophat->setBar('navigation.css.button-background','#ff9800');
 $tophat->setBar('navigation.css.button-color','#222');
 $tophat->setBar('navigation.css.button-alt-background','#ffa117');
 $tophat->setBar('navigation.css.button-alt-color','#222');
+
 
 $tophat->setBar('navigation3.i',2.1);
 $tophat->setBar('navigation3.rwd',['m','l']);
