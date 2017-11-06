@@ -3,8 +3,60 @@
 
 namespace ldbglobe\Tophat;
 
+class Tophat_Debugger {
+	static private $events = [];
+
+	static public function Events()
+	{
+		return self::$events;
+	}
+
+	static public function Resume()
+	{
+		?>
+		<style>
+		.Tophat_Debugger_Resume {
+			background: #FFF;
+			width: 100%;
+			font-family: sans-serif;
+		}
+		.Tophat_Debugger_Resume thead td {
+			font-weight: bold;
+		}
+		</style>
+		<?php
+		echo '<table class="Tophat_Debugger_Resume" cellpadding="10" cellspacing="0" border="0">';
+		echo '<thead><tr><td>Tophat actions resume</td><td>Extra</td><td>Duration</td><td>Message</td></tr></thead>';
+		echo '<tbody>';
+		foreach(self::$events as $event)
+		{
+			echo '<tr><td>'.$event->action.'</td><td>'.$event->extra.'</td><td>'.$event->duration.'</td><td>'.$event->message.'</td></tr>';
+		}
+		echo '</tbody>';
+		echo '</table>';
+	}
+
+	public function __construct($action,$extra=null)
+	{
+		$this->action = $action;
+		$this->extra = $extra;
+		$this->start = microtime(true);
+	}
+	public function register($response,$message=null)
+	{
+		$this->message = $message;
+		$this->end = microtime(true);
+		$this->duration = $this->end - $this->start;
+		self::$events[] = $this;
+		return $response;
+	}
+
+
+}
+
 class Tophat {
 
+	public $debug = false;
 	private $settings = null;
 	private $cacheFolder = false;
 	private $cacheFilesSignature = null;
@@ -25,6 +77,11 @@ class Tophat {
 		// export
 	}
 
+	private function _debug($message,$duration)
+	{
+		$this->debug_events[] = array('message'=>$message,'duration'=>$duration);
+	}
+
 	public function setCacheFolder($path)
 	{
 		$this->cacheFolder = realpath($path);
@@ -38,13 +95,39 @@ class Tophat {
 		}
 		else
 		{
-			$files = $this->glob_recursive(__DIR__."/**/*.*");
+			$debug = new \ldbglobe\Tophat\Tophat_Debugger('_cacheFilesSignatureBuilder');
+			$files = $debug->register($this->_cacheFilesSignatureBuilder());
 			foreach($files as $file)
-				$signature .= md5_file($file);
+				$signature .= '';//md5_file($file);
+
+			$this->cacheFilesSignature = $signature;
 		}
 		$signature .= md5(serialize($this->settings->export()));
 		return sha1($signature);
 	}
+	private function _cacheFilesSignatureBuilder($dir=null,$results=null)
+	{
+		$dir = $dir ? $dir : __DIR__;
+		$results = $results ? $results : array();
+		$files = opendir($dir);
+		while (false !== ($value = readdir($files)))
+		{
+			if($value != "." && $value != "..")
+			{
+				$path = realpath($dir.DIRECTORY_SEPARATOR.$value);
+				if(!is_dir($path))
+				{
+					$results[] = $path;
+				}
+				else
+				{
+					$results = $this->_cacheFilesSignatureBuilder($path,$results);
+				}
+			}
+		}
+		return $results;
+	}
+
 	public function cacheExist($code)
 	{
 		return $this->cacheFolder && file_exists($this->cacheFolder.'/'.$this->cacheSignature().'.'.$code);
@@ -67,44 +150,39 @@ class Tophat {
 			return $content;
 	}
 
-	public function glob_recursive($pattern, $flags = 0)
-	{
-		$files = glob($pattern, $flags);
-		foreach (glob(dirname($pattern).'/*', GLOB_ONLYDIR|GLOB_NOSORT) as $dir)
-		{
-			$files = array_merge($files, $this->glob_recursive($dir.'/'.basename($pattern), $flags));
-		}
-		return $files;
-	}
-
 	public function buildHtml($key=null,$index=null)
 	{
+		$debug = new \ldbglobe\Tophat\Tophat_Debugger('buildHtml',$key);
 		if($this->cacheExist(($key ? $key:'_common').'.html'))
-			return $this->cacheRead(($key ? $key:'_common').'.html');
+		{
+			return $debug->register($this->cacheRead(($key ? $key:'_common').'.html'), 'cacheExist');
+		}
 		ob_start();
 		if($key)
 			new \ldbglobe\Tophat\Builder\Html($this,$key,$index);
 		else
 			new \ldbglobe\Tophat\Builder\Html($this);
-		return $this->cacheWrite(($key ? $key:'_common').'.html',ob_get_clean());
+		return $debug->register($this->cacheWrite(($key ? $key:'_common').'.html',ob_get_clean()), 'runBuilder');
 	}
 	public function buildCss($key=null)
 	{
+		$debug = new \ldbglobe\Tophat\Tophat_Debugger('buildCss',$key);
 		$cacheCode = (is_string($key) ? $key : ($key ? '_all' : 'common')).'.css';
 
 		if($this->cacheExist($cacheCode))
-			return $this->cacheRead($cacheCode);
+			return $debug->register($this->cacheRead($cacheCode), 'cacheExist');
 		ob_start();
 		new \ldbglobe\Tophat\Builder\Css($this,$key);
-		return $this->cacheWrite($cacheCode,ob_get_clean());
+		return $debug->register($this->cacheWrite($cacheCode,ob_get_clean()), 'runBuilder');
 	}
 	public function buildJs()
 	{
+		$debug = new \ldbglobe\Tophat\Tophat_Debugger('buildJs');
 		if($this->cacheExist('_common.js'))
-			return $this->cacheRead('_common.js');
+			return $debug->register($this->cacheRead('_common.js'), 'cacheExist');
 		ob_start();
 		new \ldbglobe\Tophat\Builder\Js($this);
-		return $this->cacheWrite('_common.js',ob_get_clean());
+		return $debug->register($this->cacheWrite('_common.js',ob_get_clean()), 'runBuilder');
 	}
 
 	// ----------------------------------------

@@ -2,6 +2,7 @@
 require "../vendor/autoload.php";
 
 use ldbglobe\Tophat\Tophat;
+use ldbglobe\Tophat\Tophat_Debugger;
 
 $tophat = new Tophat();
 
@@ -276,6 +277,8 @@ $tophat->setBar('mobile2.css.margin-bottom','10em');
 	//echo '<style type="text/css">'.$tophat->buildCss(false).'</style>'; // build only common CSS
 	//echo '<style type="text/css">'. $tophat->buildCss('topbar').'</style>'; // build only specifics bars CSS
 	echo '<script type="text/javascript">'.$tophat->buildJs().'</script>';
+
+	Tophat_Debugger::Resume();
 	?>
 	</div>
 </body>
