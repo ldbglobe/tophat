@@ -129,8 +129,7 @@ $tophat->setBar('topbar.css.button-color','#222');
 $tophat->setBar('topbar.css.button-alt-background','#ffa117');
 $tophat->setBar('topbar.css.button-alt-color','#222');
 $tophat->setBar('topbar.css.base-size','0.7em');
-//$tophat->setBar('topbar.css.nav-link-hpad','0.5em');
-
+$tophat->setBar('topbar.css.nav-link-vpad','0.5em');
 
 $tophat->setBar('navigation.i',2);
 $tophat->setBar('navigation.rwd',['m','l']);

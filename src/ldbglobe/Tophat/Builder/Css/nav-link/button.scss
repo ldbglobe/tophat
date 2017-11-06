@@ -4,8 +4,8 @@
 		color: $button-color;
 		background: $button-background;
 		line-height: 1em;
-		margin: .5em .5em;
-		padding: 0.5em .75em;
+		margin: #{$nav-link-vpad * .5} #{$nav-link-hpad * .5};
+		padding: #{$nav-link-vpad * .5} #{$nav-link-hpad * .75};
 	}
 	&.active > .nav-link .label,
 	&:hover > a.nav-link .label {
