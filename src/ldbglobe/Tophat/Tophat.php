@@ -135,17 +135,6 @@ class Tophat {
 	}
 
 	// ----------------------------------------
-	// LOGO
-	public function setLogo($v)
-	{
-		$this->settings->set('logo', $v);
-	}
-	public function getLogo()
-	{
-		return $this->settings->get('logo');
-	}
-
-	// ----------------------------------------
 	// MODULES
 	public function setModule($k,$v)
 	{

@@ -6,10 +6,12 @@
 
 position: relative;
 padding: 0;
+margin: $margin-top 0 $margin-bottom;
 display: flex;
 font-family: sans-serif;
 background:$background;
 color:$color;
+
 a {
 	color:inherit;
 }

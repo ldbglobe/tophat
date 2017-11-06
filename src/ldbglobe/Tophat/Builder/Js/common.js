@@ -553,7 +553,9 @@ $(document).ready(function() {
 	tophat_dropdown();
 
 	if(!TOPHAT_DEBUG)
-		setInterval(tophat_cron,500);
+		setInterval(tophat_cron,4000);
+
+	window.addEventListener('resize', tophat_cron , true);
 
 	tophat_cron();
 });

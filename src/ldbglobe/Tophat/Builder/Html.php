@@ -36,8 +36,7 @@ class Html
 
 		$available_parts = $this->AvailabaleParts($bar);
 
-		echo '<div style="z-index:'.($index).';" class="tophat-bar '.($this->tophat->debug ? 'tophat-debug ':'').implode(' ',$classes).'" data-tophat-key="'.$key.'" '.($bar->get('logo') ? 'data-tophat-logo="'.$bar->get('logo').'"':'').'" data-tophat-parts="'.implode(',',$available_parts).'">';
-		echo $logo;
+		echo '<div style="z-index:'.($index).';" class="tophat-bar '.($this->tophat->debug ? 'tophat-debug ':'').implode(' ',$classes).'" data-tophat-key="'.$key.'" '.($bar->get('logo.position') ? 'data-tophat-logo="'.$bar->get('logo.position').'"':'').'" data-tophat-parts="'.implode(',',$available_parts).'">';
 		foreach($available_parts as $part_code)
 			$this->BuildBarPart($bar,$part_code);
 		echo '</div>';
@@ -48,7 +47,7 @@ class Html
 		$available_parts = [];
 		foreach(['left','middle','right'] as $part_code)
 		{
-			if($bar->has($part_code) || $bar->get('logo')==$part_code)
+			if($bar->has($part_code) || $bar->get('logo.position')==$part_code)
 			{
 				$available_parts[] = $part_code;
 			}
@@ -66,8 +65,8 @@ class Html
 	{
 		echo '<div class="tophat-bar-part" data-tophat-align="'.$part_code.'">';
 		$logo = null;
-		if($bar->get('logo')==$part_code)
-			echo '<div class="tophat-bar-logo"><img src="'.$this->tophat->getLogo().'"></div>';
+		if($bar->get('logo.position')==$part_code)
+			echo '<div class="tophat-bar-logo"><img src="'.$bar->get('logo.src').'"></div>';
 		foreach($bar->get($part_code,array()) as $module_code)
 		{
 			$this->BuildModule($module_code);
