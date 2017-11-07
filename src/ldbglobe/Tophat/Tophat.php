@@ -20,19 +20,32 @@ class Tophat_Debugger {
 			width: 100%;
 			font-family: sans-serif;
 		}
+		.Tophat_Debugger_Resume thead tr {
+			background: #4A8AF4;
+		}
 		.Tophat_Debugger_Resume thead td {
+			color: #fff;
 			font-weight: bold;
+		}
+		.Tophat_Debugger_Resume tfoot tr {
+			background: #4A8AF4;
+		}
+		.Tophat_Debugger_Resume tfoot td {
+			color: #fff;
 		}
 		</style>
 		<?php
 		echo '<table class="Tophat_Debugger_Resume" cellpadding="10" cellspacing="0" border="0">';
 		echo '<thead><tr><td>Tophat actions resume</td><td>Extra</td><td>Duration</td><td>Message</td></tr></thead>';
 		echo '<tbody>';
+		$total_duration = 0;
 		foreach(self::$events as $event)
 		{
-			echo '<tr><td>'.$event->action.'</td><td>'.$event->extra.'</td><td>'.$event->duration.'</td><td>'.$event->message.'</td></tr>';
+			$total_duration += $event->duration;
+			echo '<tr><td>'.$event->action.'</td><td>'.$event->extra.'</td><td>'.round($event->duration,4).'s</td><td>'.$event->message.'</td></tr>';
 		}
 		echo '</tbody>';
+		echo '<tfoot><tr><td></td><td></td><td>'.round($total_duration,4).'s</td><td></td></tr></tfoot>';
 		echo '</table>';
 	}
 
@@ -98,7 +111,7 @@ class Tophat {
 			$debug = new \ldbglobe\Tophat\Tophat_Debugger('_cacheFilesSignatureBuilder');
 			$files = $debug->register($this->_cacheFilesSignatureBuilder());
 			foreach($files as $file)
-				$signature .= '';//md5_file($file);
+				$signature .= md5_file($file);
 
 			$this->cacheFilesSignature = $signature;
 		}

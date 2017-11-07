@@ -218,7 +218,14 @@ function tophat_burger_refresh()
 
 		$dropdown = $bar.find('.tophat-burger .nav-dropdown');
 		$dropdown.empty();
-		$(this).find('.nav-item:hidden').each(function(){
+		$navItems = $(this).find('.nav-item:hidden');
+		$navItems.sort(function(a,b){
+			return a.getAttribute('data-tophat-group') - b.getAttribute('data-tophat-group');
+		})
+
+		currentGroup = null;
+		$navItems.each(function(){
+			let group = $(this).data('tophatGroup');
 			let $link = $(this).find('.nav-link');
 			let $subitems = $(this).find('.nav-dropdown li');
 			let $burgerlink = null;
@@ -229,6 +236,13 @@ function tophat_burger_refresh()
 
 			if($burgerlink)
 			{
+				if(currentGroup != group)
+				{
+					if(currentGroup != null)
+						$dropdown.append('<li class="burger-separator"></li>');
+					currentGroup = group;
+				}
+
 				let $burgeritem = $('<li class="burger-item"></li>');
 				$burgeritem.append($burgerlink);
 				if($subitems.length)

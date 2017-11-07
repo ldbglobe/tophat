@@ -106,7 +106,8 @@ class Html
 	{
 		$data = $this->tophat->getModuleData($module_code);
 
-		$level = $data->get('level',0);
+		$level = $data->get('level',0); // pour déterminer les éléments à conserver le plus longtemps possible (élevé = à garder longtemps)
+		$group = $data->get('group',999);  // pour regrouper des éléments dans le burger menu (élevé = à placer à la fin du burger menu)
 		$button = $data->getData('button');
 
         $active = $button->get('active');
@@ -121,7 +122,13 @@ class Html
             $active = $active || $dropdown_item->get('active');
         }
 
-		$content .= '<div class="nav-item '.($active ? 'active':'').' '.$button->get('class').'" data-tophat-level="'.$level.'" data-tophat-skin="'.$button->get('skin','default').'">';
+        $toggle = $button->get('toggle');
+        if($toggle)
+        {
+        	$button->set('url','javascript:$(\''.$toggle.'\').toggleClass(\'active\');void(0);');
+        }
+
+		$content .= '<div class="nav-item '.($active ? 'active':'').' '.$button->get('class').'" data-tophat-group="'.$group.'" data-tophat-level="'.$level.'" data-tophat-skin="'.$button->get('skin','default').'">';
            	$content .= '<a class="nav-link '.($button->get('url') ? '':'nolink').'"" href="'.$button->get('url','javascript:void(0);').'">';
                 $content .= \ldbglobe\Tophat\Builder\Html::BuildModuleLabel($button);
             $content .= '</a>';
