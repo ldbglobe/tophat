@@ -3,7 +3,7 @@ namespace ldbglobe\Tophat\Builder;
 
 class Css
 {
-	public function __construct($tophat,$key)
+	public function __construct($tophat,$key,$vars_to_inject=null)
 	{
 		$this->tophat = $tophat;
 
@@ -17,7 +17,7 @@ class Css
 		}
 		else
 		{
-			$this->BuildCommon();
+			$this->BuildCommon($vars_to_inject);
 
 			if($key===true)
 			{
@@ -30,7 +30,7 @@ class Css
 		}
 	}
 
-	public function BuildCommon()
+	public function BuildCommon($vars_to_inject=null) // [varname=>value, varname=>value, varname=>value, ...]
 	{
 		$scss_compiler = new \Leafo\ScssPhp\Compiler();
 		$scss_compiler->setFormatter('Leafo\ScssPhp\Formatter\Compressed');
@@ -38,6 +38,9 @@ class Css
 		$scss = $this->ImportScss(__DIR__.'/Css/_common.scss');
 		if($this->tophat->debug)
 			$scss .= "\n".$this->ImportScss(__DIR__.'/Css/_debug.scss');
+
+		if(is_array($vars_to_inject))
+			$scss_compiler->setVariables($vars_to_inject);
 
 		$css = $scss_compiler->compile($scss).' ';
 
