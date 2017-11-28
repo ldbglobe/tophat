@@ -3,27 +3,38 @@ namespace ldbglobe\Tophat\Builder;
 
 class Html
 {
+	static $globalIndex = 100;
 	public function __construct($tophat,$key=null,$index=null)
 	{
 		$this->tophat = $tophat;
+
+		$updateGlobalIndex = false;
+		if($index===null)
+		{
+			$updateGlobalIndex = true;
+			$index = self::$globalIndex;
+		}
 
 		if($key)
 		{
 			$bar = $tophat->getBarData($key);
 			if($bar)
 			{
-				$this->BuildBar($key,$bar,$index>0 ? $index:100);
+				$this->BuildBar($key,$bar,1*$index);
 			}
+			$index--;
 		}
 		else
 		{
 			$bars = $tophat->getBars();
-			$i=100;
 			foreach($bars as $key=>$bar)
 			{
-				$this->BuildBar($key,$bar,$i--);
+				$this->BuildBar($key,$bar,$index--);
 			}
 		}
+
+		if($updateGlobalIndex)
+			self::$globalIndex = $index;
 	}
 
 	public function BuildBar($key,$bar,$index)
@@ -113,7 +124,7 @@ class Html
         $active = $button->get('active');
         $dropdown = [];
 
-        if($data->has('dropdown') && !$active)
+        if($data->has('dropdown'))
         foreach($data->get('dropdown') as $dropdown_item)
         {
             $dropdown_item = new \Dflydev\DotAccessData\Data($dropdown_item);
