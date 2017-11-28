@@ -4,8 +4,8 @@
 		border-top: 3px solid transparent;
 		border-bottom: 3px solid transparent;
 	}
-	&.active > .nav-link .label,
-	&:hover > a.nav-link .label {
+	&.active > .nav-link.react .label,
+	&:hover > a.nav-link.react .label {
 		color:$color-alt;
 		border-bottom-color: $color-alt;
 	}

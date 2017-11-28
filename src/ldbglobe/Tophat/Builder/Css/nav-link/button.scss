@@ -7,8 +7,8 @@
 		margin: #{$nav-link-vpad * .5} #{$nav-link-hpad * .5};
 		padding: #{$nav-link-vpad * .5} #{$nav-link-hpad * .75};
 	}
-	&.active > .nav-link .label,
-	&:hover > a.nav-link .label {
+	&.active > .nav-link.react .label,
+	&:hover > a.nav-link.react .label {
 		color: $button-alt-color;
 		background: $button-alt-background;
 	}
@@ -18,8 +18,8 @@
 		color: $button-alt-color;
 		background: $button-alt-background;
 	}
-	&.active > .nav-link .label,
-	&:hover > a.nav-link .label {
+	&.active > .nav-link.react .label,
+	&:hover > a.nav-link.react .label {
 		color: $button-color;
 		background: $button-background;
 	}

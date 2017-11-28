@@ -6,8 +6,8 @@
 		border-top: 3px solid $button-background;
 		border-bottom: 3px solid $button-background;
 	}
-	&.active > .nav-link .label,
-	&:hover > a.nav-link .label {
+	&.active > .nav-link.react .label,
+	&:hover > a.nav-link .react.label {
 		color: $button-alt-color;
 		background: $button-alt-background;
 		border-top: 3px solid $button-alt-background;
@@ -19,8 +19,8 @@
 		color: $button-alt-color;
 		background: $button-alt-background;
 	}
-	&.active > .nav-link .label,
-	&:hover > a.nav-link .label {
+	&.active > .nav-link.react .label,
+	&:hover > a.nav-link.react .label {
 		color: $button-color;
 		background: $button-background;
 	}
