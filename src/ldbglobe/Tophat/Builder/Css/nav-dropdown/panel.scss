@@ -2,7 +2,7 @@
 	left: 0;
 	width: 100%;
 	padding: 0;
-	background:$background;
+	background:$panel-background;
 	box-shadow: 0 2px 3px 0 rgba(#000,0.3);
 	text-align: center;
 
@@ -13,7 +13,7 @@
 		width: 100%;
 		top: 0;
 		left: 0;
-		border-top:1px solid tool-contrast($background, rgba(#000,0.2), rgba(#fff,0.2));
+		border-top:1px solid tool-contrast($panel-background, rgba(#000,0.2), rgba(#fff,0.2));
 	}
 
 	//align-items: center;
@@ -33,12 +33,12 @@
 			transition:background ease 0.5s;
 		}
 		&.active > * {
-			background: rgba($button-background,0.8);
-			color: $button-color;
+			background: rgba($panel-button-background,0.8);
+			color: $panel-button-color;
 		}
 		&:hover > * {
-			background: $button-background;
-			color: $button-color;
+			background: $panel-button-background;
+			color: $panel-button-color;
 		}
 	}
 }

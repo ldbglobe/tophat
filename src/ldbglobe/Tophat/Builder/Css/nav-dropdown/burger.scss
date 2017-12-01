@@ -1,4 +1,4 @@
-$_tophat-burger-border-color : tool-contrast($background, rgba(#000,0.2), rgba(#fff,0.2));
+$_tophat-burger-border-color : tool-contrast($panel-background, rgba(#000,0.2), rgba(#fff,0.2));
 
 .nav-dropdown[data-tophat-skin="burger"] {
 	left: 0;
@@ -57,13 +57,15 @@ $_tophat-burger-border-color : tool-contrast($background, rgba(#000,0.2), rgba(#
 			display: block;
 			padding: 3em 1em;
 			width: 100%;
-			color: $panel-color;
+			background: $panel-button-background;
+			color: $panel-button-color;
 		}
 		&.active {
 		}
 		&:hover {
 			> .burger-link {
-				color: $panel-color-alt;
+				background: $panel-button-hover-background;
+				color: $panel-button-hover-color;
 			}
 		}
 
@@ -90,15 +92,18 @@ $_tophat-burger-border-color : tool-contrast($background, rgba(#000,0.2), rgba(#
 				border-bottom:1px solid $_tophat-burger-border-color;
 				background: $panel-background;
 				> * {
-					color: $panel-color;
+					background: $panel-button-background;
+					color: $panel-button-color;
 					display: block;
 					padding: 3em 1em;
 					width: 100%;
 				}
 				&:hover {
-					color: $panel-color-alt;
+					background: $panel-button-hover-background;
+					color: $panel-button-hover-color;
 					> * {
-						color: $panel-color-alt;
+						background: $panel-button-hover-background;
+						color: $panel-button-hover-color;
 					}
 				}
 			}

@@ -5,10 +5,19 @@
 	padding: .5em 0;
 	margin: 0;
 	list-style: none;
+	background:$dropdown-background;
 	li {
 		padding: 0;
 		margin: 0;
-		>a,
+		>a {
+			display: block;
+			text-decoration: none;
+			padding: 0.5em 1em;
+			cursor: default;
+			color:inherit;
+			background:$dropdown-background;
+			color:$dropdown-color;
+		}
 		>span {
 			display: block;
 			text-decoration: none;
@@ -18,10 +27,12 @@
 		}
 		>a:hover {
 			cursor: pointer;
-			color:$color-alt;
+			background:$dropdown-hover-background;
+			color:$dropdown-hover-color;
 		}
 		&.active > a, &.hover > a{
-			color:$color-alt;
+			background:$dropdown-hover-background;
+			color:$dropdown-hover-color;
 		}
 	}
 }
