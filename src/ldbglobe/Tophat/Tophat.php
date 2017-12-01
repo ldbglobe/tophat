@@ -271,6 +271,9 @@ class Tophat {
 	public function getBars()
 	{
 		$bars = $this->get('bars',array());
+		if(!is_array($bars))
+			$bars = array();
+
 		foreach($bars as $key=>$null)
 		{
 			$bars[$key] = $this->getData('bars.'.$key);
