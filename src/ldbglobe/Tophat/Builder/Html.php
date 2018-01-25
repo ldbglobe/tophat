@@ -140,7 +140,7 @@ class Html
         }
 
 		$content .= '<div class="nav-item '.($active ? 'active':'').' '.$button->get('class').'" data-tophat-group="'.$group.'" data-tophat-level="'.$level.'" data-tophat-skin="'.$button->get('skin','default').'">';
-           	$content .= '<a class="nav-link '.($button->get('url') || $dropdown ? 'react':'').' '.($button->get('url') ? '':'nolink').'" href="'.$button->get('url','javascript:void(0);').'">';
+           	$content .= '<a class="nav-link '.($button->get('url') || $dropdown ? 'react':'').' '.($button->get('url') ? '':'nolink').'" target="'.$button->get('target').'" href="'.$button->get('url','javascript:void(0);').'">';
                 $content .= \ldbglobe\Tophat\Builder\Html::BuildModuleLabel($button);
             $content .= '</a>';
             if($dropdown)
@@ -149,7 +149,7 @@ class Html
                 foreach($dropdown as $dropdown_item)
                 {
                     $content .= '<li class="'.($dropdown_item->get('active') ? 'active':'').'">';
-                        $content .= '<a href="'.$dropdown_item->get('url').'">';
+                        $content .= '<a href="'.$dropdown_item->get('url').'" target="'.$dropdown_item->get('target').'">';
                             $content .= \ldbglobe\Tophat\Builder\Html::BuildModuleLabel($dropdown_item);
                         $content .= '</a>';
                     $content .= '</li>';
