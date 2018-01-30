@@ -7,7 +7,7 @@
 		border-bottom: 3px solid $button-background;
 	}
 	&.active > .nav-link.react .label,
-	&:hover > a.nav-link .react.label {
+	&:hover > a.nav-link.react .label {
 		color: $button-alt-color;
 		background: $button-alt-background;
 		border-top: 3px solid $button-alt-background;
