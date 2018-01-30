@@ -12,6 +12,17 @@ function tophat_touch_support()
 function tophat_dropdown(){
 	var menuDelay = null;
 	var menuToActivate = null;
+
+	// automatic startup fix dropdown position
+	$(".nav-dropdown").each(function(){
+		var dd = $(this);
+		if(dd && dd.offset().left + dd.outerWidth() > $(window).width())
+		{
+			var delta = $(window).width() - dd.offset().left - dd.outerWidth();
+			dd.css({marginLeft:(delta)+'px'});
+		}
+	})
+
 	$(document).on('mouseover click','.tophat-bar-part > .nav-item',function(event){
 		if(tophat_touch_support() && event.type=='mouseover')
 		{
@@ -28,6 +39,18 @@ function tophat_dropdown(){
 					$('.tophat-bar-part > .nav-item').removeClass('hover');
 					$('.tophat-bar-part .burger-item').removeClass('active');
 					$(menuToActivate).addClass('hover');
+
+					// fix dropdown position if content overflow
+					var dd = $(menuToActivate).find(".nav-dropdown").eq(0)
+					if(dd)
+					{
+						dd.css({marginLeft:0});
+					 	if(dd.offset().left + dd.outerWidth() > $(window).width())
+						{
+							var delta = $(window).width() - dd.offset().left - dd.outerWidth();
+							dd.css({marginLeft:(delta)+'px'});
+						}
+					}
 				}
 				else if(tophat_touch_support() && event.type=='click')
 				{
@@ -563,6 +586,8 @@ function debug(message_or_title,message){
 //----------------------------------------------------------------------
 
 $(document).ready(function() {
+	$('.tophat-bar').addClass('init');
+
 	tophat_burger_init();
 	tophat_dropdown();
 
