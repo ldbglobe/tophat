@@ -50,27 +50,6 @@ font-size: $base-size;
 			position: absolute;
 			transform:translateX(-50%);
 		}
-		@media screen and (max-width: 1024px) {
-			$_tophat-ratio : 0.8;
-			width: ($logo-max-size * $_tophat-ratio);
-			img {
-				max-height: ($logo-max-size * $_tophat-ratio);
-			}
-		}
-		@media screen and (max-width: 640px) {
-			$_tophat-ratio : 0.7;
-			width: ($logo-max-size * $_tophat-ratio);
-			img {
-				max-height: ($logo-max-size * $_tophat-ratio);
-			}
-		}
-		@media screen and (max-width: 480px) {
-			$_tophat-ratio : 0.6;
-			width: ($logo-max-size * $_tophat-ratio);
-			img {
-				max-height: ($logo-max-size * $_tophat-ratio);
-			}
-		}
 	}
 
 	> * {
