@@ -93,22 +93,8 @@ class Css
 				//
 				else if(preg_match_all("/\\$([a-z0-9_-]+)/i",$line,$reg))
 				{
-					$toDelete = true;
-					// si on trouve un variable qui n'est pas supprimable on le signal et on quitte la boucle
-					foreach($reg[1] as $varname)
-					{
-						if(strpos($varname, '_tophat')===false && !isset($vars_to_clean[$varname]))
-						{
-							// echo $varname."\n";
-							$toDelete = false;
-							break;
-						}
-					}
-					// si la ligne ne contient rien d'important on peux la supprimer
-					if($toDelete)
-					{
-						unset($scss[$i]);
-					}
+					// echo 'KEEP'.$line."\n";
+					// nothing to do
 				}
 				// unwanted line
 				else

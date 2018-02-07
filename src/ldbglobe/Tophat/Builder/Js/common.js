@@ -208,47 +208,85 @@ function tophat_centered_logo_refresh()
 
 function tophat_burger_init()
 {
-	let burger_svg = ''
-	+'<svg class="svg-icon" viewBox="0 0 38 38">'
-		+'<path class="h t" d="M4 4l32 0"/>'
-		+'<path d="M4 19l32 0"/>'
-		+'<path class="h b" d="M4 34l32 0"/>'
-		+'<path class="x" d="M19 4l0 32"/>'
-	+'</svg>'
-	$('.tophat-bar').each(function(){
-		if($(this).find('.tophat-burger').length==0)
-		{
-			$(this).find('.nav-item').eq(0).before('<div class="tophat-burger nav-item" data-tophat-level="9999" data-tophat-skin="burger"><a href="javascript:void(0);" class="nav-link"><span class="label">'+burger_svg+'</span></a><ul class="nav-dropdown" data-tophat-skin="burger"></ul></div>');
-		}
+	$bars = $('.tophat-bar');
+
+	// on force un groupe pour la démo
+	// $bars.attr('data-tophat-group','yolo');
+
+
+	$bars.each(function(){
+		tophat_buger_container($(this));
 	})
+}
+
+function tophat_buger_container($bar)
+{
+	if($bar.data('tophatGroup'))
+	{
+		$bar = $('.tophat-bar[data-tophat-group="'+$bar.data('tophatGroup')+'"]').eq(0);
+	}
+
+	$burger = $bar.find('.tophat-burger')
+	if($burger.length==0)
+	{
+		let burger_svg = ''
+		+'<svg class="svg-icon" viewBox="0 0 38 38">'
+			+'<path class="h t" d="M4 4l32 0"/>'
+			+'<path d="M4 19l32 0"/>'
+			+'<path class="h b" d="M4 34l32 0"/>'
+			+'<path class="x" d="M19 4l0 32"/>'
+		+'</svg>'
+		$bar.find('.nav-item').eq(0).before('<div class="tophat-burger nav-item" data-tophat-level="9999" data-tophat-skin="burger"><a href="javascript:void(0);" class="nav-link"><span class="label">'+burger_svg+'</span></a><ul class="nav-dropdown" data-tophat-skin="burger"></ul></div>');
+		$burger = $bar.find('.tophat-burger');
+	}
+	$burger.data('tophatBarGroup',$bar.data('tophatGroup'))
+	return $burger;
 }
 
 function tophat_burger_refresh()
 {
-	$bars = $('.tophat-bar');
-	$bars.each(function(){
-		let $bar = $(this);
+	// on vide tout les burger menu avant le refresh
+	$('.tophat-burger .nav-dropdown').empty();
+
+	$burgers = $('.tophat-burger');
+	$burgers.each(function(){
+
+		var $burger = $(this);
+		let barGoup = $burger.data('tophatBarGroup');
+		if(barGoup)
+			var $bar = $('.tophat-bar[data-tophat-group="'+barGoup+'"]');
+		else
+			var $bar = $burger.parents('.tophat-bar');
+
+		// si on à des éléments caché
 		if($bar.find('.nav-item:not(.tophat-burger):hidden').length)
 		{
-			$bar.find('.tophat-burger').addClass('visible');
+			// on affiche le burger menu
+			$burger.addClass('visible');
 		}
 		else
 		{
-			$bar.find('.tophat-burger').removeClass('visible');
+			// sinon on le masque
+			$burger.removeClass('visible');
 		}
 
 		// TODO gérer les sections pour les différencier dans le dropdown burger
 
-		$dropdown = $bar.find('.tophat-burger .nav-dropdown');
-		$dropdown.empty();
-		$navItems = $(this).find('.nav-item:hidden');
+		$dropdown = $burger.find('.nav-dropdown');
+		// si on à des éléments issu d'un autre menu
+		if($dropdown.children().length>0)
+			$dropdown.append('<li class="burger-separator"></li>');
+
+		$navItems = $bar.find('.nav-item:hidden');
 		$navItems.sort(function(a,b){
-			return a.getAttribute('data-tophat-group') - b.getAttribute('data-tophat-group');
+			// on tri les éléments selon leur importance
+			// les plus importants iront devant
+			return b.getAttribute('data-tophat-level') - a.getAttribute('data-tophat-level');
 		})
 
 		currentGroup = null;
 		$navItems.each(function(){
-			let group = $(this).data('tophatGroup');
+			let group = null;//$(this).data('tophatGroup');
 			let $link = $(this).find('.nav-link');
 			let $subitems = $(this).find('.nav-dropdown li');
 			let $burgerlink = null;
@@ -294,7 +332,7 @@ function tophat_burger_refresh()
 				}
 				$dropdown.append($burgeritem);
 			}
-		})
+		});
 	});
 }
 
@@ -591,8 +629,14 @@ $(document).ready(function() {
 	tophat_burger_init();
 	tophat_dropdown();
 
+
 	if(!TOPHAT_DEBUG)
-		setInterval(tophat_cron,4000);
+	{
+		setTimeout(tophat_cron,500);
+		setTimeout(tophat_cron,1000);
+		setTimeout(tophat_cron,1500);
+		setInterval(tophat_cron,2000);
+	}
 
 	window.addEventListener('resize', tophat_cron , true);
 

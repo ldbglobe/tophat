@@ -37,6 +37,7 @@ font-size: $base-size;
 	align-items: center;
 
 	.tophat-bar-logo {
+		display: block;
 		z-index: 10;
 		position: relative;
 		align-self:start;
