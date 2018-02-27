@@ -45,11 +45,10 @@ font-size: $base-size;
 		width: $logo-max-size;
 		img {
 			top: 0;
-			left: 50%;
+			left: 0;
 			max-width: 100%;
 			max-height: $logo-max-size;
 			position: absolute;
-			transform:translateX(-50%);
 		}
 	}
 
