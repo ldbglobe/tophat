@@ -1,5 +1,5 @@
 // require jQuery 3.x
-var TOPHAT_DEBUG = false;
+var TOPHAT_DEBUG = true;
 
 function tophat_touch_support()
 {
@@ -16,7 +16,7 @@ function tophat_dropdown(){
 	// automatic startup fix dropdown position
 	$(".nav-dropdown").each(function(){
 		var dd = $(this);
-		if(dd && dd.offset().left + dd.outerWidth() > $(window).width())
+		if(dd && dd.offset() && dd.offset().left + dd.outerWidth() > $(window).width())
 		{
 			var delta = $(window).width() - dd.offset().left - dd.outerWidth();
 			dd.css({marginLeft:(delta)+'px'});
@@ -45,7 +45,7 @@ function tophat_dropdown(){
 					if(dd)
 					{
 						dd.css({marginLeft:0});
-					 	if(dd.offset().left + dd.outerWidth() > $(window).width())
+					 	if(dd.offset() && dd.offset().left + dd.outerWidth() > $(window).width())
 						{
 							var delta = $(window).width() - dd.offset().left - dd.outerWidth();
 							dd.css({marginLeft:(delta)+'px'});
@@ -259,7 +259,7 @@ function tophat_burger_refresh()
 			var $bar = $burger.parents('.tophat-bar');
 
 		// si on à des éléments caché
-		if($bar.find('.nav-item:not(.tophat-burger):hidden').length)
+		if($bar.find('.nav-item[data-burger="1"]').length)
 		{
 			// on affiche le burger menu
 			$burger.addClass('visible');
@@ -277,7 +277,7 @@ function tophat_burger_refresh()
 		if($dropdown.children().length>0)
 			$dropdown.append('<li class="burger-separator"></li>');
 
-		$navItems = $bar.find('.nav-item:hidden');
+		$navItems = $bar.find('.nav-item[data-burger="1"]');
 		$navItems.sort(function(a,b){
 			// on tri les éléments selon leur importance
 			// les plus importants iront devant
@@ -391,9 +391,8 @@ function tophat_item_visibility_overall_detection($bar) {
 		//debug('part('+i+') : '+W+'px');
 
 		let iW = 0;
-		let logo = $part.find('.tophat-bar-logo');
-		if(logo.length)
-			iW += logo.width();
+		let logo = $part.find('.tophat-bar-logo:visible');
+		if(logo.length) iW += logo.width();
 
 		$part.find('.nav-item:visible').each(function(j){
 			let $item = $(this);
@@ -402,7 +401,7 @@ function tophat_item_visibility_overall_detection($bar) {
 			//debug('part('+i+') item('+j+') : '+w+'px (inside a '+W+'px container)');
 		})
 		itemWidth += iW;
-		//debug('part('+i+') totalize '+iW+'px content in a '+W+'px container');
+		debug('part('+i+') totalize '+iW+'px content in a '+W+'px container');
 		enough_space = enough_space && iW <= W;
 	})
 
@@ -487,6 +486,7 @@ function tophat_item_visibility_AI_hide_items($container)
 		if(!$items[i].hasClass('tophat-burger'))
 		{
 			$items[i].hide();
+			$items[i].attr('data-burger',1);
 			refresh_needed = true;
 		}
 
@@ -504,7 +504,7 @@ function tophat_item_visibility_AI_show_items($container)
 	var iW = tophat_container_item_width($container);
 
 	$items = [];
-	$container.find('.nav-item:hidden').not('.tophat-burger').each(function(){
+	$container.find('.nav-item[data-burger="1"]').each(function(){
 		$items.push($(this));
 	});
 	$items.reverse();
@@ -547,6 +547,7 @@ function tophat_item_visibility_AI_show_items($container)
 		for(let j=0 ; j < group.length ; j++)
 		{
 			group[j].show();
+			group[j].attr('data-burger',0);
 			refresh_needed = true;
 		}
 	}
