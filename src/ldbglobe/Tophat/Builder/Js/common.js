@@ -14,7 +14,7 @@ function tophat_dropdown(){
 	var menuToActivate = null;
 
 	// automatic startup fix dropdown position
-	$(".nav-dropdown").each(function(){
+	$(".tophat-bar .nav-dropdown").each(function(){
 		var dd = $(this);
 		if(dd && dd.offset() && dd.offset().left + dd.outerWidth() > $(window).width())
 		{
@@ -31,17 +31,19 @@ function tophat_dropdown(){
 		}
 		else
 		{
-			menuToActivate = this;
+			$menuToActivate = $(this);
+			if($menuToActivate.hasClass('tophat-burger'))
+				return;
+
 			clearTimeout(menuDelay);
 			menuDelay = setTimeout(function(){
-				if(!$(menuToActivate).hasClass('hover'))
+				if(!$menuToActivate.hasClass('hover'))
 				{
 					$('.tophat-bar-part > .nav-item').removeClass('hover');
-					$('.tophat-bar-part .burger-item').removeClass('active');
-					$(menuToActivate).addClass('hover');
+					$menuToActivate.addClass('hover');
 
 					// fix dropdown position if content overflow
-					var dd = $(menuToActivate).find(".nav-dropdown").eq(0)
+					var dd = $menuToActivate.find(".nav-dropdown").eq(0)
 					if(dd)
 					{
 						dd.css({marginLeft:0});
@@ -55,7 +57,6 @@ function tophat_dropdown(){
 				else if(tophat_touch_support() && event.type=='click')
 				{
 					$('.tophat-bar-part > .nav-item').removeClass('hover');
-					$('.tophat-bar-part .burger-item').removeClass('active');
 				}
 			},150);
 		}
@@ -72,7 +73,6 @@ function tophat_dropdown(){
 			clearTimeout(menuDelay);
 			menuDelay = setTimeout(function(){
 				$('.tophat-bar-part > .nav-item').removeClass('hover');
-				$('.tophat-bar-part .burger-item').removeClass('active');
 			},250);
 		}
 	})
@@ -90,11 +90,26 @@ function tophat_dropdown(){
 			}
 		}
 	});
+}
+
+function tophat_burger(){
+	$(document).on('click','.tophat-bar .tophat-burger',function(event){
+		$bar = $(this).parents('.tophat-bar').eq(0);
+		$burger = $($bar.data('burger'));
+		if($burger.hasClass('active'))
+		{
+			$burger.removeClass('active');
+		}
+		else
+		{
+			$('.tophat-burger-container').removeClass('active');
+			$burger.addClass('active');
+		}
+	});
 
 	$(document).on('click','.burger-item',function(event){
 		console.log('click .burger-item');
 		event.stopPropagation();
-		clearTimeout(menuDelay);
 		if($(this).find('.burger-subnav').length>0)
 		{
 			event.preventDefault();
@@ -102,28 +117,29 @@ function tophat_dropdown(){
 		}
 		else
 		{
-			$('.tophat-bar-part > .nav-item').removeClass('hover');
+			$('.tophat-bar .nav-item').removeClass('hover');
 		}
 	})
 	$(document).on('click','.burger-back',function(event){
 		console.log('click .burger-back');
 		event.stopPropagation();
-		clearTimeout(menuDelay);
 		$(this).parents('.burger-item').removeClass('active');
 	});
 
 	$(document).on('click','.burger-subnav-item',function(event){
 		console.log('click .burger-subnav-item');
 		event.stopPropagation();
-		clearTimeout(menuDelay);
-		$('.tophat-bar-part > .nav-item').removeClass('hover');
+		$('.tophat-bar .nav-item').removeClass('hover');
 	});
 
 	$(document).on('click','.burger-subnav',function(event){
 		console.log('click .burger-subnav');
 		event.stopPropagation();
-		clearTimeout(menuDelay);
 	});
+
+	$('body').on('click',function(){
+		$('.tophat-burger-container').removeClass('active');
+	})
 }
 
 //----------------------------------------------------------------------
@@ -215,19 +231,19 @@ function tophat_burger_init()
 
 
 	$bars.each(function(){
-		tophat_buger_container($(this));
+		tophat_burger_container($(this));
 	})
 }
 
-function tophat_buger_container($bar)
+var tophat_burger_container_idx = 0;
+function tophat_burger_container($bar)
 {
 	if($bar.data('tophatGroup'))
 	{
 		$bar = $('.tophat-bar[data-tophat-group="'+$bar.data('tophatGroup')+'"]').eq(0);
 	}
 
-	$burger = $bar.find('.tophat-burger')
-	if($burger.length==0)
+	if(!$bar.data('burger'))
 	{
 		let burger_svg = ''
 		+'<svg class="svg-icon" viewBox="0 0 38 38">'
@@ -236,19 +252,42 @@ function tophat_buger_container($bar)
 			+'<path class="h b" d="M4 34l32 0"/>'
 			+'<path class="x" d="M19 4l0 32"/>'
 		+'</svg>'
-		$bar.find('.nav-item').eq(0).before('<div class="tophat-burger nav-item" data-tophat-level="9999" data-tophat-skin="burger"><a href="javascript:void(0);" class="nav-link"><span class="label">'+burger_svg+'</span></a><ul class="nav-dropdown" data-tophat-skin="burger"></ul></div>');
-		$burger = $bar.find('.tophat-burger');
+		$bar.find('.nav-item').eq(0).before('<div class="tophat-burger nav-item" data-tophat-level="9999" data-tophat-skin="burger"><a href="javascript:void(0);" class="nav-link"><span class="label">'+burger_svg+'</span></a></div>');
+
+		$burger = $(''
+			+'<div class="tophat-burger-container '+$bar.attr('class')+'" data-tophat-key="'+$bar.data('tophatKey')+'">'
+				+'<div class="tophat-burger-header"><span class="label">'+burger_svg+'</span></div>'
+				+'<ul class="nav-dropdown"></ul>'
+			+'</div>'
+		);
+		$burger.removeClass('tophat-bar');
+		$burger.removeClass('init');
+
+		$('body').append($burger);
+
+		$burger.attr('id','burger'+tophat_burger_container_idx);
+		$burger.data('bar','#bar'+tophat_burger_container_idx);
+
+		$bar.attr('id','bar'+tophat_burger_container_idx);
+		$bar.data('burger','#burger'+tophat_burger_container_idx);
+
+		tophat_burger_container_idx++;
 	}
+	else
+		$burger = $($bar.data('burger'));
+
+	$burger.data('tophatBar',$bar);
 	$burger.data('tophatBarGroup',$bar.data('tophatGroup'))
+
 	return $burger;
 }
 
 function tophat_burger_refresh()
 {
 	// on vide tout les burger menu avant le refresh
-	$('.tophat-burger .nav-dropdown').empty();
+	$('.tophat-burger-container .nav-dropdown').empty();
 
-	$burgers = $('.tophat-burger');
+	$burgers = $('.tophat-burger-container');
 	$burgers.each(function(){
 
 		var $burger = $(this);
@@ -256,18 +295,20 @@ function tophat_burger_refresh()
 		if(barGoup)
 			var $bar = $('.tophat-bar[data-tophat-group="'+barGoup+'"]');
 		else
-			var $bar = $burger.parents('.tophat-bar');
+			var $bar = $($burger.data('tophatBar'));
+
+		//console.log($burger.data(),$bar);
 
 		// si on à des éléments caché
 		if($bar.find('.nav-item[data-burger="1"]').length)
 		{
 			// on affiche le burger menu
-			$burger.addClass('visible');
+			$bar.find('.tophat-burger').addClass('visible');
 		}
 		else
 		{
 			// sinon on le masque
-			$burger.removeClass('visible');
+			$bar.find('.tophat-burger').removeClass('visible');
 		}
 
 		// TODO gérer les sections pour les différencier dans le dropdown burger
@@ -629,6 +670,7 @@ $(document).ready(function() {
 
 	tophat_burger_init();
 	tophat_dropdown();
+	tophat_burger();
 
 
 	if(!TOPHAT_DEBUG)

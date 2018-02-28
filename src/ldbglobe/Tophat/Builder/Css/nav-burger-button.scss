@@ -1,0 +1,41 @@
+&.tophat-burger {
+	.svg-icon{
+		position: relative;
+		top: 0.15em;
+		height: 1.3em;
+		width: 1.3em;
+		stroke-width: 4;
+		stroke-linecap: round;
+		stroke: currentColor;
+		transition: stroke 0.8s ease-out, transform 0.8s ease-in-out;
+
+		path {
+			backface-visibility: hidden;
+			transition: opacity 0.8s ease-in-out, transform 0.8s ease-in-out;
+		}
+
+		.h {
+			opacity: 1;
+		}
+		.x {
+			opacity: 0;
+		}
+	}
+	&.hover .svg-icon {
+		transform: rotate(225deg);
+		.h {
+			opacity: 0;
+		}
+		.x {
+			opacity: 1;
+		}
+		.t {
+			transform: translate(0, 8px);
+			transform: translateY(8px);
+		}
+		.b {
+			transform: translate(0, -8px);
+			transform: translateY(-8px);
+		}
+	}
+}
