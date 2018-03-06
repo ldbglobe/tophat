@@ -11,8 +11,11 @@ top: 0;
 left: 0;
 width: 100vw;
 height: 100vh;
-display: none;
+display: block;
 z-index: 100;
+transform:translateX(100%);
+transition: transform ease 0.5s;
+overflow: auto;
 
 .tophat-burger-header {
 	background: $panel-background;
@@ -61,16 +64,10 @@ z-index: 100;
 
 	border-top:1px solid $_tophat-burger-border-color;
 
-	//display: flex !important;
 	flex-direction: row;
 	flex-wrap: wrap;
 	display: flex;
-	max-height: 0;
 	overflow: hidden;
-	opacity: 0;
-	transition: max-height 1s cubic-bezier(0, 1, 0, 1), opacity .5s cubic-bezier(0.5, 0, 0.5, 1);
-
-	pointer-events: none;
 
 	.burger-separator {
 		width: 100%;
@@ -98,7 +95,7 @@ z-index: 100;
 
 		.burger-link {
 			display: block;
-			padding: 3em 1em;
+			padding: 2em 1em;
 			width: 100%;
 			background: $panel-button-background;
 			color: $panel-button-color;
@@ -157,13 +154,5 @@ z-index: 100;
 	}
 }
 &.active {
-	display: block;
-	.nav-dropdown {
-		display: flex;
-		max-height: 999px;
-		opacity: 1;
-		transition: max-height 1s cubic-bezier(.4, .1, .5, 1), opacity .5s ease;
-
-		pointer-events: auto;
-	}
+	transform:translateX(0);
 }
