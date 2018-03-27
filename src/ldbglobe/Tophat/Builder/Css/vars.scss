@@ -1,6 +1,10 @@
 $color:#222 !default;
 $color-alt:#ff614b !default;
 $background:#fff !default;
+$ff : inherit !default;
+$fsz : 1em !default;
+$fw : normal !default;
+$ls : normal !default;
 
 $button-background:#ff614b !default;
 $button-color:#fff !default;
@@ -11,6 +15,10 @@ $dropdown-background:#fff !default;
 $dropdown-color:#222 !default;
 $dropdown-hover-background:#ff614b !default;
 $dropdown-hover-color:#fff !default;
+$dropdown-ff : inherit !default;
+$dropdown-fsz : 1em !default;
+$dropdown-fw : normal !default;
+$dropdown-ls : normal !default;
 
 $panel-background:#fff !default;
 $panel-button-background:#f77a74 !default;
@@ -24,4 +32,3 @@ $nav-link-vpad:1em !default;
 $nav-link-hpad:1em !default;
 $margin-top:0 !default;
 $margin-bottom:0 !default;
-$font-family:inherit !default;

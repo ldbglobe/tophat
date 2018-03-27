@@ -137,7 +137,7 @@ function tophat_burger(){
 		event.stopPropagation();
 	});
 
-	$('body').on('click',function(){
+	$('.tophat-burger-container').on('click',function(){
 		$('.tophat-burger-container').removeClass('active');
 	})
 }
@@ -256,7 +256,7 @@ function tophat_burger_container($bar)
 
 		$burger = $(''
 			+'<div class="tophat-burger-container '+$bar.attr('class')+'" data-tophat-key="'+$bar.data('tophatKey')+'">'
-				+'<div class="tophat-burger-header"><span class="label">'+burger_svg+'</span></div>'
+				+'<div class="tophat-burger-header"><a class="label">'+burger_svg+'</a></div>'
 				+'<ul class="nav-dropdown"></ul>'
 			+'</div>'
 		);

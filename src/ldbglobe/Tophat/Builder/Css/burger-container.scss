@@ -16,6 +16,7 @@ z-index: 100;
 transform:translateX(100%);
 transition: transform ease 0.5s;
 overflow: auto;
+background: rgba(#000,0.2);
 
 .tophat-burger-header {
 	background: $panel-background;
@@ -58,6 +59,7 @@ overflow: auto;
 	width: 100%;
 	padding: 0;
 	margin: 0;
+	margin-top: -1px;
 	background: rgba($panel-background,0.8);
 	box-shadow: 0 2px 3px 0 rgba(#000,0.3);
 	text-align: center;

@@ -9,6 +9,12 @@
 	li {
 		padding: 0;
 		margin: 0;
+		>* {
+			font-family:$dropdown-ff;
+			font-size:#{$dropdown-fsz}em;
+			font-weight:$dropdown-fw;
+			letter-spacing:#{$dropdown-ls}em;
+		}
 		>a {
 			display: block;
 			text-decoration: none;
