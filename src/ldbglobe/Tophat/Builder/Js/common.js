@@ -112,6 +112,7 @@ function tophat_burger(){
 		event.stopPropagation();
 		if($(this).find('.burger-subnav').length>0)
 		{
+			console.log('subnav detected');
 			event.preventDefault();
 			$(this).addClass('active');
 		}
@@ -137,7 +138,7 @@ function tophat_burger(){
 		event.stopPropagation();
 	});
 
-	$('.tophat-burger-container').on('click',function(){
+	$(document).on('click','.tophat-burger-container',function(){
 		$('.tophat-burger-container').removeClass('active');
 	})
 }
@@ -385,7 +386,11 @@ function tophat_container_item_width($container) {
 
 	let logo = $container.find('.tophat-bar-logo');
 	if(logo.length)
-		itemWidth += logo.width();
+		itemWidth += logo.outerWidth(true);
+
+	let burgermenu = $container.find('.tophat-burger.nav-item');
+	if(burgermenu.length)
+		itemWidth += burgermenu.outerWidth(true);
 
 	$container.find('.nav-item:visible').each(function(j){
 		let $item = $(this);
@@ -522,10 +527,11 @@ function tophat_item_visibility_AI_hide_items($container)
 			break;
 
 		// on masque ensuite l'élément
-		iW -= $items[i].outerWidth();
-		debug(W+' ? '+iW);
-		if(!$items[i].hasClass('tophat-burger'))
+		if(!$items[i].hasClass('tophat-burger') && $items[i].data('tophat-level')<999)
 		{
+			iW -= $items[i].outerWidth(true);
+			debug(W+' ? '+iW);
+
 			$items[i].hide();
 			$items[i].attr('data-burger',1);
 			refresh_needed = true;

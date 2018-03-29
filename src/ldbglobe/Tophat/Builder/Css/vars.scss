@@ -1,8 +1,11 @@
+$base-size:1em !default;
+$base-sizeM:1em !default;
+$base-sizeS:1em !default;
+
 $color:#222 !default;
 $color-alt:#ff614b !default;
 $background:#fff !default;
 $ff : inherit !default;
-$fsz : 1em !default;
 $fw : normal !default;
 $ls : normal !default;
 
@@ -27,7 +30,6 @@ $panel-button-hover-background:#ff614b !default;
 $panel-button-hover-color:#fff !default;
 
 $logo-max-size : 200px !default;
-$base-size:inherit !default;
 $nav-link-vpad:1em !default;
 $nav-link-hpad:1em !default;
 $margin-top:0 !default;

@@ -11,9 +11,9 @@
 		margin: 0;
 		>* {
 			font-family:$dropdown-ff;
-			font-size:#{$dropdown-fsz}em;
+			font-size:$dropdown-fsz;
 			font-weight:$dropdown-fw;
-			letter-spacing:#{$dropdown-ls}em;
+			letter-spacing:$dropdown-ls;
 		}
 		>a {
 			display: block;

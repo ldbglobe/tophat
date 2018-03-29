@@ -7,9 +7,9 @@
 	display: block;
 	padding: $nav-link-vpad $nav-link-hpad;
 	line-height: 1.3em;
-	font-size:#{$fsz}em;
+	font-size:1em;
 	font-weight:$fw;
-	letter-spacing:#{$ls}em;
+	letter-spacing:$ls;
 }
 
 &[data-tophat-skin="none"] {

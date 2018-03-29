@@ -25,6 +25,8 @@ a {
 }
 
 font-size: $base-size;
+@media screen and (max-width:980px){ font-size: $base-sizeM; }
+@media screen and (max-width:640px){ font-size: $base-sizeS; }
 
 .tophat-bar-part {
 	padding: 0;
