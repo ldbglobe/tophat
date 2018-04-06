@@ -1,6 +1,7 @@
 // underline
 &[data-tophat-skin="underline"] {
 	> .nav-link .label {
+		padding: calc(#{$nav-link-vpad} - 3px) calc(#{$nav-link-hpad} - 3px);
 		border-top: 3px solid transparent;
 		border-bottom: 3px solid transparent;
 	}

@@ -1,8 +1,7 @@
 // default
 &[data-tophat-skin="default"] {
 	> .nav-link .label {
-		border-top: 3px solid transparent;
-		border-bottom: 3px solid transparent;
+		padding: #{$nav-link-vpad} #{$nav-link-hpad};
 	}
 	&.active > .nav-link.react .label,
 	&:hover > a.nav-link.react .label {

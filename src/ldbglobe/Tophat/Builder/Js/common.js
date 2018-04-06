@@ -1,5 +1,5 @@
 // require jQuery 3.x
-var TOPHAT_DEBUG = true;
+var TOPHAT_DEBUG = false;
 
 function tophat_touch_support()
 {
@@ -148,6 +148,13 @@ function tophat_burger(){
 
 function tophat_centered_logo_refresh()
 {
+	//logo width refresh
+	$('.tophat-bar .tophat-bar-logo').each(function(){
+		let W = $(this).find('img').outerWidth();
+		if(W>0)
+			$(this).width(W);
+	})
+
 	var centeredLogos = $('.tophat-bar[data-tophat-logo="middle"]');
 	if(centeredLogos.length)
 	{
