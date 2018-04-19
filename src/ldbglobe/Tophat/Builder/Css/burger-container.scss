@@ -4,11 +4,9 @@
 @import "./tools-color.scss";
 @import "./vars.scss";
 
-$_tophat-burger-border-color : tool-contrast($panel-background, rgba(#000,0.2), rgba(#fff,0.2));
-
 position:fixed;
 top: 0;
-left: 0;
+right: 0;
 width: 100vw;
 height: 100vh;
 display: block;
@@ -16,11 +14,28 @@ z-index: 100;
 transform:translateX(100%);
 transition: transform ease 0.5s;
 overflow: auto;
-background: rgba(#000,0.2);
+
+&.active {
+	transform:translateX(0);
+}
+
+.tophat-burger-content {
+	position: absolute;
+	top: 0;
+	right: 0;
+	width: 80%;
+	height: 100%;
+	background: $panel-background;
+	overflow: hidden;
+	box-shadow: 0 0 5px rgba(0,0,0,0.3);
+}
+
 
 .tophat-burger-header {
-	background: $panel-background;
-	padding: 0.5em;
+	background: $color-alt;
+	padding: 1em 2em;
+	margin-bottom: 1em;
+	box-shadow: 0 0 5px rgba(0,0,0,0.3);
 	.svg-icon{
 		position: relative;
 		top: 0.15em;
@@ -28,7 +43,7 @@ background: rgba(#000,0.2);
 		width: 1.3em;
 		stroke-width: 4;
 		stroke-linecap: round;
-		stroke: currentColor;
+		stroke: $panel-background;
 		transition: stroke 0.8s ease-out, transform 0.8s ease-in-out;
 
 		path {
@@ -55,107 +70,32 @@ background: rgba(#000,0.2);
 }
 
 .nav-dropdown {
-	position: relative;
-	left: 0;
-	width: 100%;
-	padding: 0;
+	list-style: none;
+	padding: 1em 2em;
 	margin: 0;
-	margin-top: -1px;
-	background: rgba($panel-background,0.8);
-	box-shadow: 0 2px 3px 0 rgba(#000,0.3);
-	text-align: center;
-
-	border-top:1px solid $_tophat-burger-border-color;
-
-	flex-direction: row;
-	flex-wrap: wrap;
-	display: flex;
-	overflow: hidden;
-
-	.burger-separator {
-		width: 100%;
-		height: 0;
-		border-top:1px solid $_tophat-burger-border-color;
+	.burger-back,
+	.burger-dropdown-trigger,
+	.burger-subnav-main,
+	.burger-subnav-item .fa-caret-down,
+	.burger-item > .burger-link .fa-caret-down {
+		display: none;
 	}
 
 	.burger-item {
-		width: 50%;
 		padding: 0;
-		margin:0;
-
-		border-right:1px solid $_tophat-burger-border-color;
-		border-bottom:1px solid $_tophat-burger-border-color;
-		background: $panel-background;
-
-		display: flex;
-		align-items: center;
-		justify-content: center;
-
-		.burger-back .label{
-			font-weight: bold;
-			font-size: 1.5em;
-		}
-
-		.burger-link {
-			display: block;
-			padding: 2em 1em;
-			width: 100%;
-			background: $panel-button-background;
-			color: $panel-button-color;
-		}
-		&.active {
-		}
-		&:hover {
-			> .burger-link {
-				background: $panel-button-hover-background;
-				color: $panel-button-hover-color;
-			}
-		}
-
-		.burger-subnav {
-			display: none;
-			margin: 0;
-			padding: 0;
-			width: 100%;
-			box-shadow: 0 0 5px 0 rgba(#000,0.4);
-			background: $panel-background;
-			position: absolute;
-			top: 0;
-			left: 0;
-			flex-wrap:wrap;
-			list-style: none;
-			> li {
-				padding: 0;
-				margin: 0;
-				width: 50%;
-				display: flex;
-				align-items: center;
-				justify-content: center;
-				border-right:1px solid $_tophat-burger-border-color;
-				border-bottom:1px solid $_tophat-burger-border-color;
-				background: $panel-background;
-				> * {
-					background: $panel-button-background;
-					color: $panel-button-color;
-					display: block;
-					padding: 3em 1em;
-					width: 100%;
-				}
-				&:hover {
-					background: $panel-button-hover-background;
-					color: $panel-button-hover-color;
-					> * {
-						background: $panel-button-hover-background;
-						color: $panel-button-hover-color;
-					}
-				}
-			}
-		}
-		&.active .burger-subnav {
-			display: flex;
+		margin: 0 0 1em;
+		font-size: 1.2em;
+		a {
+			text-decoration: none;
 		}
 	}
-}
-&.active {
-	transform:translateX(0);
+	.burger-subnav {
+		padding: 0;
+		margin: 1em 2em 1.5em;
+		list-style: none;
+	}
+	.burger-subnav-item {
+		padding: 0;
+		margin: 0;
+	}
 }

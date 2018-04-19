@@ -40,17 +40,23 @@ function tophat_dropdown(){
 				if(!$menuToActivate.hasClass('hover'))
 				{
 					$('.tophat-bar-part > .nav-item').removeClass('hover');
+					// open menu
 					$menuToActivate.addClass('hover');
 
-					// fix dropdown position if content overflow
 					var dd = $menuToActivate.find(".nav-dropdown").eq(0)
 					if(dd)
 					{
 						dd.css({marginLeft:0});
+						// fix dropdown position if content overflow
 					 	if(dd.offset() && dd.offset().left + dd.outerWidth() > $(window).width())
 						{
 							var delta = $(window).width() - dd.offset().left - dd.outerWidth();
 							dd.css({marginLeft:(delta)+'px'});
+						}
+						// try to center dropdown under parent item
+						else if($menuToActivate.outerWidth() > dd.outerWidth())
+						{
+							dd.css({marginLeft:(($menuToActivate.outerWidth() - dd.outerWidth())/2)+'px'});
 						}
 					}
 				}
@@ -107,20 +113,16 @@ function tophat_burger(){
 		}
 	});
 
-	$(document).on('click','.burger-item',function(event){
-		console.log('click .burger-item');
+	$(document).on('click','.burger-dropdown-trigger',function(event)
+	{
+		console.log('click .burger-dropdown-trigger');
 		event.stopPropagation();
-		if($(this).find('.burger-subnav').length>0)
-		{
-			console.log('subnav detected');
-			event.preventDefault();
-			$(this).addClass('active');
-		}
-		else
-		{
-			$('.tophat-bar .nav-item').removeClass('hover');
-		}
+		event.preventDefault();
+		let item = $(this).parents('.burger-item').eq(0)
+		$('.tophat-burger-container .burger-item').not(item).removeClass('active');
+		item.toggleClass('active');
 	})
+
 	$(document).on('click','.burger-back',function(event){
 		console.log('click .burger-back');
 		event.stopPropagation();
@@ -130,7 +132,7 @@ function tophat_burger(){
 	$(document).on('click','.burger-subnav-item',function(event){
 		console.log('click .burger-subnav-item');
 		event.stopPropagation();
-		$('.tophat-bar .nav-item').removeClass('hover');
+		$('.tophat-burger-container').removeClass('active');
 	});
 
 	$(document).on('click','.burger-subnav',function(event){
@@ -138,7 +140,7 @@ function tophat_burger(){
 		event.stopPropagation();
 	});
 
-	$(document).on('click','.tophat-burger-container',function(){
+	$(document).on('click touch','.tophat-burger-container',function(){
 		$('.tophat-burger-container').removeClass('active');
 	})
 }
@@ -263,9 +265,11 @@ function tophat_burger_container($bar)
 		$bar.find('.nav-item').eq(0).before('<div class="tophat-burger nav-item" data-tophat-level="9999" data-tophat-skin="burger"><a href="javascript:void(0);" class="nav-link"><span class="label">'+burger_svg+'</span></a></div>');
 
 		$burger = $(''
-			+'<div class="tophat-burger-container '+$bar.attr('class')+'" data-tophat-key="'+$bar.data('tophatKey')+'">'
-				+'<div class="tophat-burger-header"><a class="label">'+burger_svg+'</a></div>'
-				+'<ul class="nav-dropdown"></ul>'
+			+'<div onclick="void(0);" class="tophat-burger-container '+$bar.attr('class')+'" data-tophat-key="'+$bar.data('tophatKey')+'">'
+				+'<div class="tophat-burger-content">'
+					+'<div onclick="void(0);" class="tophat-burger-header"><a class="label">'+burger_svg+'</a></div>'
+					+'<ul class="nav-dropdown"></ul>'
+				+'</div>'
 			+'</div>'
 		);
 		$burger.removeClass('tophat-bar');
@@ -339,10 +343,12 @@ function tophat_burger_refresh()
 			let $link = $(this).find('.nav-link');
 			let $subitems = $(this).find('.nav-dropdown li');
 			let $burgerlink = null;
+			let $burgerlink_dropdown_trigger = null;
 			if(!$link.attr('href') || $subitems.length)
-				$burgerlink = $('<a href="javascript:void(0);" class="burger-link" ><span class="label">'+$link.find('.label').html()+'</span></a>');
-			else
-				$burgerlink = $('<a class="burger-link" href="'+$link.attr('href')+'"><span class="label">'+$link.find('.label').html()+'</span></a>');
+			{
+				$burgerlink_dropdown_trigger = $('<a href="javascript:void(0);" class="burger-link burger-dropdown-trigger" ><span class="label">'+$link.find('.label').html()+'</span></a>');
+			}
+			$burgerlink = $('<a class="burger-link" href="'+$link.attr('href')+'"><span class="label">'+$link.find('.label').html()+'</span></a>');
 
 			if($burgerlink)
 			{
@@ -354,13 +360,17 @@ function tophat_burger_refresh()
 				}
 
 				let $burgeritem = $('<li class="burger-item"></li>');
+
+				if($burgerlink_dropdown_trigger)
+					$burgeritem.append($burgerlink_dropdown_trigger);
 				$burgeritem.append($burgerlink);
+
 				if($subitems.length)
 				{
 					$subnav = $('<ul class="burger-subnav"><li class="burger-back"><a href="javascript:void(0);"><span class="label">&lt;</span></a></li></ul>');
 
 					if($link.attr('href'))
-						$subnav.append('<li class="burger-subnav-item"><a href="'+$link.attr('href')+'"><span class="label">'+$link.find('.label').html()+'</span></a></li>');
+						$subnav.append('<li class="burger-subnav-item burger-subnav-main"><a href="'+$link.attr('href')+'"><span class="label">'+$link.find('.label').html()+'</span></a></li>');
 
 					$sublink = null;
 					// add dropdown item content as sub item
