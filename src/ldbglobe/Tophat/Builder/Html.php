@@ -77,9 +77,9 @@ class Html
 		$logo = null;
 		if($bar->get('logo.position')==$part_code)
 			if($bar->get('logo.link'))
-				echo '<a class="tophat-bar-logo" href="'.$bar->get('logo.link').'"><img src="'.$bar->get('logo.src').'"></a>';
+				echo '<a class="tophat-bar-logo" href="'.$bar->get('logo.link').'"><span><img src="'.$bar->get('logo.src').'"></span></a>';
 			else
-				echo '<div class="tophat-bar-logo"><img src="'.$bar->get('logo.src').'"></div>';
+				echo '<div class="tophat-bar-logo"><span><img src="'.$bar->get('logo.src').'"></span></div>';
 		foreach($bar->get($part_code,array()) as $module_code)
 		{
 			$this->BuildModule($module_code);

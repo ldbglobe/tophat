@@ -46,12 +46,15 @@ font-size: $base-size;
 		height: 0;
 		// width will be re-set by javascript according to the real image width
 		width: $logo-max-size;
-		img {
+		> span {
 			top: $logo-vpad;
-			left: 0;
-			max-width: $logo-max-size;
-			max-height: $logo-max-size;
+			left: 50%;
+			transform:translateX(-50%);
 			position: absolute;
+			img {
+				max-width: $logo-max-size;
+				max-height: $logo-max-size;
+			}
 		}
 	}
 
