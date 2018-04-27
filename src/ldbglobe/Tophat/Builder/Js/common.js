@@ -340,6 +340,7 @@ function tophat_burger_refresh()
 		currentGroup = null;
 		$navItems.each(function(){
 			let group = null;//$(this).data('tophatGroup');
+			let item_class = $(this).attr('data-tophat-class');
 			let $link = $(this).find('.nav-link');
 			let $subitems = $(this).find('.nav-dropdown li');
 			let $burgerlink = null;
@@ -359,7 +360,7 @@ function tophat_burger_refresh()
 					currentGroup = group;
 				}
 
-				let $burgeritem = $('<li class="burger-item"></li>');
+				let $burgeritem = $('<li class="burger-item '+item_class+'"></li>');
 
 				if($burgerlink_dropdown_trigger)
 					$burgeritem.append($burgerlink_dropdown_trigger);
