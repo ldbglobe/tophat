@@ -332,9 +332,15 @@ function tophat_burger_refresh()
 
 		$navItems = $bar.find('.nav-item[data-burger="1"]');
 		$navItems.sort(function(a,b){
-			// on tri les éléments selon leur importance
-			// les plus importants iront devant
-			return b.getAttribute('data-tophat-level') - a.getAttribute('data-tophat-level');
+			// burgerlevel indique l'ordre de manière naturel
+			// les plus grand vont à la fin
+			let burgercomp = a.getAttribute('data-tophat-burgerlevel') - b.getAttribute('data-tophat-burgerlevel');
+			if(burgercomp==0)
+			{
+				// si on doit exploiter le level la c'est l'inverse ceux qui sont important passe devant
+				return b.getAttribute('data-tophat-level') - a.getAttribute('data-tophat-level');
+			}
+			return burgercomp;
 		})
 
 		currentGroup = null;
@@ -345,11 +351,14 @@ function tophat_burger_refresh()
 			let $subitems = $(this).find('.nav-dropdown li');
 			let $burgerlink = null;
 			let $burgerlink_dropdown_trigger = null;
+			let burgerlink_label = $link.find('.label');
+			burgerlink_label = burgerlink_label.data('burger-label') ? burgerlink_label.data('burger-label') : burgerlink_label.html();
+
 			if(!$link.attr('href') || $subitems.length)
 			{
-				$burgerlink_dropdown_trigger = $('<a href="javascript:void(0);" class="burger-link burger-dropdown-trigger" ><span class="label">'+$link.find('.label').html()+'</span></a>');
+				$burgerlink_dropdown_trigger = $('<a href="javascript:void(0);" class="burger-link burger-dropdown-trigger" ><span class="label">'+burgerlink_label+'</span></a>');
 			}
-			$burgerlink = $('<a class="burger-link" href="'+$link.attr('href')+'"><span class="label">'+$link.find('.label').html()+'</span></a>');
+			$burgerlink = $('<a class="burger-link" href="'+$link.attr('href')+'"><span class="label">'+burgerlink_label+'</span></a>');
 
 			if($burgerlink)
 			{

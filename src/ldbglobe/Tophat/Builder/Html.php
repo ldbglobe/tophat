@@ -109,7 +109,7 @@ class Html
 
 	static function BuildModuleLabel($data)
 	{
-		$r = '<span class="label">'.$data->get('prepend').' '.$data->get('label').' '.$data->get('append').'</span>';
+		$r = '<span class="label" data-burger-label="'.htmlentities($data->get('burgerlabel')).'">'.$data->get('prepend').' '.$data->get('label').' '.$data->get('append').'</span>';
 		if($data->has('media'))
 			$r .= '<span class="media"><img src="'.$data->get('media').'"></span>';
 		return $r;
@@ -120,6 +120,7 @@ class Html
 		$data = $this->tophat->getModuleData($module_code);
 
 		$level = $data->get('level',0); // pour déterminer les éléments à conserver le plus longtemps possible (élevé = à garder longtemps)
+		$burgerlevel = $data->get('burgerlevel',0); // pour déterminer les éléments à conserver le plus longtemps possible (élevé = à garder longtemps)
 		$group = $data->get('group',999);  // pour regrouper des éléments dans le burger menu (élevé = à placer à la fin du burger menu)
 		$button = $data->getData('button');
 
@@ -141,7 +142,7 @@ class Html
         	$button->set('url','javascript:$(\''.$toggle.'\').toggleClass(\'active\');void(0);');
         }
 
-		$content .= '<div class="nav-item '.($active ? 'active':'').' '.$button->get('class').'" data-tophat-class="'.$button->get('class').'" data-tophat-group="'.$group.'" data-tophat-level="'.$level.'" data-tophat-skin="'.$button->get('skin','default').'">';
+		$content .= '<div class="nav-item '.($active ? 'active':'').' '.$button->get('class').'" data-tophat-class="'.$button->get('class').'" data-tophat-group="'.$group.'" data-tophat-level="'.$level.'" data-tophat-burgerlevel="'.$burgerlevel.'" data-tophat-skin="'.$button->get('skin','default').'">';
            	$content .= '<a class="nav-link '.($button->get('url') || $dropdown ? 'react':'').' '.($button->get('url') ? '':'nolink').'" target="'.$button->get('target').'" href="'.$button->get('url','javascript:void(0);').'">';
                 $content .= \ldbglobe\Tophat\Builder\Html::BuildModuleLabel($button);
             $content .= '</a>';
