@@ -15,6 +15,11 @@ transform:translateX(100%);
 transition: transform ease 0.5s;
 overflow: auto;
 
+font-family: $ff;
+font-size: $base-size;
+@media screen and (max-width:980px){ font-size: $base-sizeM; }
+@media screen and (max-width:640px){ font-size: $base-sizeS; }
+
 &.active {
 	transform:translateX(0);
 }
