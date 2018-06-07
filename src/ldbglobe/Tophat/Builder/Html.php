@@ -47,7 +47,7 @@ class Html
 
 		$available_parts = $this->AvailabaleParts($bar);
 
-		echo '<div style="z-index:'.($index).';" class="tophat-bar '.($this->tophat->debug ? 'tophat-debug ':'').implode(' ',$classes).'" data-tophat-key="'.$key.'" data-tophat-group="'.$bar->get('group').'" '.($bar->get('logo.position') ? 'data-tophat-logo="'.$bar->get('logo.position').'"':'').'" data-tophat-parts="'.implode(',',$available_parts).'">';
+		echo '<div style="z-index:'.($index).';" class="tophat-bar '.($this->tophat->debug ? 'tophat-debug ':'').implode(' ',$classes).'" data-tophat-key="'.$key.'" data-tophat-group="'.$bar->get('group').'" '.($bar->get('logo.position') ? 'data-tophat-logo="'.$bar->get('logo.position').'"':'').' data-tophat-parts="'.implode(',',$available_parts).'">';
 		foreach($available_parts as $part_code)
 			$this->BuildBarPart($bar,$part_code);
 		echo '</div>';
