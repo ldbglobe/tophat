@@ -708,10 +708,13 @@ $(document).ready(function() {
 
 	if(!TOPHAT_DEBUG)
 	{
-		setTimeout(tophat_cron,500);
-		setTimeout(tophat_cron,1000);
-		setTimeout(tophat_cron,1500);
-		setInterval(tophat_cron,2000);
+		setTimeout(tophat_cron,1);
+		setTimeout(tophat_cron,50);
+		setTimeout(tophat_cron,100);
+		setTimeout(tophat_cron,200);
+		setTimeout(tophat_cron,300);
+		setTimeout(tophat_cron,400);
+		setInterval(tophat_cron,500);
 	}
 
 	window.addEventListener('resize', tophat_cron , true);
