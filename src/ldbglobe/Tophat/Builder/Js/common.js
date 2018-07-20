@@ -714,10 +714,11 @@ $(document).ready(function() {
 		setTimeout(tophat_cron,200);
 		setTimeout(tophat_cron,300);
 		setTimeout(tophat_cron,400);
-		setInterval(tophat_cron,500);
+		setInterval(tophat_cron,2000); // regular refresh every 2 seconds
 	}
 
-	window.addEventListener('resize', tophat_cron , true);
+	window.addEventListener('resize', tophat_cron , true); // immediat refrehs on resize
+	window.addEventListener('scroll', deferal_cron , true); // defered refresh on scroll
 
 	tophat_cron();
 });
