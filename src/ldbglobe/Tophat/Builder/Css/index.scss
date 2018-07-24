@@ -37,11 +37,11 @@ font-size: $base-size;
 	flex-wrap: wrap;
 	justify-content: flex-start;
 	align-items: center;
+	position: relative;
 
 	.tophat-bar-logo {
 		display: block;
 		z-index: 10;
-		position: relative;
 		align-self:start;
 		padding:0 $nav-link-hpad;
 		height: 0;
@@ -49,8 +49,6 @@ font-size: $base-size;
 		width: $logo-max-size;
 		> span {
 			top: $logo-vpad;
-			left: 50%;
-			transform:translateX(-50%);
 			position: absolute;
 			img {
 				max-width: $logo-max-size;
@@ -102,7 +100,16 @@ font-size: $base-size;
 	flex: 1;
 }
 
-// centered logo will be handle by javasdcript => so they remain hidden at startup
 &[data-tophat-logo="middle"] .tophat-bar-logo {
-	display: none;
+	display: none; // centered logo will be handle by javasdcript => so they remain hidden at startup
+	> span {
+		left: 50%;
+		transform:translateX(-50%);
+	}
+}
+
+&[data-tophat-logo="right"] .tophat-bar-logo {
+	> span {
+		right: 0;
+	}
 }
