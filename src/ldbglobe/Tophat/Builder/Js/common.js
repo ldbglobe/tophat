@@ -695,6 +695,13 @@ function debug(message_or_title,message){
 		console.log(message_or_title);
 }
 
+var deferal_cron_timeout = null;
+function deferal_cron()
+{
+	clearTimeout(deferal_cron_timeout);
+	deferal_cron_timeout = setTimeout(tophat_cron, 250);
+}
+
 //----------------------------------------------------------------------
 //----------------------------------------------------------------------
 
