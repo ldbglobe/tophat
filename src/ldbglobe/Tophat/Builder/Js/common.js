@@ -726,6 +726,7 @@ $(document).ready(function() {
 
 	window.addEventListener('resize', tophat_cron , true); // immediat refrehs on resize
 	window.addEventListener('scroll', deferal_cron , true); // defered refresh on scroll
+	window.addEventListener('orientationchange', deferal_cron , true); // defered on orientation change too
 
 	tophat_cron();
 });
