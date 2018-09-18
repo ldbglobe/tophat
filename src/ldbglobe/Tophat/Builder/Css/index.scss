@@ -54,6 +54,9 @@ font-size: $base-size;
 				max-width: $logo-max-size;
 				max-height: $logo-max-size;
 			}
+			svg {
+				height: $logo-max-size;
+			}
 		}
 	}
 
