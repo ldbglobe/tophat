@@ -50,7 +50,7 @@ font-size: $base-size;
 		> span {
 			top: $logo-vpad;
 			position: absolute;
-			img {
+			img, svg {
 				max-width: $logo-max-size;
 				max-height: $logo-max-size;
 			}
