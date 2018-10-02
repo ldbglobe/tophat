@@ -47,7 +47,22 @@ class Html
 
 		$available_parts = $this->AvailabaleParts($bar);
 
-		echo '<div style="z-index:'.($index).';" class="tophat-bar '.($this->tophat->debug ? 'tophat-debug ':'').implode(' ',$classes).'" data-tophat-key="'.$key.'" data-tophat-group="'.$bar->get('group').'" '.($bar->get('logo.position') ? 'data-tophat-logo="'.$bar->get('logo.position').'"':'').' data-tophat-parts="'.implode(',',$available_parts).'">';
+		echo '<div style="z-index:'.($index).';" class="tophat-bar '.($this->tophat->debug ? 'tophat-debug ':'').implode(' ',$classes).'"'
+			.' data-tophat-key="'.$key.'"'
+			.' data-tophat-group="'.$bar->get('group').'"'
+
+			.' data-tophat-burger-animation="'.$bar->get('burger.animation','right').'"'
+			.' data-tophat-burger-position="'.$bar->get('burger.position').'"'
+			.' data-tophat-burger-visibility="'.$bar->get('burger.visibility').'"'
+			.' data-tophat-burger-order="'.$bar->get('burger.order').'"'
+			.' data-tophat-burger-mobile-position="'.$bar->get('burger.mobile.position').'"'
+			.' data-tophat-burger-mobile-visibility="'.$bar->get('burger.mobile.visibility').'"'
+			.' data-tophat-burger-mobile-order="'.$bar->get('burger.mobile.order').'"'
+
+			.' data-tophat-logo="'.$bar->get('logo.position','left').'"'
+			.' data-tophat-logo-mobile="'.$bar->get('logo.mobile.position',$bar->get('logo.position','left')).'"'
+			.' data-tophat-parts="'.implode(',',$available_parts)
+			.'">';
 		foreach($available_parts as $part_code)
 			$this->BuildBarPart($bar,$part_code);
 		echo '</div>';
@@ -58,7 +73,7 @@ class Html
 		$available_parts = [];
 		foreach(['left','middle','right'] as $part_code)
 		{
-			if($bar->has($part_code) || $bar->get('logo.position')==$part_code && $bar->get('logo.src'))
+			if($bar->has($part_code) || ($bar->get('logo.position')==$part_code || $bar->get('logo.mobile.position')==$part_code) && $bar->get('logo.src'))
 			{
 				$available_parts[] = $part_code;
 			}
@@ -76,10 +91,23 @@ class Html
 		echo '<div class="tophat-bar-part" data-tophat-align="'.$part_code.'">';
 		$logo = null;
 		if($bar->get('logo.position')==$part_code)
+		{
 			if($bar->get('logo.link'))
-				echo '<a class="tophat-bar-logo" href="'.$bar->get('logo.link').'"><span><img src="'.$bar->get('logo.src').'"></span></a>';
+				echo '<a class="tophat-bar-logo" screen="desktop" href="'.$bar->get('logo.link').'"><span><img src="'.$bar->get('logo.src').'"></span></a>';
 			else
-				echo '<div class="tophat-bar-logo"><span><img src="'.$bar->get('logo.src').'"></span></div>';
+				echo '<div class="tophat-bar-logo" screen="desktop"><span><img src="'.$bar->get('logo.src').'"></span></div>';
+		}
+		if($bar->get('logo.mobile.position')==$part_code)
+		{
+			$src = $bar->get('logo.mobile.src');
+			$src = $src ? $src : $bar->get('logo.src');
+
+			if($bar->get('logo.link'))
+				echo '<a class="tophat-bar-logo" screen="mobile" href="'.$bar->get('logo.link').'"><span><img src="'.$src.'"></span></a>';
+			else
+				echo '<div class="tophat-bar-logo" screen="mobile"><span><img src="'.$src.'"></span></div>';
+		}
+
 		foreach($bar->get($part_code,array()) as $module_code)
 		{
 			$this->BuildModule($module_code);
@@ -120,7 +148,8 @@ class Html
 		$data = $this->tophat->getModuleData($module_code);
 
 		$level = $data->get('level',0); // pour déterminer les éléments à conserver le plus longtemps possible (élevé = à garder longtemps)
-		$burgerlevel = $data->get('burgerlevel',0); // pour déterminer les éléments à conserver le plus longtemps possible (élevé = à garder longtemps)
+		$burgerlevel = $data->get('burgerlevel',0); // pour déterminer l'ordre des éléments dans le burger menu
+		$burgermode = $data->get('burgermode',''); // ["","allways","never"] pour déterminer si un item doit être présent dans le burger / mode auto ou forcé
 		$group = $data->get('group',999);  // pour regrouper des éléments dans le burger menu (élevé = à placer à la fin du burger menu)
 		$button = $data->getData('button');
 
@@ -142,7 +171,22 @@ class Html
         	$button->set('url','javascript:$(\''.$toggle.'\').toggleClass(\'active\');void(0);');
         }
 
-		$content .= '<div class="nav-item '.($active ? 'active':'').' '.$button->get('class').'" data-tophat-class="'.$button->get('class').'" data-tophat-group="'.$group.'" data-tophat-level="'.$level.'" data-tophat-burgerlevel="'.$burgerlevel.'" data-tophat-skin="'.$button->get('skin','default').'">';
+        $visibility = null;
+        if($data->get('visible',1) && $data->get('mobile.visible',1))
+        	$visibility = 'both';
+        else if($data->get('visible',1))
+        	$visibility = 'desktop';
+        else if($data->get('mobile.visible',1))
+        	$visibility = 'mobile';
+
+		$content .= '<div class="nav-item '.($active ? 'active':'').' '.$button->get('class').'"'
+			.' data-tophat-class="'.$button->get('class').'"'
+			.' data-tophat-group="'.$group.'"'
+			.' data-tophat-level="'.$level.'"'
+			.' data-tophat-visibility="'.$visibility.'"'
+			.' data-tophat-burgerlevel="'.$burgerlevel.'"'
+			.' data-tophat-burgermode="'.$burgermode.'"'
+			.' data-tophat-skin="'.$button->get('skin','default').'">';
            	$content .= '<a class="nav-link '.($button->get('url') || $dropdown ? 'react':'').' '.($button->get('url') ? '':'nolink').'" target="'.$button->get('target').'" href="'.$button->get('url','javascript:void(0);').'">';
                 $content .= \ldbglobe\Tophat\Builder\Html::BuildModuleLabel($button);
             $content .= '</a>';

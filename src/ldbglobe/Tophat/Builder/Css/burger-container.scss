@@ -20,19 +20,38 @@ font-size: $base-size;
 @media screen and (max-width:980px){ font-size: $base-sizeM; }
 @media screen and (max-width:640px){ font-size: $base-sizeS; }
 
-&.active {
-	transform:translateX(0);
-}
-
 .tophat-burger-content {
 	position: absolute;
 	top: 0;
-	right: 0;
 	width: 80%;
 	height: 100%;
 	background: $panel-background;
 	overflow: hidden;
 	box-shadow: 0 0 5px rgba(0,0,0,0.3);
+}
+
+&[animation='right'] {
+	transform:translateX(100%);
+	.tophat-burger-content {
+		right: 0;
+	}
+	.tophat-burger-header {
+		text-align: left;
+	}
+}
+
+&[animation='left'] {
+	transform:translateX(-100%);
+	.tophat-burger-content {
+		left: 0;
+	}
+	.tophat-burger-header {
+		text-align: right;
+	}
+}
+
+&.active {
+	transform:translateX(0);
 }
 
 

@@ -34,12 +34,12 @@ font-size: $base-size;
 
 	display: flex;
 
-	flex-wrap: wrap;
+	//flex-wrap: wrap;
 	justify-content: flex-start;
 	align-items: center;
 	position: relative;
 
-	.tophat-bar-logo {
+	.tophat-bar-logo[screen="desktop"], .tophat-bar-logo[screen="mobile"] {
 		display: block;
 		z-index: 10;
 		align-self:start;
@@ -59,6 +59,8 @@ font-size: $base-size;
 			}
 		}
 	}
+	@media screen and (max-width:980px){ .tophat-bar-logo[screen="desktop"] { display: none !important; } }
+	@media screen and (min-width:981px){ .tophat-bar-logo[screen="mobile"] { display: none !important; } }
 
 	> * {
 		order:0;
@@ -79,6 +81,10 @@ font-size: $base-size;
 
 	.nav-item {
 		display: inline-block;
+
+		@media screen and (max-width:980px){ &[data-tophat-visibility='desktop'] { display: none !important; } }
+		@media screen and (min-width:981px){ &[data-tophat-visibility='mobile'] { display: none !important; } }
+
 		.nav-link {
 			white-space: nowrap;
 			&.nolink {
@@ -98,12 +104,16 @@ font-size: $base-size;
 		}
 	}
 }
+&[data-tophat-burger-visibility="always"] .tophat-burger[screen="desktop"] { display: inline-block; }
+&[data-tophat-burger-visibility="never"] .tophat-burger[screen="desktop"] { display: none !important; }
+&[data-tophat-burger-mobile-visibility="always"] .tophat-burger[screen="mobile"] { display: inline-block; }
+&[data-tophat-burger-mobile-visibility="never"] .tophat-burger[screen="mobile"] { display: none !important; }
 
 &[data-tophat-parts*="middle"] .tophat-bar-part {
 	flex: 1;
 }
 
-&[data-tophat-logo="middle"] .tophat-bar-logo {
+&[data-tophat-logo="middle"] .tophat-bar-part[data-tophat-align="middle"] .tophat-bar-logo {
 	display: none; // centered logo will be handle by javasdcript => so they remain hidden at startup
 	> span {
 		left: 50%;
