@@ -187,22 +187,42 @@ class Html
 			.' data-tophat-burgerlevel="'.$burgerlevel.'"'
 			.' data-tophat-burgermode="'.$burgermode.'"'
 			.' data-tophat-skin="'.$button->get('skin','default').'">';
-           	$content .= '<a class="nav-link '.($button->get('url') || $dropdown ? 'react':'').' '.($button->get('url') ? '':'nolink').'" target="'.$button->get('target').'" href="'.$button->get('url','javascript:void(0);').'">';
-                $content .= \ldbglobe\Tophat\Builder\Html::BuildModuleLabel($button);
-            $content .= '</a>';
-            if($dropdown)
-            {
-                $content .= '<ul class="nav-dropdown" data-tophat-skin="'.$button->get('subskin','default').'">';
-                foreach($dropdown as $dropdown_item)
-                {
-                    $content .= '<li class="'.($dropdown_item->get('active') ? 'active':'').'">';
-                        $content .= '<a href="'.$dropdown_item->get('url').'" target="'.$dropdown_item->get('target').'">';
-                            $content .= \ldbglobe\Tophat\Builder\Html::BuildModuleLabel($dropdown_item);
-                        $content .= '</a>';
-                    $content .= '</li>';
-                }
-                $content .= '</ul>';
-            }
+
+			if($button->get('group') && is_array($button->get('group'))) // pas de drop down avec ce type de bouton
+			{
+				$content .= '<span class="nav-group">';
+				foreach($button->get('group') as $btn)
+				{
+					$__label = isset($btn['label']) ? $btn['label'] : null;
+					$__url = isset($btn['url']) ? $btn['url'] : null;
+					$__target = isset($btn['target']) ? $btn['target'] : null;
+					$__class = isset($btn['class']) ? $btn['class'] : null;
+
+					$content .= '<a class="nav-link '.$__class.' '.($__url ? 'react':'nolink').'" target="'.$__target.'" href="'.($__url ? $__url : 'javascript:void(0);').'">';
+						$content .= '<span class="label">'.$__label.'</span>';
+		            $content .= '</a>';
+		        }
+	            $content .= '</span>';
+			}
+			else
+			{
+	           	$content .= '<a class="nav-link '.($button->get('url') || $dropdown ? 'react':'').' '.($button->get('url') ? '':'nolink').'" target="'.$button->get('target').'" href="'.$button->get('url','javascript:void(0);').'">';
+	                $content .= \ldbglobe\Tophat\Builder\Html::BuildModuleLabel($button);
+	            $content .= '</a>';
+	            if($dropdown)
+	            {
+	                $content .= '<ul class="nav-dropdown" data-tophat-skin="'.$button->get('subskin','default').'">';
+	                foreach($dropdown as $dropdown_item)
+	                {
+	                    $content .= '<li class="'.($dropdown_item->get('active') ? 'active':'').'">';
+	                        $content .= '<a href="'.$dropdown_item->get('url').'" target="'.$dropdown_item->get('target').'">';
+	                            $content .= \ldbglobe\Tophat\Builder\Html::BuildModuleLabel($dropdown_item);
+	                        $content .= '</a>';
+	                    $content .= '</li>';
+	                }
+	                $content .= '</ul>';
+	            }
+	        }
         $content .= '</div>';
 
         return $content;

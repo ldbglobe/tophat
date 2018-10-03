@@ -1,8 +1,10 @@
+> .nav-group > .nav-link,
 > .nav-link {
 	display: inline-block;
 	text-decoration: none;
 	color:inherit;
 }
+> .nav-group > .nav-link .label,
 > .nav-link .label {
 	display: block;
 	padding: $nav-link-vpad $nav-link-hpad;
@@ -12,6 +14,13 @@
 	letter-spacing:$ls;
 }
 
+> .nav-group {
+	padding: 0 $nav-link-hpad;
+}
+> .nav-group > .nav-link .label {
+	padding: $nav-link-vpad 0;
+}
+
 &[data-tophat-skin="none"] {
 }
 
@@ -19,3 +28,5 @@
 @import "./nav-link/underline.scss";
 @import "./nav-link/background.scss"; // -alt
 @import "./nav-link/button.scss"; // -alt -rounded
+
+@import "./nav-link/switch.scss"; // [v|h]
