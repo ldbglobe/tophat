@@ -39,6 +39,10 @@ font-size: $base-size;
 	align-items: center;
 	position: relative;
 
+	.tophat-bar-logo[logo-w="0"] {
+		opacity: 0;
+	}
+
 	.tophat-bar-logo[screen="desktop"], .tophat-bar-logo[screen="mobile"] {
 		display: block;
 		z-index: 10;

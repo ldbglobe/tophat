@@ -93,9 +93,9 @@ class Html
 		if($bar->get('logo.position')==$part_code)
 		{
 			if($bar->get('logo.link'))
-				echo '<a class="tophat-bar-logo" screen="desktop" href="'.$bar->get('logo.link').'"><span><img src="'.$bar->get('logo.src').'"></span></a>';
+				echo '<a class="tophat-bar-logo" logo-w="0" screen="desktop" href="'.$bar->get('logo.link').'"><span><img src="'.$bar->get('logo.src').'"></span></a>';
 			else
-				echo '<div class="tophat-bar-logo" screen="desktop"><span><img src="'.$bar->get('logo.src').'"></span></div>';
+				echo '<div class="tophat-bar-logo" logo-w="0" screen="desktop"><span><img src="'.$bar->get('logo.src').'"></span></div>';
 		}
 		if($bar->get('logo.mobile.position')==$part_code)
 		{
@@ -103,9 +103,9 @@ class Html
 			$src = $src ? $src : $bar->get('logo.src');
 
 			if($bar->get('logo.link'))
-				echo '<a class="tophat-bar-logo" screen="mobile" href="'.$bar->get('logo.link').'"><span><img src="'.$src.'"></span></a>';
+				echo '<a class="tophat-bar-logo" logo-w="0" screen="mobile" href="'.$bar->get('logo.link').'"><span><img src="'.$src.'"></span></a>';
 			else
-				echo '<div class="tophat-bar-logo" screen="mobile"><span><img src="'.$src.'"></span></div>';
+				echo '<div class="tophat-bar-logo" logo-w="0" screen="mobile"><span><img src="'.$src.'"></span></div>';
 		}
 
 		foreach($bar->get($part_code,array()) as $module_code)

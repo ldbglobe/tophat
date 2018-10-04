@@ -154,7 +154,14 @@ function tophat_centered_logo_refresh()
 	$('.tophat-bar .tophat-bar-logo').each(function(){
 		var W = $(this).find('img').outerWidth();
 		if(W>0)
+		{
+			$(this).attr('logo-w',1);
 			$(this).width(W);
+		}
+		else
+		{
+			$(this).attr('logo-w',0);
+		}
 	})
 
 	var centeredLogos = $('.tophat-bar[data-tophat-logo="middle"]');
