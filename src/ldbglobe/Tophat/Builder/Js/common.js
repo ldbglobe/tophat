@@ -152,7 +152,11 @@ function tophat_centered_logo_refresh()
 {
 	//logo width refresh
 	$('.tophat-bar .tophat-bar-logo').each(function(){
-		var W = $(this).find('img').outerWidth();
+		if($(this).find('img').length>0)
+			var W = $(this).find('img').outerWidth();
+		else
+			var W = $(this).find('svg').outerWidth();
+
 		if(W>0)
 		{
 			$(this).attr('logo-w',1);
@@ -778,7 +782,6 @@ function debug(message_or_title,message){
 
 var deferal_cron_timeout = null;
 var deferal_cron_timeout2 = null;
-var deferal_cron_timeout3 = null;
 function deferal_cron()
 {
 	clearTimeout(deferal_cron_timeout);
@@ -787,11 +790,8 @@ function deferal_cron()
 		tophat_cron();
 		deferal_cron_timeout2 = setTimeout(function(){
 			tophat_cron();
-			deferal_cron_timeout3 = setTimeout(function(){
-				tophat_cron();
-			}, 500);
 		}, 500);
-	}, 10);
+	}, 100);
 }
 
 //----------------------------------------------------------------------
@@ -807,12 +807,7 @@ $(document).ready(function() {
 
 	if(!TOPHAT_DEBUG)
 	{
-		setTimeout(tophat_cron,1);
-		setTimeout(tophat_cron,50);
-		setTimeout(tophat_cron,100);
-		setTimeout(tophat_cron,200);
-		setTimeout(tophat_cron,300);
-		setTimeout(tophat_cron,400);
+		setTimeout(tophat_cron,10);
 		setInterval(deferal_cron,2000); // regular refresh every 2 seconds
 	}
 
