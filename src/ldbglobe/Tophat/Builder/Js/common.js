@@ -297,7 +297,7 @@ function tophat_burger_container($bar)
 			{
 				var part = $bar.find('.tophat-bar-part[data-tophat-align="'+position+'"]');
 				var items = part.find('.nav-item')
-				if(items.length>0)
+				if(false && items.length>0)
 				{
 					if(order=='last')
 						items.last().after(burger_button);
@@ -306,7 +306,10 @@ function tophat_burger_container($bar)
 				}
 				else
 				{
-					part.append(burger_button);
+					if(order=='last')
+						part.append(burger_button);
+					else
+						part.prepend(burger_button);
 				}
 			}
 			else

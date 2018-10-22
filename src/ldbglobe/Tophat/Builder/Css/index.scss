@@ -25,6 +25,7 @@ a {
 }
 
 font-size: $base-size;
+@media screen and (max-width:1200px){ font-size: $base-sizeL; }
 @media screen and (max-width:980px){ font-size: $base-sizeM; }
 @media screen and (max-width:640px){ font-size: $base-sizeS; }
 
@@ -59,10 +60,22 @@ font-size: $base-size;
 				max-height: $logo-max-size;
 			}
 			svg {
-				height: $logo-max-size;
+				width: 100%;
+				height: auto;
+			}
+		}
+
+	    @media screen and (max-width: 980px) {
+			width: $logo-max-size-mobile;
+			> span {
+				img, svg {
+					max-width: $logo-max-size-mobile;
+					max-height: $logo-max-size-mobile;
+				}
 			}
 		}
 	}
+
 	@media screen and (max-width:980px){ .tophat-bar-logo[screen="desktop"] { display: none !important; } }
 	@media screen and (min-width:981px){ .tophat-bar-logo[screen="mobile"] { display: none !important; } }
 
