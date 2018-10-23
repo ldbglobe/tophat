@@ -160,7 +160,7 @@ function tophat_centered_logo_refresh()
 		if(W>0)
 		{
 			$(this).attr('logo-w',1);
-			$(this).width(W);
+			//$(this).width(W);
 		}
 		else
 		{

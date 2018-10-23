@@ -48,7 +48,8 @@ font-size: $base-size;
 		display: block;
 		z-index: 10;
 		align-self:start;
-		padding:0 $nav-link-hpad;
+		padding:0;
+		margin:0 $nav-link-hpad;
 		height: 0;
 		// width will be re-set by javascript according to the real image width
 		width: $logo-max-size;
