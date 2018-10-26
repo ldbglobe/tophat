@@ -8,6 +8,11 @@ position: relative;
 padding: 0;
 margin: $margin-top 0 $margin-bottom;
 
+@media screen and (max-width: 980px) {
+	margin-top: $margin-top-mobile;
+	margin-bottom: $margin-top-mobile;
+}
+
 display: none;
 &.init {
 	display: flex;
@@ -67,8 +72,11 @@ font-size: $base-size;
 		}
 
 	    @media screen and (max-width: 980px) {
+	    	margin-left: $nav-link-hpad-mobile;
+	    	margin-right: $nav-link-hpad-mobile;
 			width: $logo-max-size-mobile;
 			> span {
+				top: $logo-vpad-mobile;
 				img, svg {
 					max-width: $logo-max-size-mobile;
 					max-height: $logo-max-size-mobile;

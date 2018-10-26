@@ -6,6 +6,10 @@
 		line-height: 1em;
 		margin: #{$nav-link-vpad * .5} #{$nav-link-hpad * .5};
 		padding: #{$nav-link-vpad * .5} #{$nav-link-hpad * .75};
+		@media screen and (max-width: 980px) {
+			margin: #{$nav-link-vpad-mobile * .5} #{$nav-link-hpad-mobile * .5};
+			padding: #{$nav-link-vpad-mobile * .5} #{$nav-link-hpad-mobile * .75};
+		}
 	}
 	&.active > .nav-link.react .label,
 	&:hover > a.nav-link.react .label {

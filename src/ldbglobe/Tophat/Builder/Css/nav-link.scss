@@ -21,6 +21,21 @@
 	padding: $nav-link-vpad 0;
 }
 
+@media screen and (max-width: 980px) {
+	> .nav-group > .nav-link .label,
+	> .nav-link .label {
+		padding: $nav-link-vpad-mobile $nav-link-hpad-mobile;
+	}
+	> .nav-group {
+		padding-left: $nav-link-hpad-mobile;
+		padding-right: $nav-link-hpad-mobile;
+	}
+	> .nav-group > .nav-link .label {
+		padding-top: $nav-link-vpad-mobile;
+		padding-bottom: $nav-link-vpad-mobile;
+	}
+}
+
 &[data-tophat-skin="none"] {
 }
 
