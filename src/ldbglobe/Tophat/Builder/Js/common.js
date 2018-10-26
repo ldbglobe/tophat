@@ -23,6 +23,10 @@ function tophat_dropdown(){
 		}
 	})
 
+	$(document).on('click','.tophat-bar-part > .nav-item > .nav-group a',function(event){
+		event.stopPropagation();
+		return true;
+	});
 	$(document).on('mouseover click','.tophat-bar-part > .nav-item',function(event){
 		if(tophat_touch_support() && event.type=='mouseover')
 		{
@@ -82,7 +86,7 @@ function tophat_dropdown(){
 			},250);
 		}
 	})
-	$(document).on('mouseover click','.tophat-bar-part .nav-link',function(event){
+	$(document).on('mouseover click','.tophat-bar-part > .nav-item > .nav-link',function(event){
 		if(tophat_touch_support() && event.type=='mouseover')
 		{
 			event.stopPropagation();
