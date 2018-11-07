@@ -334,7 +334,9 @@ function tophat_burger_container($bar)
 			+'<div onclick="void(0);" class="tophat-burger-container '+$bar.attr('class')+'" data-tophat-key="'+$bar.data('tophatKey')+'" animation="'+animation+'">'
 				+'<div class="tophat-burger-content">'
 					+'<div onclick="void(0);" class="tophat-burger-header"><a class="label">'+burger_svg+'</a></div>'
-					+'<ul class="nav-dropdown"></ul>'
+					+'<div onclick="void(0);" class="tophat-burger-body">'
+						+'<ul class="nav-dropdown"></ul>'
+					+'</div>'
 				+'</div>'
 			+'</div>'
 		);

@@ -13,7 +13,8 @@ display: block;
 z-index: 100;
 transform:translateX(100%);
 transition: transform ease 0.5s;
-overflow: auto;
+overflow: hidden;
+z-index: 8888890; // over the HPE widget
 
 font-family: $ff;
 font-size: $base-size;
@@ -28,6 +29,8 @@ font-size: $base-size;
 	background: $panel-background;
 	overflow: hidden;
 	box-shadow: 0 0 5px rgba(0,0,0,0.3);
+	display: flex;
+	flex-direction: column;
 }
 
 &[animation='right'] {
@@ -91,6 +94,11 @@ font-size: $base-size;
 			transform: translateY(-8px);
 		}
 	}
+}
+
+.tophat-burger-body {
+	flex-grow: 1;
+	overflow: scroll;
 }
 
 .nav-dropdown {
