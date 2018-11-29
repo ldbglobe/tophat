@@ -108,8 +108,8 @@ font-size: $base-size;
 	.nav-item {
 		display: inline-block;
 
-		@media screen and (max-width:980px){ &[data-tophat-visibility='desktop'] { display: none !important; } }
-		@media screen and (min-width:981px){ &[data-tophat-visibility='mobile'] { display: none !important; } }
+		@media screen and (max-width:980px){ &[screen='desktop'] { display: none !important; } }
+		@media screen and (min-width:981px){ &[screen='mobile'] { display: none !important; } }
 
 		.nav-link {
 			white-space: nowrap;

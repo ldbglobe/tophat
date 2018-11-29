@@ -717,8 +717,17 @@ function tophat_item_visibility_AI_adjust_width_middle($bar,param)
 		var lW = 0;
 		var mW = 0;
 		var rW = 0;
-		$bar.find('.tophat-bar-part > [screen="'+screen+'"]').each(function(){ lW += $(this).outerWidth(true); });
-		$bar.find('.tophat-bar-part > [screen="both"]').each(function(){ lW += $(this).outerWidth(true); });
+
+		$bar.find('.tophat-bar-part[data-tophat-align="left"] > [screen="'+screen+'"]').each(function(){ lW += $(this).outerWidth(true); });
+		$bar.find('.tophat-bar-part[data-tophat-align="left"] > [screen="both"]').each(function(){ lW += $(this).outerWidth(true); });
+
+		$bar.find('.tophat-bar-part[data-tophat-align="middle"] > [screen="'+screen+'"]').each(function(){ mW += $(this).outerWidth(true); });
+		$bar.find('.tophat-bar-part[data-tophat-align="middle"] > [screen="both"]').each(function(){ mW += $(this).outerWidth(true); });
+
+		$bar.find('.tophat-bar-part[data-tophat-align="right"] > [screen="'+screen+'"]').each(function(){ rW += $(this).outerWidth(true); });
+		$bar.find('.tophat-bar-part[data-tophat-align="right"] > [screen="both"]').each(function(){ rW += $(this).outerWidth(true); });
+
+		console.log(W,lW,mW,rW);
 
 		// New size fix (way better ^^)
 		var LW = lW / W;
@@ -726,18 +735,18 @@ function tophat_item_visibility_AI_adjust_width_middle($bar,param)
 		var RW = rW / W;
 		var SW = Math.max(LW,RW);
 
-		//console.log(W,MW,2*SW);
+		console.log(W,LW,MW,2*SW);
 
 		if(MW+2*SW > 1) // pas assé de place
 		{
 			var A = 0.95*(1-2*SW) * 1/SW;
-			//console.log('Not Enough width : new flex ratio for middle part is '+(A));
+			console.log('Not Enough width : new flex ratio for middle part is '+(A));
 			$bar.find('.tophat-bar-part[data-tophat-align="middle"]').css({flex:(A)+' 1'});
 		}
 		else
 		{
 			var A = MW * 1/SW;
-			//console.log('Enough width : new flex ratio for middle part is '+(A));
+			console.log('Enough width : new flex ratio for middle part is '+(A));
 			$bar.find('.tophat-bar-part[data-tophat-align="middle"]').css({flex:(A)+' 1'});
 		}
 		return true;

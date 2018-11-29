@@ -183,7 +183,7 @@ class Html
 			.' data-tophat-class="'.$button->get('class').'"'
 			.' data-tophat-group="'.$group.'"'
 			.' data-tophat-level="'.$level.'"'
-			.' data-tophat-visibility="'.$visibility.'"'
+			.' screen="'.$visibility.'"'
 			.' data-tophat-burgerlevel="'.$burgerlevel.'"'
 			.' data-tophat-burgermode="'.$burgermode.'"'
 			.' data-tophat-skin="'.$button->get('skin','default').'">';
