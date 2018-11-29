@@ -556,7 +556,7 @@ function tophat_item_visibility_AI_hide($bar)
 {
 	var refresh_needed = false;
 	debug('tophat_item_visibility_AI_hide');
-	if($bar.find('.tophat-bar-part[data-tophat-align="middle"]').length > 0 && $bar.find('.tophat-bar-part').length > 1)
+	if($bar.find('.tophat-bar-part[data-tophat-align="middle"]:visible').length > 0 && $bar.find('.tophat-bar-part').length > 1)
 	{
 		$bar.find('.tophat-bar-part').each(function(i){
 			debug('part '+i);
@@ -574,7 +574,7 @@ function tophat_item_visibility_AI_show($bar)
 {
 	var refresh_needed = false;
 	debug('tophat_item_visibility_AI_show');
-	if($bar.find('.tophat-bar-part[data-tophat-align="middle"]').length > 0 && $bar.find('.tophat-bar-part').length > 1)
+	if($bar.find('.tophat-bar-part[data-tophat-align="middle"]:visible').length > 0 && $bar.find('.tophat-bar-part').length > 1)
 	{
 		tophat_item_visibility_AI_show_width_middle($bar);
 		$bar.find('.tophat-bar-part').each(function(i){
@@ -705,55 +705,49 @@ function tophat_item_visibility_AI_adjust_width_middle($bar,param)
 	debug('new flex ratio for middle part is reset to 1 before try some optimisation');
 	$bar.find('.tophat-bar-part[data-tophat-align="middle"]').css({flex:'1 1'});
 
-	var W = $bar.width();
-	var lW = 0;
-	var mW = 0;
-	var rW = 0;
-	$bar.find('.tophat-bar-part[data-tophat-align="left"] > *').each(function(){ lW += $(this).outerWidth(true); });
-	$bar.find('.tophat-bar-part[data-tophat-align="middle"] > *').each(function(){ mW += $(this).outerWidth(true); });
-	$bar.find('.tophat-bar-part[data-tophat-align="right"] > *').each(function(){ rW += $(this).outerWidth(true); });
+	var wW = $(window).width();
+	var screen = wW>980 ? 'desktop':'mobile';
 
-	// New size fix (way better ^^)
-	var LW = lW / W;
-	var MW = mW / W;
-	var RW = rW / W;
-	var SW = Math.max(LW,RW);
-
-	//console.log(W,MW,2*SW);
-
-	if(MW+2*SW > 1) // pas assé de place
+	// si on à des éléments visible au milieu
+	if($bar.find('.tophat-bar-part[data-tophat-align="middle"] > [screen="'+screen+'"], .tophat-bar-part[data-tophat-align="middle"] > [screen="both"]').length>0)
 	{
-		var A = 0.95*(1-2*SW) * 1/SW;
-		//console.log('Not Enough width : new flex ratio for middle part is '+(A));
-		$bar.find('.tophat-bar-part[data-tophat-align="middle"]').css({flex:(A)+' 1'});
+		$bar.find('.tophat-bar-part[data-tophat-align="middle"]').show();
+
+		var W = $bar.width();
+		var lW = 0;
+		var mW = 0;
+		var rW = 0;
+		$bar.find('.tophat-bar-part > [screen="'+screen+'"]').each(function(){ lW += $(this).outerWidth(true); });
+		$bar.find('.tophat-bar-part > [screen="both"]').each(function(){ lW += $(this).outerWidth(true); });
+
+		// New size fix (way better ^^)
+		var LW = lW / W;
+		var MW = mW / W;
+		var RW = rW / W;
+		var SW = Math.max(LW,RW);
+
+		//console.log(W,MW,2*SW);
+
+		if(MW+2*SW > 1) // pas assé de place
+		{
+			var A = 0.95*(1-2*SW) * 1/SW;
+			//console.log('Not Enough width : new flex ratio for middle part is '+(A));
+			$bar.find('.tophat-bar-part[data-tophat-align="middle"]').css({flex:(A)+' 1'});
+		}
+		else
+		{
+			var A = MW * 1/SW;
+			//console.log('Enough width : new flex ratio for middle part is '+(A));
+			$bar.find('.tophat-bar-part[data-tophat-align="middle"]').css({flex:(A)+' 1'});
+		}
+		return true;
 	}
+	// sinon on travail comme si le milieu n'était pas présent
 	else
 	{
-		var A = MW * 1/SW;
-		//console.log('Enough width : new flex ratio for middle part is '+(A));
-		$bar.find('.tophat-bar-part[data-tophat-align="middle"]').css({flex:(A)+' 1'});
+		$bar.find('.tophat-bar-part[data-tophat-align="middle"]').hide();
+		return false;
 	}
-	return;
-
-	/*
-	// Original size fix method
-
-	debug(lW+' '+mW+' '+rW);
-	let A = (mW / W)*3;
-	let B = 1/((2*Math.max(lW,rW)) / W) ;
-	// si la partie centrale fait moins de 1/3 de la largeur total on accorde plus de place sur les cotés
-	if(A < 1)
-	{
-		debug('A : new flex ratio for middle part is '+(A));
-		$bar.find('.tophat-bar-part[data-tophat-align="middle"]').css({flex:(A)+' 1'});
-	}
-	// sinon on regarde si les éléments latéraux ont encore de la marge pour accorder de l'espace au centre
-	else if(B > 1)
-	{
-		debug('B : new flex ratio for middle part is '+(B));
-		$bar.find('.tophat-bar-part[data-tophat-align="middle"]').css({flex:(B)+' 1'});
-	}
-	*/
 }
 function tophat_item_visibility_AI_show_width_middle($bar,param)
 {
