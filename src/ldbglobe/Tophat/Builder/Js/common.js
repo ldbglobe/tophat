@@ -512,6 +512,17 @@ function tophat_item_visibility_refresh(){
 			tophat_item_visibility_AI_hide($bar)
 		}
 	});
+
+	if($(window).width()>980)
+	{
+		$('.tophat-bar-part > .nav-item').css({order:''});
+	}
+	else
+	{
+		$('.tophat-bar-part > .nav-item').each(function(){
+			$(this).css({order:$(this).attr('data-tophat-burgerlevel')});
+		})
+	}
 }
 
 //----------------------------------------------------------------------
@@ -727,7 +738,7 @@ function tophat_item_visibility_AI_adjust_width_middle($bar,param)
 		$bar.find('.tophat-bar-part[data-tophat-align="right"] > [screen="'+screen+'"]').each(function(){ rW += $(this).outerWidth(true); });
 		$bar.find('.tophat-bar-part[data-tophat-align="right"] > [screen="both"]').each(function(){ rW += $(this).outerWidth(true); });
 
-		console.log(W,lW,mW,rW);
+		//console.log(W,lW,mW,rW);
 
 		// New size fix (way better ^^)
 		var LW = lW / W;
@@ -735,18 +746,18 @@ function tophat_item_visibility_AI_adjust_width_middle($bar,param)
 		var RW = rW / W;
 		var SW = Math.max(LW,RW);
 
-		console.log(W,LW,MW,2*SW);
+		//console.log(W,LW,MW,2*SW);
 
 		if(MW+2*SW > 1) // pas assé de place
 		{
 			var A = 0.95*(1-2*SW) * 1/SW;
-			console.log('Not Enough width : new flex ratio for middle part is '+(A));
+			//console.log('Not Enough width : new flex ratio for middle part is '+(A));
 			$bar.find('.tophat-bar-part[data-tophat-align="middle"]').css({flex:(A)+' 1'});
 		}
 		else
 		{
 			var A = MW * 1/SW;
-			console.log('Enough width : new flex ratio for middle part is '+(A));
+			//console.log('Enough width : new flex ratio for middle part is '+(A));
 			$bar.find('.tophat-bar-part[data-tophat-align="middle"]').css({flex:(A)+' 1'});
 		}
 		return true;
@@ -765,16 +776,22 @@ function tophat_item_visibility_AI_show_width_middle($bar,param)
 
 //----------------------------------------------------------------------
 //----------------------------------------------------------------------
+tophat_cron_in_progress = false;
 function tophat_cron()
 {
-	tophat_item_visibility_refresh();
-	tophat_centered_logo_refresh();
-
-	if($('.tophat-bar.content-updated').length>0)
+	if(!tophat_cron_in_progress)
 	{
-		tophat_burger_refresh();
+		tophat_cron_in_progress = true
+		tophat_item_visibility_refresh();
+		tophat_centered_logo_refresh();
+
+		if($('.tophat-bar.content-updated').length>0)
+		{
+			tophat_burger_refresh();
+		}
+		$('.tophat-bar.content-updated').removeClass('content-updated');
+		tophat_cron_in_progress = false;
 	}
-	$('.tophat-bar.content-updated').removeClass('content-updated');
 }
 
 //----------------------------------------------------------------------
@@ -793,41 +810,49 @@ function debug(message_or_title,message){
 }
 
 var deferal_cron_timeout = null;
-var deferal_cron_timeout2 = null;
 function deferal_cron()
 {
 	clearTimeout(deferal_cron_timeout);
-	clearTimeout(deferal_cron_timeout2);
-	deferal_cron_timeout = setTimeout(function(){
-		tophat_cron();
-		deferal_cron_timeout2 = setTimeout(function(){
-			tophat_cron();
-		}, 500);
-	}, 100);
+	deferal_cron_timeout = setTimeout(function(){ tophat_cron(); }, 100);
 }
 
 //----------------------------------------------------------------------
 //----------------------------------------------------------------------
 
-$(document).ready(function() {
-	$('.tophat-bar').addClass('init');
+$( document ).ready(function() {
+	window.setTimeout(_init, 0)
+});
 
+function _init() {
+	$('.tophat-bar').addClass('init');
 	tophat_burger_init();
 	tophat_dropdown();
 	tophat_burger();
 
-
 	if(!TOPHAT_DEBUG)
 	{
-		setTimeout(tophat_cron,10);
+		setTimeout(tophat_cron,50);
 		setInterval(deferal_cron,2000); // regular refresh every 2 seconds
 	}
 
 	setTimeout(function(){
-		window.addEventListener('resize', deferal_cron , true); // immediat refrehs on resize
-		window.addEventListener('scroll', deferal_cron , true); // defered refresh on scroll
-		window.addEventListener('orientationchange', deferal_cron , true); // defered on orientation change too
+		window.addEventListener('resize', _handler); // immediat refrehs on resize
+		window.addEventListener('scroll', _handler); // defered refresh on scroll
+		window.addEventListener('orientationchange', _handler); // defered on orientation change too
 	},500);
 
 	deferal_cron();
-});
+}
+
+var _requestAnimationFrame
+
+function _handler () {
+	_requestAnimationFrame(deferal_cron)
+}
+
+_requestAnimationFrame = window.requestAnimationFrame ||
+						 window.webkitRequestAnimationFrame ||
+						 window.mozRequestAnimationFrame ||
+						 function (callback) {
+							window.setTimeout(callback, 0)
+						 }
