@@ -63,7 +63,12 @@ font-size: $base-size;
 			position: absolute;
 			img, svg {
 				max-width: $logo-max-size;
-				max-height: $logo-max-size;
+				@if ($logo-max-vsize > 0) {
+					max-height: $logo-max-vsize;
+				}
+				@else {
+					max-height: $logo-max-size;	
+				}
 			}
 			svg {
 				width: 100%;
@@ -79,7 +84,12 @@ font-size: $base-size;
 				top: $logo-vpad-mobile;
 				img, svg {
 					max-width: $logo-max-size-mobile;
-					max-height: $logo-max-size-mobile;
+					@if ($logo-max-vsize-mobile > 0) {
+						max-height: $logo-max-vsize-mobile;
+					}
+					@else {
+						max-height: $logo-max-size-mobile;	
+					}
 				}
 			}
 		}

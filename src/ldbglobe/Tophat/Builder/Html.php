@@ -137,7 +137,7 @@ class Html
 
 	static function BuildModuleLabel($data)
 	{
-		$r = '<span class="label" data-burger-label="'.htmlentities($data->get('burgerlabel')).'">'.$data->get('prepend').' '.$data->get('label').' '.$data->get('append').'</span>';
+		$r = '<span class="label" data-burger-label="'.htmlentities($data->get('burgerlabel')).'"><span class="label-content">'.$data->get('prepend').' '.$data->get('label').' '.$data->get('append').'</span></span>';
 		if($data->has('media'))
 			$r .= '<span class="media"><img src="'.$data->get('media').'"></span>';
 		return $r;
@@ -199,7 +199,7 @@ class Html
 					$__class = isset($btn['class']) ? $btn['class'] : null;
 
 					$content .= '<a class="nav-link '.$__class.' '.($__url ? 'react':'nolink').'" target="'.$__target.'" href="'.($__url ? $__url : 'javascript:void(0);').'">';
-						$content .= '<span class="label">'.$__label.'</span>';
+						$content .= '<span class="label"><span class="label-content">'.$__label.'</span></span>';
 		            $content .= '</a>';
 		        }
 	            $content .= '</span>';

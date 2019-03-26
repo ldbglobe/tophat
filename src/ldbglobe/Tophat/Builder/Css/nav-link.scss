@@ -7,32 +7,34 @@
 > .nav-group > .nav-link .label,
 > .nav-link .label {
 	display: block;
-	padding: $nav-link-vpad $nav-link-hpad;
+	padding: 0 $nav-link-hpad;
 	line-height: 1.3em;
+	height: (1.3em + 2 * $nav-link-vpad);
 	font-size:1em;
 	font-weight:$fw;
 	letter-spacing:$ls;
+	display: flex;
+	align-items: center;
 }
 
 > .nav-group {
 	padding: 0 $nav-link-hpad;
 }
 > .nav-group > .nav-link .label {
-	padding: $nav-link-vpad 0;
+	padding: 0;
 }
 
 @media screen and (max-width: 980px) {
 	> .nav-group > .nav-link .label,
 	> .nav-link .label {
-		padding: $nav-link-vpad-mobile $nav-link-hpad-mobile;
+		padding: 0 $nav-link-hpad-mobile;
+		height: (1.3em + 2 * $nav-link-vpad-mobile);
 	}
 	> .nav-group {
-		padding-left: $nav-link-hpad-mobile;
-		padding-right: $nav-link-hpad-mobile;
+		padding: 0 $nav-link-hpad-mobile;
 	}
 	> .nav-group > .nav-link .label {
-		padding-top: $nav-link-vpad-mobile;
-		padding-bottom: $nav-link-vpad-mobile;
+		padding: 0;
 	}
 }
 

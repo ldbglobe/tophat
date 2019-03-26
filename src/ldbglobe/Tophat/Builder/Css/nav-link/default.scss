@@ -1,10 +1,6 @@
 // default
 &[data-tophat-skin="default"] {
 	> .nav-link .label {
-		padding: #{$nav-link-vpad} #{$nav-link-hpad};
-		@media screen and (max-width: 980px) {
-			padding: #{$nav-link-vpad-mobile} #{$nav-link-hpad-mobile};
-		}
 	}
 	&.active > .nav-link.react .label,
 	&:hover > a.nav-link.react .label {

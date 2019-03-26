@@ -5,10 +5,12 @@
 		background: $button-background;
 		line-height: 1em;
 		margin: #{$nav-link-vpad * .5} #{$nav-link-hpad * .5};
-		padding: #{$nav-link-vpad * .5} #{$nav-link-hpad * .75};
+		padding: 0 #{$nav-link-hpad * .75};
+		height: (1.3em +  $nav-link-vpad);
 		@media screen and (max-width: 980px) {
 			margin: #{$nav-link-vpad-mobile * .5} #{$nav-link-hpad-mobile * .5};
-			padding: #{$nav-link-vpad-mobile * .5} #{$nav-link-hpad-mobile * .75};
+			padding: 0 #{$nav-link-hpad-mobile * .75};
+			height: (1.3em + $nav-link-vpad-mobile);
 		}
 	}
 	&.active > .nav-link.react .label,
@@ -44,5 +46,64 @@
 &[data-tophat-skin="button-alt-square"] {
 	> .nav-link .label {
 		border-radius: 0;
+	}
+}
+
+// Si on à une couleur de bordure alors on est bien sur la V3
+@if($button-bordercolor != false) 
+{
+	$button-bordercolor: false !default; // V3
+	$button-bordersize: false !default; // V3
+	$button-background-hover: false !default; // V3
+	$button-color-hover: false !default; // V3
+	$button-bordercolor-hover : false !default; // V3
+	$button-ff: false !default; // V3
+	$button-fsz: false !default; // V3
+	$button-fw: false !default; // V3
+	$button-ls: false !default; // V3
+	
+	$button-alt-bordercolor: false !default; // V3
+	$button-alt-bordersize: false !default; // V3
+	$button-alt-background-hover: false !default; // V3
+	$button-alt-color-hover: false !default; // V3
+	$button-alt-bordercolor-hover : false !default; // V3
+	$button-alt-ff: false !default; // V3
+	$button-alt-fsz: false !default; // V3
+	$button-alt-fw: false !default; // V3
+	$button-alt-ls: false !default; // V3
+	
+	&[data-tophat-skin^="button"] {
+		> .nav-link .label {
+			border: #{$button-bordersize}px solid $button-bordercolor;
+			.label-content {
+				font-family:$button-ff;
+				font-size:$button-fsz;
+				font-weight:$button-fw;
+				letter-spacing:$button-ls;
+			}
+		}
+		&.active > .nav-link.react .label,
+		&:hover > a.nav-link.react .label {
+			color: $button-color-hover;
+			background: $button-background-hover;
+			border-color: $button-bordercolor-hover;
+		}
+	}
+	&[data-tophat-skin^="button-alt"] {
+		> .nav-link .label {
+			border: #{$button-alt-bordersize}px solid $button-alt-bordercolor;
+			.label-content {
+				font-family:$button-alt-ff;
+				font-size:$button-alt-fsz;
+				font-weight:$button-alt-fw;
+				letter-spacing:$button-alt-ls;
+			}
+		}
+		&.active > .nav-link.react .label,
+		&:hover > a.nav-link.react .label {
+			color: $button-alt-color-hover;
+			background: $button-alt-background-hover;
+			border-color: $button-alt-bordercolor-hover;
+		}
 	}
 }

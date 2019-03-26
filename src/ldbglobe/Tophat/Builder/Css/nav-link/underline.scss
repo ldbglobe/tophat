@@ -1,12 +1,8 @@
 // underline
 &[data-tophat-skin="underline"] {
 	> .nav-link .label {
-		padding: calc(#{$nav-link-vpad} - 3px) calc(#{$nav-link-hpad} - 3px);
 		border-top: 3px solid transparent;
 		border-bottom: 3px solid transparent;
-		@media screen and (max-width: 980px) {
-			padding: calc(#{$nav-link-vpad-mobile} - 3px) calc(#{$nav-link-hpad-mobile} - 3px);
-		}
 	}
 	&.active > .nav-link.react .label,
 	&:hover > a.nav-link.react .label {
