@@ -4,15 +4,16 @@
 @import "./tools-color.scss";
 @import "./vars.scss";
 
+pointer-events: none;
 position:fixed;
 top: 0;
 right: 0;
-width: 100vw;
-height: 100vh;
+left: 0;
+bottom: 0;
 display: block;
 z-index: 100;
-transform:translateX(100%);
-transition: transform ease 0.5s;
+transform:translate(100%,0);
+transition: transform ease 0.5s, opacity ease .5s;
 overflow: hidden;
 z-index: 8888890; // over the HPE widget
 
@@ -24,87 +25,121 @@ font-size: $base-size;
 .tophat-burger-content {
 	position: absolute;
 	top: 0;
-	width: 80%;
+	width: $burger-size;
 	height: 100%;
-	background: $panel-background;
 	overflow: hidden;
 	box-shadow: 0 0 5px rgba(0,0,0,0.3);
 	display: flex;
 	flex-direction: column;
+	background: $burger-panel-background;
+	padding: $burger-panel-vpad $burger-panel-hpad;
 }
 
 &[animation='right'] {
-	transform:translateX(100%);
+	transform:translate(100%,0);
 	.tophat-burger-content {
 		right: 0;
 	}
-	.tophat-burger-header {
-		text-align: left;
+	.tophat-burger-close {
+		left:$burger-panel-hpad;
 	}
 }
 
 &[animation='left'] {
-	transform:translateX(-100%);
+	transform:translate(-100%,0);
 	.tophat-burger-content {
 		left: 0;
 	}
-	.tophat-burger-header {
-		text-align: right;
+	.tophat-burger-close {
+		right:$burger-panel-hpad;
+	}
+}
+
+&[animation='top'] {
+	transform:translate(0,-100%);
+	.tophat-burger-content {
+		left: 0;
+	}
+	.tophat-burger-close {
+		left:$burger-panel-hpad;
+	}
+}
+
+&[animation='bottom'] {
+	transform:translate(0,100%);
+	.tophat-burger-content {
+		left: 0;
+	}
+	.tophat-burger-close {
+		left:$burger-panel-hpad;
+	}
+}
+&[animation='fade'] {
+	transform:translate(0,0);
+	opacity: 0;
+	.tophat-burger-content {
+		left: 0;
+	}
+	.tophat-burger-close {
+		left:$burger-panel-hpad;
 	}
 }
 
 &.active {
-	transform:translateX(0);
+	opacity: 1;
+	transform:translate(0,0);
+	pointer-events: all;
 }
 
 
 .tophat-burger-header {
-	background: $color-alt;
-	padding: 1em 2em;
-	margin-bottom: 1em;
+	position: relative;
+	z-index: 1;
+	background: $burger-header-background;
+	color: $burger-header-color;
+	padding: $burger-header-vpad $burger-header-hpad;
+	margin: 0;
 	box-shadow: 0 0 5px rgba(0,0,0,0.3);
-	.svg-icon{
-		position: relative;
-		top: 0.15em;
-		height: 1.3em;
-		width: 1.3em;
-		stroke-width: 4;
-		stroke-linecap: round;
-		stroke: $panel-background;
-		transition: stroke 0.8s ease-out, transform 0.8s ease-in-out;
-
-		path {
-			backface-visibility: hidden;
-			transition: opacity 0.8s ease-in-out, transform 0.8s ease-in-out;
-		}
-
-		transform: rotate(225deg);
-		.h {
-			opacity: 0;
-		}
-		.x {
-			opacity: 1;
-		}
-		.t {
-			transform: translate(0, 8px);
-			transform: translateY(8px);
-		}
-		.b {
-			transform: translate(0, -8px);
-			transform: translateY(-8px);
+	
+	.tophat-burger-close {
+		position: absolute;
+		top: 50%;
+		transform:translateY(-50%);
+		border: none;
+		background: none;
+		display: inline;
+		width: auto;
+		height: auto;
+		color: inherit;
+		cursor: pointer;
+		&:hover {
+			color: $burger-header-color-hover;
 		}
 	}
 }
 
 .tophat-burger-body {
+	position: relative;
+	z-index: 2;
+	margin: 0;
+	padding: $burger-body-vpad $burger-body-hpad;
 	flex-grow: 1;
-	overflow: scroll;
+	overflow: auto;
+	background: $burger-body-background;
+	color: $burger-body-color;
+	
+	a {
+		color: inherit;
+		&:hover {
+			color: $burger-body-color-hover;
+		}
+	}
 }
 
 .nav-dropdown {
 	list-style: none;
-	padding: 1em 2em;
 	margin: 0;
+	padding: 0;
 	.burger-back,
 	.burger-dropdown-trigger,
 	.burger-subnav-main,
@@ -116,7 +151,6 @@ font-size: $base-size;
 	.burger-item {
 		padding: 0;
 		margin: 0 0 1em;
-		font-size: 1.2em;
 		a {
 			text-decoration: none;
 		}

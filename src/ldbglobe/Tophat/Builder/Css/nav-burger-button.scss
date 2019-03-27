@@ -1,50 +1,49 @@
-// contained in a .nav-item node
-&.tophat-burger {
-	.svg-icon{
-		position: relative;
-		top: 0.15em;
-		height: 1.3em;
-		width: 1.3em;
-		stroke-width: 4;
-		stroke-linecap: round;
-		stroke: currentColor;
-		transition: stroke 0.8s ease-out, transform 0.8s ease-in-out;
-
-		path {
-			backface-visibility: hidden;
-			transition: opacity 0.8s ease-in-out, transform 0.8s ease-in-out;
+.nav-item {
+	// contained in a .nav-item node
+	&.tophat-burger {
+		.label {
+			span {
+				opacity: 0;
+			}
+			padding: 0 !important;
+			border-top: 2px solid currentColor;
+			border-bottom: 2px solid currentColor;
+			transition: all ease-in-out .5s;
+			position: relative;
+			width: 2em;
+			height: 1.5em;
+			&::before,
+			&::after{
+				display: block;
+				content:'';
+				position: absolute;
+				height: 0;
+				width:70%;
+				top: 50%;
+				left: 0;
+				border-bottom: 2px solid currentColor;
+				transform:translateY(-50%);
+				transition: all ease-in-out .5s;
+				transform-origin: center center
+			}
+		}
+		&.active .label {
+			border-color: transparent;
+			&::before {
+				transform:translateY(-50%) rotate(45deg);
+				width: 100%;
+			}
+			&::after {
+				transform:translateY(-50%) rotate(-45deg);
+				width: 100%;
+			}
 		}
 
-		.h {
-			opacity: 1;
+		@media screen and (min-width:981px) {
+			&[screen="mobile"] { display: none; }
 		}
-		.x {
-			opacity: 0;
+		@media screen and (max-width:980px) {
+			&[screen="desktop"] { display: none; }
 		}
-	}
-	&.hover .svg-icon {
-		transform: rotate(225deg);
-		.h {
-			opacity: 0;
-		}
-		.x {
-			opacity: 1;
-		}
-		.t {
-			transform: translate(0, 8px);
-			transform: translateY(8px);
-		}
-		.b {
-			transform: translate(0, -8px);
-			transform: translateY(-8px);
-		}
-	}
-
-	@media screen and (min-width:981px) {
-		&[screen="mobile"] { display: none; }
-	}
-	@media screen and (max-width:980px) {
-		&[screen="desktop"] { display: none; }
 	}
 }
-

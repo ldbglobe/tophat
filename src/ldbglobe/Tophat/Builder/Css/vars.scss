@@ -21,6 +21,10 @@ $button-ff: false !default; // V3
 $button-fsz: false !default; // V3
 $button-fw: false !default; // V3
 $button-ls: false !default; // V3
+$button-vpad:1em !default;
+$button-hpad:1em !default;
+$button-vpad-mobile:1em !default;
+$button-hpad-mobile:1em !default;
 
 $button-alt-background:#da5340 !default;
 $button-alt-color:#fff !default;
@@ -33,6 +37,10 @@ $button-alt-ff: false !default; // V3
 $button-alt-fsz: false !default; // V3
 $button-alt-fw: false !default; // V3
 $button-alt-ls: false !default; // V3
+$button-alt-vpad:1em !default;
+$button-alt-hpad:1em !default;
+$button-alt-vpad-mobile:1em !default;
+$button-alt-hpad-mobile:1em !default;
 
 $dropdown-background:#fff !default;
 $dropdown-color:#222 !default;
@@ -49,18 +57,35 @@ $panel-button-color:#fff !default;
 $panel-button-hover-background:#ff614b !default;
 $panel-button-hover-color:#fff !default;
 
+$nav-height : 0 !default;
 $logo-max-size : 200px !default;
 $logo-max-vsize : 0 !default; // V3
 $logo-vpad : 0 !default;
-$nav-link-vpad:1em !default;
-$nav-link-hpad:1em !default;
 $margin-top:0 !default;
 $margin-bottom:0 !default;
+$nav-link-hspace:0 !default;
+$nav-link-hpad:1em !default;
 
+$nav-height-mobile : 0 !default;
 $logo-max-size-mobile : 200px !default;
 $logo-max-vsize-mobile : 0 !default; // V3
 $logo-vpad-mobile : 0 !default;
-$nav-link-vpad-mobile:1em !default;
-$nav-link-hpad-mobile:1em !default;
 $margin-top-mobile:0 !default;
 $margin-bottom-mobile:0 !default;
+$nav-link-hspace-mobile:0 !default;
+$nav-link-hpad-mobile:1em !default;
+
+$burger-size: 80% !default;
+$burger-panel-hpad: 0em !default;
+$burger-panel-vpad: 0em !default;
+$burger-panel-background: #ffffff !default;
+$burger-header-background: #ff614b !default;
+$burger-header-color: #ffffff !default;
+$burger-header-color-hover: #ffffff !default;
+$burger-header-hpad: 1em !default;
+$burger-header-vpad: 1em !default;
+$burger-body-background: #ffffff !default;
+$burger-body-color: #000000 !default;
+$burger-body-color-hover: #ff614b !default;
+$burger-body-hpad: 1em !default;
+$burger-body-vpad: 1em !default;

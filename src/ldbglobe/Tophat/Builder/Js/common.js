@@ -108,12 +108,14 @@ function tophat_burger(){
 		$burger = $($bar.data('burger'));
 		if($burger.hasClass('active'))
 		{
-			$burger.removeClass('active');
+			$('.tophat-burger-container').removeClass('active');
+			$('.tophat-bar .tophat-burger').removeClass('active');
 		}
 		else
 		{
 			$('.tophat-burger-container').removeClass('active');
 			$burger.addClass('active');
+			$(this).addClass('active');
 		}
 	});
 
@@ -137,6 +139,7 @@ function tophat_burger(){
 		console.log('click .burger-subnav-item');
 		event.stopPropagation();
 		$('.tophat-burger-container').removeClass('active');
+		$('.tophat-bar .tophat-burger').removeClass('active');
 	});
 
 	$(document).on('click','.burger-subnav',function(event){
@@ -146,6 +149,7 @@ function tophat_burger(){
 
 	$(document).on('click touch','.tophat-burger-container',function(){
 		$('.tophat-burger-container').removeClass('active');
+		$('.tophat-bar .tophat-burger').removeClass('active');
 	})
 }
 
@@ -181,7 +185,6 @@ function tophat_centered_logo_refresh()
 
 			var centeredlogo = centeredPart.find('.tophat-bar-logo');
 			centeredlogo.show();
-			centeredPart.css({paddingRight:'',paddingLeft:''});
 
 			if(centeredlogo.is(':visible'))
 			{
@@ -191,57 +194,45 @@ function tophat_centered_logo_refresh()
 				})
 				if(centeredLinks.length>0)
 				{
+					var pad = 0;
 					var W = centeredPart.width();
-
-					var niw = 0;
-					var i = 0;
-					for(i=0; i < centeredLinks.length; i++)
+					var w = 0;
+					for(var i=0; i < centeredLinks.length; i++)
 					{
-						niw += centeredLinks.eq(i).width();
+						w += centeredLinks.eq(i).outerWidth();
 					}
-					var niPad = 0;
-					var niPadAfter = 0;
-					var niPadBeforeW = 0;
-					var niPadAfterW = 0;
-					for(i=0; i < centeredLinks.length; i++)
+					var lw = centeredlogo.width();
+
+					var logoIndex = 0;
+					var w1 = 0;
+					var w1B = 0;
+					for(var i=0; i < centeredLinks.length; i++)
 					{
-						niPadBeforeW = niPadAfterW;
-						niPadAfterW += centeredLinks.eq(i).width();
-						niPad = i;
-						if(niPadAfterW >= niw/2)
+						w1 = w1B;
+						w1B += centeredLinks.eq(i).outerWidth();
+						logoIndex = i;
+						if(w1B >= w/2)
 						{
 							break;
 						}
 					}
+					var w2 = w - w1;
+					var w2B = w - w1B;
+					var delta = w2-w1
+					var deltaB = w2B-w1B
 
-					var lw = centeredlogo.width();
-
-					var delta = 0;
-					var deltaBefore = niPadBeforeW - niw/2;
-					var deltaAfter = niPadAfterW - niw/2;
-					if(Math.abs(deltaBefore) < Math.abs(deltaAfter))
+					// on regarde si l'option B est plus "équilibré"
+					if(Math.abs(deltaB)<Math.abs(delta))
 					{
-						delta = Math.round(deltaBefore);
-						niPad = Math.max(0,niPad-1);
-					}
-					else
-					{
-						delta = Math.round(deltaAfter);
-						niPad = niPad;
+						delta = deltaB;
+						logoIndex = Math.max(0,logoIndex-1);
 					}
 
 					centeredlogo.css({
-						order:niPad+1,
+						order:logoIndex,
 					});
 
-					debug('Logo centering extracted informations : W='+W+', lw='+lw+', niw='+niw+', delta='+delta);
-
-					if(W - lw - niw - Math.abs(delta) < 0)
-					{
-						delta = (delta>1 ? 1:-1)*Math.round((W - lw - niw)/2);
-					}
-
-					centeredPart.css((delta>0 ? 'paddingRight':'paddingLeft'),(2*Math.abs(delta))+'px');
+					centeredPart.css({transform:'translateX('+(-delta/2)+'px)'});
 				}
 			}
 		})
@@ -273,17 +264,12 @@ function tophat_burger_container($bar)
 	}
 
 	var animation = $bar.data('tophatBurgerAnimation');
+	var extra_header = $bar.data('tophatBurgerHeader');
+	var extra_prepend = $bar.data('tophatBurgerPrepend');
+	var extra_append = $bar.data('tophatBurgerAppend');
 
 	if(!$bar.data('burger'))
 	{
-		var burger_svg = ''
-		+'<svg class="svg-icon" viewBox="0 0 38 38">'
-			+'<path class="h t" d="M4 4l32 0"/>'
-			+'<path d="M4 19l32 0"/>'
-			+'<path class="h b" d="M4 34l32 0"/>'
-			+'<path class="x" d="M19 4l0 32"/>'
-		+'</svg>'
-
 		var cases = [
 			{type:"desktop", position:$bar.data('tophatBurgerPosition'), order:$bar.data('tophatBurgerOrder') },
 			{type:"mobile", position:$bar.data('tophatBurgerMobilePosition'), order:$bar.data('tophatBurgerMobileOrder') },
@@ -295,7 +281,7 @@ function tophat_burger_container($bar)
 			var position = cases[i].position;
 			var order = cases[i].order;
 
-			var burger_button = $('<div class="tophat-burger nav-item" screen="'+type+'" data-tophat-level="9999" data-tophat-skin="burger"><a href="javascript:void(0);" class="nav-link"><span class="label">'+burger_svg+'</span></a></div>');
+			var burger_button = $('<div class="tophat-burger nav-item" screen="'+type+'" data-tophat-level="9999" data-tophat-skin="burger"><a href="javascript:void(0);" class="nav-link"><span class="label"><span aria-label="Open menu">≡</span></span></a></div>');
 
 			if(position!="")
 			{
@@ -333,9 +319,14 @@ function tophat_burger_container($bar)
 		$burger = $(''
 			+'<div onclick="void(0);" class="tophat-burger-container '+$bar.attr('class')+'" data-tophat-key="'+$bar.data('tophatKey')+'" animation="'+animation+'">'
 				+'<div class="tophat-burger-content">'
-					+'<div onclick="void(0);" class="tophat-burger-header"><a class="label">'+burger_svg+'</a></div>'
+					+'<div onclick="void(0);" class="tophat-burger-header">'
+						+'<button class="tophat-burger-close"><span aria-label="Close menu">✕</span></button>'
+						+'<div class="tophat-burger-header-content">'+extra_header+'</div>'
+					+'</div>'
 					+'<div onclick="void(0);" class="tophat-burger-body">'
+						+'<div class="tophat-burger-body-prepend">'+extra_prepend+'</div>'
 						+'<ul class="nav-dropdown"></ul>'
+						+'<div class="tophat-burger-body-append">'+extra_append+'</div>'
 					+'</div>'
 				+'</div>'
 			+'</div>'
@@ -824,7 +815,7 @@ $( document ).ready(function() {
 });
 
 function _init() {
-	$('.tophat-bar').addClass('init');
+	$('.tophat-bar').addClass('init').addClass('content-updated');
 	tophat_burger_init();
 	tophat_dropdown();
 	tophat_burger();
@@ -833,6 +824,10 @@ function _init() {
 	{
 		setTimeout(tophat_cron,50);
 		setInterval(deferal_cron,2000); // regular refresh every 2 seconds
+	}
+	else
+	{
+		setTimeout(tophat_cron,500);
 	}
 
 	setTimeout(function(){

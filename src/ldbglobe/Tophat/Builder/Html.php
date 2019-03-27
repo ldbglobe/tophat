@@ -58,7 +58,9 @@ class Html
 			.' data-tophat-burger-mobile-position="'.$bar->get('burger.mobile.position').'"'
 			.' data-tophat-burger-mobile-visibility="'.$bar->get('burger.mobile.visibility').'"'
 			.' data-tophat-burger-mobile-order="'.$bar->get('burger.mobile.order').'"'
-
+			.' data-tophat-burger-header="'.htmlentities($bar->get('burger.header')).'"'
+			.' data-tophat-burger-prepend="'.htmlentities($bar->get('burger.prepend')).'"'
+			.' data-tophat-burger-append="'.htmlentities($bar->get('burger.append')).'"'
 			.' data-tophat-logo="'.$bar->get('logo.position','left').'"'
 			.' data-tophat-logo-mobile="'.$bar->get('logo.mobile.position',$bar->get('logo.position','left')).'"'
 			.' data-tophat-parts="'.implode(',',$available_parts)
@@ -78,8 +80,8 @@ class Html
 				$available_parts[] = $part_code;
 			}
 		}
-		// si on à un élément au centre et un latéral alors on doit avoir les trois pour que l'alignement flex fonctionne
-		if(in_array('middle', $available_parts) && count($available_parts)>1)
+		// si on à un élément au centre //et un latéral alors on doit avoir les trois pour que l'alignement flex fonctionne
+		if(in_array('middle', $available_parts))// && count($available_parts)>1)
 		{
 			$available_parts = ['left','middle','right'];
 		}

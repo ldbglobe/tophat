@@ -34,16 +34,29 @@ font-size: $base-size;
 @media screen and (max-width:980px){ font-size: $base-sizeM; }
 @media screen and (max-width:640px){ font-size: $base-sizeS; }
 
+@if($nav-height > 0)
+{
+	height: $nav-height;
+}
+@if($nav-height-mobile > 0)
+{
+	@media screen and (max-width: 980px) {
+		height: $nav-height-mobile;
+	}
+}
+
 .tophat-bar-part {
 	padding: 0;
 	margin: 0;
 
 	display: flex;
+	height: 100%;
 
 	//flex-wrap: wrap;
 	justify-content: flex-start;
 	align-items: center;
 	position: relative;
+	
 
 	.tophat-bar-logo[logo-w="0"] {
 		opacity: 0;
@@ -54,13 +67,13 @@ font-size: $base-size;
 		z-index: 10;
 		align-self:start;
 		padding:0;
-		margin:0 $nav-link-hpad;
-		height: 0;
-		// width will be re-set by javascript according to the real image width
-		width: $logo-max-size;
+		margin:0 $nav-link-hspace;
+		height: 100%;
 		> span {
+			position: relative;
 			top: $logo-vpad;
-			position: absolute;
+			height: 1px;
+			overflow: visible;
 			img, svg {
 				max-width: $logo-max-size;
 				@if ($logo-max-vsize > 0) {
@@ -77,9 +90,6 @@ font-size: $base-size;
 		}
 
 	    @media screen and (max-width: 980px) {
-	    	margin-left: $nav-link-hpad-mobile;
-	    	margin-right: $nav-link-hpad-mobile;
-			width: $logo-max-size-mobile;
 			> span {
 				top: $logo-vpad-mobile;
 				img, svg {
@@ -116,22 +126,12 @@ font-size: $base-size;
 	}
 
 	.nav-item {
-		display: inline-block;
-
 		@media screen and (max-width:980px){ &[screen='desktop'] { display: none !important; } }
 		@media screen and (min-width:981px){ &[screen='mobile'] { display: none !important; } }
-
-		.nav-link {
-			white-space: nowrap;
-			&.nolink {
-				cursor: default;
-			}
-		}
-
-		@import "./nav-link.scss";
-		@import "./nav-dropdown.scss";
-		@import "./nav-burger-button.scss";
 	}
+	@import "./nav-link.scss";
+	@import "./nav-dropdown.scss";
+	@import "./nav-burger-button.scss";
 
 	.tophat-burger {
 		display: none;
@@ -151,14 +151,4 @@ font-size: $base-size;
 
 &[data-tophat-logo="middle"] .tophat-bar-part[data-tophat-align="middle"] .tophat-bar-logo {
 	display: none; // centered logo will be handle by javasdcript => so they remain hidden at startup
-	> span {
-		left: 50%;
-		transform:translateX(-50%);
-	}
-}
-
-&[data-tophat-logo="right"] .tophat-bar-logo {
-	> span {
-		right: 0;
-	}
 }

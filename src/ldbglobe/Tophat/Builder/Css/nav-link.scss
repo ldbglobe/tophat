@@ -1,49 +1,64 @@
-> .nav-group > .nav-link,
-> .nav-link {
-	display: inline-block;
-	text-decoration: none;
-	color:inherit;
+&[data-tophat-align="left"] .nav-item {
+	margin-left: $nav-link-hspace;
+	margin-right: 0;
 }
-> .nav-group > .nav-link .label,
-> .nav-link .label {
-	display: block;
-	padding: 0 $nav-link-hpad;
-	line-height: 1.3em;
-	height: (1.3em + 2 * $nav-link-vpad);
-	font-size:1em;
-	font-weight:$fw;
-	letter-spacing:$ls;
-	display: flex;
-	align-items: center;
+&[data-tophat-align="middle"] .nav-item {
+	margin-left: ($nav-link-hspace / 2);
+	margin-right: ($nav-link-hspace / 2);
 }
+&[data-tophat-align="right"] .nav-item {
+	margin-left: 0;
+	margin-right: $nav-link-hspace;
+}	
 
-> .nav-group {
-	padding: 0 $nav-link-hpad;
-}
-> .nav-group > .nav-link .label {
-	padding: 0;
-}
-
-@media screen and (max-width: 980px) {
-	> .nav-group > .nav-link .label,
-	> .nav-link .label {
-		padding: 0 $nav-link-hpad-mobile;
-		height: (1.3em + 2 * $nav-link-vpad-mobile);
+.nav-item {
+	height: 100%;
+	> .nav-group > .nav-link,
+	> .nav-link {
+		height: 100%;
+		display: flex;
+		align-items: center;
+		text-decoration: none;
+		color:inherit;
+		white-space: nowrap;
+		.label {
+			height: 100%;
+			display: block;
+			padding-left:$nav-link-hpad;
+			padding-right:$nav-link-hpad;
+			line-height: 1.3em;
+			height: 100%;
+			font-size:1em;
+			font-weight:$fw;
+			letter-spacing:$ls;
+			display: flex;
+			align-items: center;
+		}
+		
+		&.nolink {
+			cursor: default;
+		}
 	}
-	> .nav-group {
-		padding: 0 $nav-link-hpad-mobile;
+
+	@media screen and (max-width: 980px) {
+		margin-left: ($nav-link-hspace-mobile / 2);
+		margin-right: ($nav-link-hspace-mobile / 2);
+
+		> .nav-group > .nav-link .label,
+		> .nav-link .label {
+			padding-left:$nav-link-hpad-mobile;
+			padding-right:$nav-link-hpad-mobile;
+		}
 	}
-	> .nav-group > .nav-link .label {
-		padding: 0;
+
+
+	&[data-tophat-skin="none"] {
 	}
+
+	@import "./nav-link/default.scss";
+	@import "./nav-link/underline.scss";
+	@import "./nav-link/background.scss"; // -alt
+	@import "./nav-link/button.scss"; // -alt -rounded
+
+	@import "./nav-link/switch.scss"; // [v|h]
 }
-
-&[data-tophat-skin="none"] {
-}
-
-@import "./nav-link/default.scss";
-@import "./nav-link/underline.scss";
-@import "./nav-link/background.scss"; // -alt
-@import "./nav-link/button.scss"; // -alt -rounded
-
-@import "./nav-link/switch.scss"; // [v|h]
