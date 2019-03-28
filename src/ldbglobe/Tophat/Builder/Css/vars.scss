@@ -79,13 +79,37 @@ $burger-size: 80% !default;
 $burger-panel-hpad: 0em !default;
 $burger-panel-vpad: 0em !default;
 $burger-panel-background: #ffffff !default;
+
 $burger-header-background: #ff614b !default;
 $burger-header-color: #ffffff !default;
 $burger-header-color-hover: #ffffff !default;
 $burger-header-hpad: 1em !default;
 $burger-header-vpad: 1em !default;
+$burger-header-ff : inherit !default;
+$burger-header-fsz : 1em !default;
+$burger-header-fw : normal !default;
+$burger-header-ls : normal !default;
+
 $burger-body-background: #ffffff !default;
 $burger-body-color: #000000 !default;
 $burger-body-color-hover: #ff614b !default;
 $burger-body-hpad: 1em !default;
 $burger-body-vpad: 1em !default;
+$burger-body-ff : inherit !default;
+$burger-body-fsz : 1em !default;
+$burger-body-fw : normal !default;
+$burger-body-ls : normal !default;
+
+$burger-body-prepend-ff : inherit !default;
+$burger-body-prepend-fsz : 1em !default;
+$burger-body-prepend-fw : normal !default;
+$burger-body-prepend-ls : normal !default;
+$burger-body-prepend-color: #000000 !default;
+$burger-body-prepend-color-hover: #ff614b !default;
+
+$burger-body-append-ff : inherit !default;
+$burger-body-append-fsz : 1em !default;
+$burger-body-append-fw : normal !default;
+$burger-body-append-ls : normal !default;
+$burger-body-append-color: #000000 !default;
+$burger-body-append-color-hover: #ff614b !default;

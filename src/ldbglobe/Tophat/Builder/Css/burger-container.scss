@@ -101,6 +101,11 @@ font-size: $base-size;
 	margin: 0;
 	box-shadow: 0 0 5px rgba(0,0,0,0.3);
 	
+	font-family:$burger-header-ff;
+	font-size:$burger-header-fsz;
+	font-weight:$burger-header-fw;
+	letter-spacing:$burger-header-ls;
+	
 	.tophat-burger-close {
 		position: absolute;
 		top: 50%;
@@ -112,6 +117,7 @@ font-size: $base-size;
 		height: auto;
 		color: inherit;
 		cursor: pointer;
+		font-size: 1.5em;
 		&:hover {
 			color: $burger-header-color-hover;
 		}
@@ -126,12 +132,44 @@ font-size: $base-size;
 	flex-grow: 1;
 	overflow: auto;
 	background: $burger-body-background;
-	color: $burger-body-color;
 	
-	a {
-		color: inherit;
-		&:hover {
-			color: $burger-body-color-hover;
+	.tophat-burger-body-content {
+		color: $burger-body-color;
+		font-family:$burger-body-ff;
+		font-size:$burger-body-fsz;
+		font-weight:$burger-body-fw;
+		letter-spacing:$burger-body-ls;
+		a {
+			color: inherit;
+			&:hover {
+				color: $burger-body-color-hover;
+			}
+		}
+	}
+	.tophat-burger-body-prepend {
+		color: $burger-body-prepend-color;
+		font-family:$burger-body-prepend-ff;
+		font-size:$burger-body-prepend-fsz;
+		font-weight:$burger-body-prepend-fw;
+		letter-spacing:$burger-body-prepend-ls;
+		a {
+			color: inherit;
+			&:hover {
+				color: $burger-body-prepend-color-hover;
+			}
+		}
+	}
+	.tophat-burger-body-append {
+		color: $burger-body-append-color;
+		font-family:$burger-body-append-ff;
+		font-size:$burger-body-append-fsz;
+		font-weight:$burger-body-append-fw;
+		letter-spacing:$burger-body-append-ls;
+		a {
+			color: inherit;
+			&:hover {
+				color: $burger-body-append-color-hover;
+			}
 		}
 	}
 }
@@ -163,5 +201,6 @@ font-size: $base-size;
 	.burger-subnav-item {
 		padding: 0;
 		margin: 0;
+		font-size: 0.8em;
 	}
 }

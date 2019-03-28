@@ -147,7 +147,7 @@ function tophat_burger(){
 		event.stopPropagation();
 	});
 
-	$(document).on('click touch','.tophat-burger-container',function(){
+	$(document).on('click touch','.tophat-burger-container .tophat-burger-header',function(){
 		$('.tophat-burger-container').removeClass('active');
 		$('.tophat-bar .tophat-burger').removeClass('active');
 	})
@@ -325,7 +325,7 @@ function tophat_burger_container($bar)
 					+'</div>'
 					+'<div onclick="void(0);" class="tophat-burger-body">'
 						+'<div class="tophat-burger-body-prepend">'+extra_prepend+'</div>'
-						+'<ul class="nav-dropdown"></ul>'
+						+'<div class="tophat-burger-body-content"><ul class="nav-dropdown"></ul></div>'
 						+'<div class="tophat-burger-body-append">'+extra_append+'</div>'
 					+'</div>'
 				+'</div>'
@@ -413,11 +413,20 @@ function tophat_burger_refresh()
 			var burgerlink_label = $link.find('.label');
 			burgerlink_label = burgerlink_label.data('burger-label') ? burgerlink_label.data('burger-label') : burgerlink_label.html();
 
-			if(!$link.attr('href') || $subitems.length)
+			if($subitems.length)
 			{
 				$burgerlink_dropdown_trigger = $('<a href="javascript:void(0);" class="burger-link burger-dropdown-trigger" ><span class="label">'+burgerlink_label+'</span></a>');
 			}
-			$burgerlink = $('<a class="burger-link" href="'+$link.attr('href')+'"><span class="label">'+burgerlink_label+'</span></a>');
+
+			if($link.attr('href') && $link.attr('href').length>0 && $link.attr('href')!='javascript:void(0);')
+			{
+				$burgerlink = $('<a class="burger-link" href="'+$link.attr('href')+'"><span class="label">'+burgerlink_label+'</span></a>');
+			}
+			else
+			{
+				$burgerlink = $('<span class="burger-link"><span class="label">'+burgerlink_label+'</span></span>');
+			}
+
 
 			if($burgerlink)
 			{
@@ -438,8 +447,10 @@ function tophat_burger_refresh()
 				{
 					$subnav = $('<ul class="burger-subnav"><li class="burger-back"><a href="javascript:void(0);"><span class="label">&lt;</span></a></li></ul>');
 
-					if($link.attr('href'))
+					if($link.attr('href') && $link.attr('href').length>0 && $link.attr('href')!='javascript:void(0);')
+					{
 						$subnav.append('<li class="burger-subnav-item burger-subnav-main"><a href="'+$link.attr('href')+'"><span class="label">'+$link.find('.label').html()+'</span></a></li>');
+					}
 
 					$sublink = null;
 					// add dropdown item content as sub item
