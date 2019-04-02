@@ -105,8 +105,9 @@ function tophat_dropdown(){
 window.tophat_burger_open = function(el,event)
 {
 	$bar = $(el).parents('.tophat-bar').eq(0);
-	$burger = $($bar.data('burger'));
-	if($burger.hasClass('active'))
+	$burgerMenu = $(el).parents('.tophat-burger').eq(0);
+	$burgerPanel = $($bar.data('burger'));
+	if($burgerPanel.hasClass('active'))
 	{
 		$('.tophat-burger-container').removeClass('active');
 		$('.tophat-bar .tophat-burger').removeClass('active');
@@ -114,8 +115,8 @@ window.tophat_burger_open = function(el,event)
 	else
 	{
 		$('.tophat-burger-container').removeClass('active');
-		$burger.addClass('active');
-		$(el).addClass('active');
+		$burgerPanel.addClass('active');
+		$burgerMenu.addClass('active');
 	}
 }
 
@@ -192,7 +193,7 @@ function tophat_centered_logo_refresh()
 			{
 
 				var centeredLinks = centeredPart.find('.nav-item:visible');
-				console.log(centeredLinks);
+				//console.log(centeredLinks);
 				centeredLinks.each(function(i){
 					$(this).css({order:i});
 				})
@@ -517,12 +518,12 @@ function tophat_item_visibility_refresh(){
 		tophat_item_visibility_AI_adjust_width_middle($bar);
 		if(tophat_item_visibility_overall_detection($bar))
 		{
-			console.log('tophat_item_visibility_AI_show',$bar[0]);
+			//console.log('tophat_item_visibility_AI_show',$bar[0]);
 			tophat_item_visibility_AI_show($bar)
 		}
 		else
 		{
-			console.log('tophat_item_visibility_AI_hide',$bar[0]);
+			//console.log('tophat_item_visibility_AI_hide',$bar[0]);
 			tophat_item_visibility_AI_hide($bar)
 		}
 	});
