@@ -1,9 +1,12 @@
 &[data-tophat-skin="switch-v"] { // can not handle more than 2 items
+	display: flex;
+	align-items: center;
 	> .nav-group {
 		display: flex;
 		flex-direction: column;
 		text-align: center;
 		.nav-link {
+			position: relative;
 			.label {
 				opacity: 0.7;
 				padding: 0 !important;
@@ -16,9 +19,10 @@
 				&:after {
 					content: " ";
 					display: block;
-					border-top: 1px solid currentColor;
-					position: relative;
-					top: 0.25em;
+					border-bottom: 1px solid currentColor;
+					position: absolute;
+					bottom: -0.25em;
+					width: 100%;
 				}
 			}
 		}
@@ -26,7 +30,12 @@
 }
 
 &[data-tophat-skin="switch-h"] { // can not handle more than 2 items
+	display: flex;
+	align-items: center;
 	> .nav-group {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
 		.nav-link {
 			position: relative;
 			padding-left: 0.6em;

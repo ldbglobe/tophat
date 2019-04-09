@@ -40,8 +40,8 @@ font-size: $base-size;
 	.tophat-burger-content {
 		right: 0;
 	}
-	.tophat-burger-close {
-		left:$burger-panel-hpad;
+	.tophat-burger-header .tophat-burger-close {
+		left:$burger-header-hpad;
 	}
 }
 
@@ -50,8 +50,8 @@ font-size: $base-size;
 	.tophat-burger-content {
 		left: 0;
 	}
-	.tophat-burger-close {
-		right:$burger-panel-hpad;
+	.tophat-burger-header .tophat-burger-close {
+		right:$burger-header-hpad;
 	}
 }
 
@@ -60,8 +60,8 @@ font-size: $base-size;
 	.tophat-burger-content {
 		left: 0;
 	}
-	.tophat-burger-close {
-		left:$burger-panel-hpad;
+	.tophat-burger-header .tophat-burger-close {
+		left:$burger-header-hpad;
 	}
 }
 
@@ -70,8 +70,8 @@ font-size: $base-size;
 	.tophat-burger-content {
 		left: 0;
 	}
-	.tophat-burger-close {
-		left:$burger-panel-hpad;
+	.tophat-burger-header .tophat-burger-close {
+		left:$burger-header-hpad;
 	}
 }
 &[animation='fade'] {
@@ -80,8 +80,8 @@ font-size: $base-size;
 	.tophat-burger-content {
 		left: 0;
 	}
-	.tophat-burger-close {
-		left:$burger-panel-hpad;
+	.tophat-burger-header .tophat-burger-close {
+		left:$burger-header-hpad;
 	}
 }
 
@@ -117,9 +117,12 @@ font-size: $base-size;
 		height: auto;
 		color: inherit;
 		cursor: pointer;
-		font-size: 1.5em;
+		padding: 0;
 		&:hover {
 			color: $burger-header-color-hover;
+		}
+		span {
+			font-size: 1.5em;
 		}
 	}
 }
@@ -132,6 +135,24 @@ font-size: $base-size;
 	flex-grow: 1;
 	overflow: auto;
 	background: $burger-body-background;
+	
+	.tophat-burger-close {
+		position: absolute;
+		top: ($burger-body-vpad / 2);
+		left: ($burger-body-hpad / 2);
+		transform:translate(-50%,-50%);
+		border: none;
+		background: none;
+		display: inline;
+		width: auto;
+		height: auto;
+		color: inherit;
+		cursor: pointer;
+		padding: 0;
+		span {
+			font-size: 1.5em;
+		}
+	}
 	
 	.tophat-burger-body-content {
 		color: $burger-body-color;

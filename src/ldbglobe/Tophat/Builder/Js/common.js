@@ -104,6 +104,7 @@ function tophat_dropdown(){
 
 window.tophat_burger_open = function(el,event)
 {
+	event.preventDefault();
 	$bar = $(el).parents('.tophat-bar').eq(0);
 	$burgerMenu = $(el).parents('.tophat-burger').eq(0);
 	$burgerPanel = $($bar.data('burger'));
@@ -150,7 +151,7 @@ function tophat_burger(){
 		event.stopPropagation();
 	});
 
-	$(document).on('click touch','.tophat-burger-container .tophat-burger-header',function(){
+	$(document).on('click touch','.tophat-burger-container, .tophat-burger-header, .tophat-burger-close',function(){
 		$('.tophat-burger-container').removeClass('active');
 		$('.tophat-bar .tophat-burger').removeClass('active');
 	})
@@ -230,8 +231,8 @@ function tophat_centered_logo_refresh()
 					// on regarde si l'option B est plus "équilibré"
 					if(Math.abs(deltaB)<Math.abs(delta))
 					{
-						delta = -deltaB;
-						//logoIndex = Math.max(0,logoIndex-1);
+						delta = deltaB;
+						logoIndex = Math.max(0,logoIndex+1);
 					}
 
 					centeredlogo.css({
@@ -335,6 +336,7 @@ function tophat_burger_container($bar)
 						+'<div class="tophat-burger-header-content">'+extra_header+'</div>'
 					+'</div>'
 					+'<div onclick="void(0);" class="tophat-burger-body">'
+						+'<button class="tophat-burger-close"><span aria-label="Close menu">✕</span></button>'
 						+'<div class="tophat-burger-body-prepend">'+extra_prepend+'</div>'
 						+'<div class="tophat-burger-body-content"><ul class="nav-dropdown"></ul></div>'
 						+'<div class="tophat-burger-body-append">'+extra_append+'</div>'
