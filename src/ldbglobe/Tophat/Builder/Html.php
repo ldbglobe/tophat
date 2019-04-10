@@ -51,6 +51,7 @@ class Html
 			.' data-tophat-key="'.$key.'"'
 			.' data-tophat-group="'.$bar->get('group').'"'
 
+			.' data-tophat-burger-label="'.$bar->get('burger.label','').'"'
 			.' data-tophat-burger-link="'.$bar->get('burger.link','').'"'
 			.' data-tophat-burger-animation="'.$bar->get('burger.animation','right').'"'
 			.' data-tophat-burger-position="'.$bar->get('burger.position').'"'

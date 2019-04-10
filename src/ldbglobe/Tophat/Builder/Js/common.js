@@ -87,19 +87,46 @@ function tophat_dropdown(){
 		}
 	})
 	$(document).on('mouseover click','.tophat-bar-part > .nav-item > .nav-link',function(event){
-		if(tophat_touch_support() && event.type=='mouseover')
+		if($(this).attr('href').match('javascript:'))
 		{
-			event.stopPropagation();
-			event.preventDefault();
+			// bouton avec un link pure javascript on ne fait rien de particulier ici sous peine de tout casser
 		}
 		else
 		{
-			if(tophat_touch_support() && !$(this).parent('.nav-item').hasClass('hover'))
+			if(tophat_touch_support() && event.type=='mouseover')
 			{
+				event.stopPropagation();
 				event.preventDefault();
+			}
+			else
+			{
+				if(tophat_touch_support() && !$(this).parent('.nav-item').hasClass('hover'))
+				{
+					event.preventDefault();
+				}
 			}
 		}
 	});
+}
+
+window.tophat_burger_toggle_active = function(el,event)
+{
+	$bar = $(el).parents('.tophat-bar').eq(0);
+	$burgerMenu = $(el).parents('.tophat-burger').eq(0);
+	if($burgerMenu.hasClass('active'))
+	{
+		$('.tophat-bar .tophat-burger').removeClass('active');
+	}
+	else
+	{
+		$burgerMenu.addClass('active');
+	}
+}
+
+window.tophat_burger_close = function()
+{
+	$('.tophat-burger-container').removeClass('active');
+	$('.tophat-bar .tophat-burger').removeClass('active');
 }
 
 window.tophat_burger_open = function(el,event)
@@ -270,6 +297,7 @@ function tophat_burger_container($bar)
 		$bar = $('.tophat-bar[data-tophat-group="'+$bar.data('tophatGroup')+'"]').eq(0);
 	}
 
+	var burger_label = $bar.data('tophatBurgerLabel');
 	var burger_custom_link = $bar.data('tophatBurgerLink');
 	var animation = $bar.data('tophatBurgerAnimation');
 	var extra_header = $bar.data('tophatBurgerHeader');
@@ -291,9 +319,9 @@ function tophat_burger_container($bar)
 
 			var burger_button = null;
 			if(burger_custom_link)
-				burger_button = $('<div class="tophat-burger nav-item" screen="'+type+'" data-tophat-level="9999" data-tophat-skin="burger"><a href="'+burger_custom_link+'" class="nav-link"><span class="label"><span aria-label="Open menu">≡</span></span></a></div>');
+				burger_button = $('<div class="tophat-burger nav-item" screen="'+type+'" data-tophat-level="9999" data-tophat-skin="burger"><a href="'+burger_custom_link+'" onclick="tophat_burger_toggle_active(this,event)" class="nav-link"><span class="label"><span aria-label="Open menu">≡</span></span>'+(burger_label ? '<span class="label-text">'+burger_label+'</span>':'')+'</a></div>');
 			else
-				burger_button = $('<div class="tophat-burger nav-item" screen="'+type+'" data-tophat-level="9999" data-tophat-skin="burger"><a href="#" onclick="tophat_burger_open(this,event)" class="nav-link"><span class="label"><span aria-label="Open menu">≡</span></span></a></div>');
+				burger_button = $('<div class="tophat-burger nav-item" screen="'+type+'" data-tophat-level="9999" data-tophat-skin="burger"><a href="#" onclick="tophat_burger_open(this,event)" class="nav-link"><span class="label"><span aria-label="Open menu">≡</span></span>'+(burger_label ? '<span class="label-text">'+burger_label+'</span>':'')+'</a></div>');
 
 			if(position!="")
 			{
