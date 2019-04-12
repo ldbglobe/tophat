@@ -193,13 +193,16 @@ function tophat_centered_logo_refresh()
 	$('.tophat-bar .tophat-bar-logo').each(function(){
 		if($(this).find('img').length>0)
 			var W = $(this).find('img').outerWidth();
-		else
+		else if($(this).find('svg').length>0)
 			var W = $(this).find('svg').outerWidth();
+		else if($(this).find('object').length>0)
+			var W = $(this).find('object').outerWidth();
+		else
+			var W = $(this).find('embed').outerWidth();
 
 		if(W>0)
 		{
 			$(this).attr('logo-w',1);
-			//$(this).width(W);
 		}
 		else
 		{
@@ -604,7 +607,7 @@ function tophat_item_visibility_overall_detection($bar) {
 			//debug('part('+i+') item('+j+') : '+w+'px (inside a '+W+'px container)');
 		})
 		itemWidth += iW;
-		debug('part('+i+') totalize '+iW+'px content in a '+W+'px container');
+		//debug('part('+i+') totalize '+iW+'px content in a '+W+'px container');
 		enough_space = enough_space && iW <= W;
 	})
 
@@ -616,11 +619,11 @@ function tophat_item_visibility_overall_detection($bar) {
 function tophat_item_visibility_AI_hide($bar)
 {
 	var refresh_needed = false;
-	debug('tophat_item_visibility_AI_hide');
+	//debug('tophat_item_visibility_AI_hide');
 	if($bar.find('.tophat-bar-part[data-tophat-align="middle"]:visible').length > 0 && $bar.find('.tophat-bar-part').length > 1)
 	{
 		$bar.find('.tophat-bar-part').each(function(i){
-			debug('part '+i);
+			//debug('part '+i);
 			refresh_needed = refresh_needed || tophat_item_visibility_AI_hide_items($(this));
 		})
 	}
@@ -634,12 +637,12 @@ function tophat_item_visibility_AI_hide($bar)
 function tophat_item_visibility_AI_show($bar)
 {
 	var refresh_needed = false;
-	debug('tophat_item_visibility_AI_show');
+	//debug('tophat_item_visibility_AI_show');
 	if($bar.find('.tophat-bar-part[data-tophat-align="middle"]:visible').length > 0 && $bar.find('.tophat-bar-part').length > 1)
 	{
 		tophat_item_visibility_AI_show_width_middle($bar);
 		$bar.find('.tophat-bar-part').each(function(i){
-			debug('part '+i);
+			//debug('part '+i);
 			refresh_needed = refresh_needed || tophat_item_visibility_AI_show_items($(this));
 		})
 	}
@@ -655,7 +658,7 @@ function tophat_item_visibility_AI_show($bar)
 //----------------------------------------------------------------------
 function tophat_item_visibility_AI_hide_items($container)
 {
-	debug('tophat_item_visibility_AI_hide_items');
+	//debug('tophat_item_visibility_AI_hide_items');
 
 	var refresh_needed = false;
 	$container.css({flexWrap:'wrap'});
@@ -686,7 +689,7 @@ function tophat_item_visibility_AI_hide_items($container)
 		if(!$items[i].hasClass('tophat-burger') && $items[i].data('tophat-level')<999)
 		{
 			iW -= $items[i].outerWidth(true);
-			debug(W+' ? '+iW);
+			//debug(W+' ? '+iW);
 
 			$items[i].hide();
 			$items[i].attr('data-burger',1);
@@ -700,7 +703,7 @@ function tophat_item_visibility_AI_hide_items($container)
 }
 function tophat_item_visibility_AI_show_items($container)
 {
-	debug('tophat_item_visibility_AI_show_items');
+	//debug('tophat_item_visibility_AI_show_items');
 
 	var refresh_needed = false;
 	var W = barpart_UsefulleWith($container);
@@ -732,7 +735,7 @@ function tophat_item_visibility_AI_show_items($container)
 	if(group.length)
 		groups.push(group);
 	delete group;
-	debug(groups);
+	//debug(groups);
 
 	// pour réafficher un groupe il doit pouvoir être affiché en intégralité
 	for(i=0 ; i < groups.length ; i++)
@@ -743,7 +746,7 @@ function tophat_item_visibility_AI_show_items($container)
 			iW += group[j].outerWidth();
 		}
 
-		debug(W+' ? '+iW);
+		//debug(W+' ? '+iW);
 		if(iW >= W)
 			break;
 
@@ -761,9 +764,9 @@ function tophat_item_visibility_AI_show_items($container)
 //----------------------------------------------------------------------
 function tophat_item_visibility_AI_adjust_width_middle($bar,param)
 {
-	debug('tophat_item_visibility_AI_adjust_width_middle');
+	//debug('tophat_item_visibility_AI_adjust_width_middle');
 
-	debug('new flex ratio for middle part is reset to 1 before try some optimisation');
+	//debug('new flex ratio for middle part is reset to 1 before try some optimisation');
 	$bar.find('.tophat-bar-part[data-tophat-align="middle"]').css({flex:'1 1'});
 
 	var wW = $(window).width();
@@ -821,7 +824,7 @@ function tophat_item_visibility_AI_adjust_width_middle($bar,param)
 }
 function tophat_item_visibility_AI_show_width_middle($bar,param)
 {
-	debug('tophat_item_visibility_AI_show_width_middle');
+	//debug('tophat_item_visibility_AI_show_width_middle');
 }
 
 //----------------------------------------------------------------------
@@ -836,6 +839,14 @@ function tophat_cron()
 		tophat_centered_logo_refresh();
 		tophat_item_visibility_refresh();
 		tophat_centered_logo_refresh();
+
+		$('.tophat-bar').find('.tophat-bar-part').each(function(){
+			$(this).show();
+			if($(this).find('>*:visible').length==0)
+			{
+				$(this).hide();
+			}
+		})
 
 		if($('.tophat-bar.content-updated').length>0)
 		{

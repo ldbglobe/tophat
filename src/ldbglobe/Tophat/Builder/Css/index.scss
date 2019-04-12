@@ -84,7 +84,9 @@ font-size: $base-size;
 				}
 			}
 			svg {
-				width: 100%;
+				// large value to force svg rendering as large as possible
+				// but this SVG is constrain by max-width settings
+				width: 800px; 
 				height: auto;
 			}
 		}
