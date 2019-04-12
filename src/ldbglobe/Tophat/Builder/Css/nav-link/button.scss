@@ -25,6 +25,8 @@
 
 	@media screen and (max-width: 980px) {
 		> .nav-link .label {
+			padding-top:$button-vpad-mobile;
+			padding-bottom:$button-vpad-mobile;
 			padding-left:$button-hpad-mobile;
 			padding-right:$button-hpad-mobile;
 		}
@@ -55,6 +57,8 @@
 
 	@media screen and (max-width: 980px) {
 		> .nav-link .label {
+			padding-top:$button-alt-vpad-mobile;
+			padding-bottom:$button-alt-vpad-mobile;
 			padding-left:$button-alt-hpad-mobile;
 			padding-right:$button-alt-hpad-mobile;
 		}
