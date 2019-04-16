@@ -12,10 +12,10 @@
 }	
 
 .nav-item {
-	height: 100%;
+	height: inherit;
 	> .nav-group > .nav-link,
 	> .nav-link {
-		height: 100%;
+		height: inherit;
 		display: flex;
 		align-items: center;
 		text-decoration: none;

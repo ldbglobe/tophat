@@ -13,11 +13,6 @@ margin: $margin-top 0 $margin-bottom;
 	margin-bottom: $margin-top-mobile;
 }
 
-display: none;
-&.init {
-	display: flex;
-}
-
 font-family: $ff;
 background:$background;
 color:$color;
@@ -34,15 +29,11 @@ font-size: $base-size;
 @media screen and (max-width:980px){ font-size: $base-sizeM; }
 @media screen and (max-width:640px){ font-size: $base-sizeS; }
 
-@if($nav-height > 0)
-{
-	height: $nav-height;
-}
-@if($nav-height-mobile > 0)
-{
-	@media screen and (max-width: 980px) {
-		height: $nav-height-mobile;
-	}
+display: none;
+&.init {
+	display: flex;
+	@if($nav-height > 0) { height: $nav-height; }
+	@if($nav-height-mobile > 0) { @media (max-width: 980px) { height: $nav-height-mobile; } }
 }
 
 .tophat-bar-part {
@@ -50,7 +41,7 @@ font-size: $base-size;
 	margin: 0;
 
 	display: flex;
-	height: 100%;
+	height: inherit;
 
 	//flex-wrap: wrap;
 	justify-content: flex-start;
@@ -68,7 +59,7 @@ font-size: $base-size;
 		align-self:start;
 		padding:0;
 		margin:0 $nav-link-hspace;
-		height: 100%;
+		height: inherit;
 		> span {
 			position: relative;
 			top: $logo-vpad;
