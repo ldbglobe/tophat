@@ -269,7 +269,7 @@ function tophat_centered_logo_refresh()
 						order:logoIndex,
 					});
 				}
-				centeredPart.css({transform:'translateX('+(delta/2)+'px)'});
+				centeredPart.css({transform:'translateX('+Math.round(delta/2)+'px)'});
 				centeredPart.attr('lostspace',Math.abs(delta));
 			}
 		})
@@ -765,9 +765,7 @@ function tophat_item_visibility_AI_show_items($container)
 function tophat_item_visibility_AI_adjust_width_middle($bar,param)
 {
 	//debug('tophat_item_visibility_AI_adjust_width_middle');
-
 	//debug('new flex ratio for middle part is reset to 1 before try some optimisation');
-	$bar.find('.tophat-bar-part[data-tophat-align="middle"]').css({flex:'1 1'});
 
 	var wW = $(window).width();
 	var screen = wW>980 ? 'desktop':'mobile';
@@ -775,7 +773,11 @@ function tophat_item_visibility_AI_adjust_width_middle($bar,param)
 	// si on à des éléments visible au milieu
 	if($bar.find('.tophat-bar-part[data-tophat-align="middle"] > [screen="'+screen+'"], .tophat-bar-part[data-tophat-align="middle"] > [screen="both"]').length>0)
 	{
-		$bar.find('.tophat-bar-part[data-tophat-align="middle"]').show();
+		if($bar.find('.tophat-bar-part[data-tophat-align="middle"]:visible').length==0)
+		{
+			$bar.find('.tophat-bar-part[data-tophat-align="middle"]').css({flex:'1 1'});
+			$bar.find('.tophat-bar-part[data-tophat-align="middle"]').show();
+		}
 
 		var W = $bar.width();
 		var lW = 0;
@@ -818,6 +820,7 @@ function tophat_item_visibility_AI_adjust_width_middle($bar,param)
 	// sinon on travail comme si le milieu n'était pas présent
 	else
 	{
+		$bar.find('.tophat-bar-part[data-tophat-align="middle"]').css({flex:'1 1'});
 		$bar.find('.tophat-bar-part[data-tophat-align="middle"]').hide();
 		return false;
 	}
