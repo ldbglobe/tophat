@@ -187,112 +187,14 @@ function tophat_burger(){
 //----------------------------------------------------------------------
 //----------------------------------------------------------------------
 
-function tophat_centered_logo_refresh()
-{
-	//logo width refresh
-	$('.tophat-bar .tophat-bar-logo').each(function(){
-		if($(this).find('img').length>0)
-			var W = $(this).find('img').outerWidth();
-		else if($(this).find('svg').length>0)
-			var W = $(this).find('svg').outerWidth();
-		else if($(this).find('object').length>0)
-			var W = $(this).find('object').outerWidth();
-		else
-			var W = $(this).find('embed').outerWidth();
-
-		if(W>0)
-		{
-			$(this).attr('logo-w',1);
-		}
-		else
-		{
-			$(this).attr('logo-w',0);
-		}
-	})
-
-	var centeredLogos = $('.tophat-bar[data-tophat-logo="middle"]');
-	if(centeredLogos.length)
-	{
-		centeredLogos.each(function(){
-			var centeredBar = $(this);
-			var centeredPart = centeredBar.find('[data-tophat-align="middle"]');
-
-			var centeredlogo = centeredPart.find('.tophat-bar-logo');
-			centeredlogo.show();
-
-			if(centeredlogo.is(':visible'))
-			{
-
-				var centeredLinks = centeredPart.find('.nav-item:visible');
-				//console.log(centeredLinks);
-				centeredLinks.each(function(i){
-					$(this).css({order:i});
-				})
-				var delta = 0;
-				if(centeredLinks.length>0)
-				{
-					var pad = 0;
-					var W = centeredPart.width();
-					var w = 0;
-					for(var i=0; i < centeredLinks.length; i++)
-					{
-						w += centeredLinks.eq(i).outerWidth();
-					}
-					var lw = centeredlogo.width();
-
-					var logoIndex = 0;
-					var w1 = 0;
-					var w1B = 0;
-					for(var i=0; i < centeredLinks.length; i++)
-					{
-						w1 = w1B;
-						w1B += centeredLinks.eq(i).outerWidth();
-						logoIndex = i;
-						if(w1B >= w/2)
-						{
-							break;
-						}
-					}
-					var w2 = w - w1;
-					var w2B = w - w1B;
-					delta = w2-w1
-					var deltaB = w2B-w1B
-
-					// on regarde si l'option B est plus "équilibré"
-					if(Math.abs(deltaB)<Math.abs(delta))
-					{
-						delta = deltaB;
-						logoIndex = Math.max(0,logoIndex+1);
-					}
-
-					centeredlogo.css({
-						order:logoIndex,
-					});
-				}
-				centeredPart.css({transform:'translateX('+Math.round(delta/2)+'px)'});
-				centeredPart.attr('lostspace',Math.abs(delta));
-			}
-		})
-	}
-}
-
-//----------------------------------------------------------------------
-//----------------------------------------------------------------------
-
 function tophat_burger_init()
 {
 	$bars = $('.tophat-bar');
-
-	// on force un groupe pour la démo
-	// $bars.attr('data-tophat-group','yolo');
-
-
 	$bars.each(function(){
 		tophat_burger_container($(this));
 	})
 }
 
-var tophat_burger_container_idx = 0;
 function tophat_burger_container($bar)
 {
 	if($bar.data('tophatGroup') && $bar.data('tophatBurgerPosition')=="" && $bar.data('tophatBurgerMobilePosition')=="")
@@ -380,13 +282,11 @@ function tophat_burger_container($bar)
 
 		$('body').append($burger);
 
+		var tophat_burger_container_idx = $bar.data('idx');
+
 		$burger.attr('id','burger'+tophat_burger_container_idx);
 		$burger.data('bar','#bar'+tophat_burger_container_idx);
-
-		$bar.attr('id','bar'+tophat_burger_container_idx);
 		$bar.data('burger','#burger'+tophat_burger_container_idx);
-
-		tophat_burger_container_idx++;
 	}
 	else
 		$burger = $($bar.data('burger'));
@@ -412,28 +312,15 @@ function tophat_burger_refresh()
 		else
 			var $bar = $($burger.data('tophatBar'));
 
-		//console.log($burger.data(),$bar);
-
-		// si on à des éléments caché
-		if($bar.find('.nav-item[data-burger="1"]').length)
-		{
-			// on affiche le burger menu
-			$bar.find('.tophat-burger').addClass('visible');
-		}
-		else
-		{
-			// sinon on le masque
-			$bar.find('.tophat-burger').removeClass('visible');
-		}
-
 		// TODO gérer les sections pour les différencier dans le dropdown burger
 
-		$dropdown = $burger.find('.nav-dropdown');
+		var $dropdown = $burger.find('.nav-dropdown');
 		// si on à des éléments issu d'un autre menu
 		if($dropdown.children().length>0)
 			$dropdown.append('<li class="burger-separator"></li>');
 
-		$navItems = $bar.find('.nav-item[data-burger="1"]:not([data-tophat-burgermode="never"]), .nav-item[data-tophat-burgermode="allways"]');
+		var $navItems = $bar.find('.nav-item[data-burger="1"]:not([data-tophat-burgermode="never"]), .nav-item[data-tophat-burgermode="allways"]');
+
 		$navItems.sort(function(a,b){
 			// burgerlevel indique l'ordre de manière naturel
 			// les plus grand vont à la fin
@@ -446,7 +333,7 @@ function tophat_burger_refresh()
 			return burgercomp;
 		})
 
-		currentGroup = null;
+		var currentGroup = null;
 		$navItems.each(function(){
 			var group = null;//$(this).data('tophatGroup');
 			var item_class = $(this).attr('data-tophat-class');
@@ -482,6 +369,7 @@ function tophat_burger_refresh()
 				}
 
 				var $burgeritem = $('<li class="burger-item '+item_class+'"></li>');
+				
 
 				if($burgerlink_dropdown_trigger)
 					$burgeritem.append($burgerlink_dropdown_trigger);
@@ -496,7 +384,7 @@ function tophat_burger_refresh()
 						$subnav.append('<li class="burger-subnav-item burger-subnav-main"><a href="'+$link.attr('href')+'"><span class="label">'+$link.find('.label').html()+'</span></a></li>');
 					}
 
-					$sublink = null;
+					var $sublink = null;
 					// add dropdown item content as sub item
 					$subitems.each(function(){
 						var $link = $(this).children();
@@ -521,337 +409,16 @@ function tophat_burger_refresh()
 
 //----------------------------------------------------------------------
 //----------------------------------------------------------------------
-
-function tophat_container_item_width($container) {
-	var itemWidth = 0;
-
-	var logo = $container.find('.tophat-bar-logo');
-	if(logo.length)
-		itemWidth += logo.outerWidth(true);
-
-	var burgermenu = $container.find('.tophat-burger.nav-item');
-	if(burgermenu.length)
-		itemWidth += burgermenu.outerWidth(true);
-
-	$container.find('.nav-item:visible').each(function(j){
-		var $item = $(this);
-		var w = Math.floor($item.outerWidth(true));
-		itemWidth += w;
-	});
-	return itemWidth;
-}
-
-//----------------------------------------------------------------------
-//----------------------------------------------------------------------
-
-function tophat_item_visibility_refresh(){
-	$bars = $('.tophat-bar');
-	$bars.each(function(){
-		var $bar = $(this);
-		tophat_item_visibility_AI_adjust_width_middle($bar);
-		if(tophat_item_visibility_overall_detection($bar))
-		{
-			//console.log('tophat_item_visibility_AI_show',$bar[0]);
-			tophat_item_visibility_AI_show($bar)
-		}
-		else
-		{
-			//console.log('tophat_item_visibility_AI_hide',$bar[0]);
-			tophat_item_visibility_AI_hide($bar)
-		}
-	});
-
-	if($(window).width()>980)
-	{
-		$('.tophat-bar-part > .nav-item').css({order:''});
-	}
-	else
-	{
-		$('.tophat-bar-part > .nav-item').each(function(){
-			$(this).css({order:$(this).attr('data-tophat-burgerlevel')});
-		})
-	}
-}
-
-//----------------------------------------------------------------------
-//----------------------------------------------------------------------
-
-var barPad = 0; // bar lost space compensation
-
-function barpart_UsefulleWith($part)
-{
-	return Math.floor($part.width() - barPad - ($part.attr('lostspace') ? $part.attr('lostspace'):0));
-}
-
-function tophat_item_visibility_overall_detection($bar) {
-
-	// on élimine les règles CSS qui conflictuel
-	$bar.find('.tophat-bar-part').css({flexWrap:'wrap','paddingLeft':'', 'paddingRight':''});
-
-	$parts = $bar.find('.tophat-bar-part');
-	var enough_space = true;
-	var itemWidth = 0;
-	$parts.each(function(i){
-		var $part = $(this);
-		var W = barpart_UsefulleWith($part);
-		//debug('part('+i+') : '+W+'px');
-
-		var iW = 0;
-		var logo = $part.find('.tophat-bar-logo:visible');
-		if(logo.length) iW += logo.width();
-
-		$part.find('.nav-item:visible').each(function(j){
-			var $item = $(this);
-			var w = Math.floor($item.outerWidth(true));
-			iW += w;
-			//debug('part('+i+') item('+j+') : '+w+'px (inside a '+W+'px container)');
-		})
-		itemWidth += iW;
-		//debug('part('+i+') totalize '+iW+'px content in a '+W+'px container');
-		enough_space = enough_space && iW <= W;
-	})
-
-	// puis on remet en place la règle d'alignement de contenu dans le menu
-	$bar.find('.tophat-bar-part').css({flexWrap:''});
-	return enough_space;
-}
-
-function tophat_item_visibility_AI_hide($bar)
-{
-	var refresh_needed = false;
-	//debug('tophat_item_visibility_AI_hide');
-	if($bar.find('.tophat-bar-part[data-tophat-align="middle"]:visible').length > 0 && $bar.find('.tophat-bar-part').length > 1)
-	{
-		$bar.find('.tophat-bar-part').each(function(i){
-			//debug('part '+i);
-			refresh_needed = refresh_needed || tophat_item_visibility_AI_hide_items($(this));
-		})
-	}
-	else
-	{
-		refresh_needed = tophat_item_visibility_AI_hide_items($bar);
-	}
-	if(refresh_needed)
-		$bar.addClass('content-updated');
-}
-function tophat_item_visibility_AI_show($bar)
-{
-	var refresh_needed = false;
-	//debug('tophat_item_visibility_AI_show');
-	if($bar.find('.tophat-bar-part[data-tophat-align="middle"]:visible').length > 0 && $bar.find('.tophat-bar-part').length > 1)
-	{
-		tophat_item_visibility_AI_show_width_middle($bar);
-		$bar.find('.tophat-bar-part').each(function(i){
-			//debug('part '+i);
-			refresh_needed = refresh_needed || tophat_item_visibility_AI_show_items($(this));
-		})
-	}
-	else
-	{
-		refresh_needed = tophat_item_visibility_AI_show_items($bar);
-	}
-	if(refresh_needed)
-		$bar.addClass('content-updated');
-}
-
-//----------------------------------------------------------------------
-//----------------------------------------------------------------------
-function tophat_item_visibility_AI_hide_items($container)
-{
-	//debug('tophat_item_visibility_AI_hide_items');
-
-	var refresh_needed = false;
-	$container.css({flexWrap:'wrap'});
-	var W = barpart_UsefulleWith($container);
-	$container.css({flexWrap:''});
-	var iW = tophat_container_item_width($container);
-	if(iW <= W)
-		return refresh_needed;
-
-	$items = [];
-	$container.find('.nav-item:visible').each(function(){
-		$items.push($(this));
-	});
-	$items.reverse();
-	$items.sort(function(a,b){ return a.data('tophatLevel') - b.data('tophatLevel'); });
-
-	var itemLevel = null;
-	for(i=0 ; i < $items.length ; i++)
-	{
-		// si on doit encore supprimer des items on met à jour le level de l'item en court de traitement
-		if(iW > W)
-			itemLevel = $items[i].data('tophatLevel');
-		// sinon si le level n'est pas le même que celui précédement masqué on arrète la boucle
-		else if(itemLevel != $items[i].data('tophatLevel'))
-			break;
-
-		// on masque ensuite l'élément
-		if(!$items[i].hasClass('tophat-burger') && $items[i].data('tophat-level')<999)
-		{
-			iW -= $items[i].outerWidth(true);
-			//debug(W+' ? '+iW);
-
-			$items[i].hide();
-			$items[i].attr('data-burger',1);
-			refresh_needed = true;
-		}
-
-		// condition d'arrêt immédiat si la limite est atteinte (pas par groupe de level)
-		//if(iW <= W) break;
-	}
-	return refresh_needed==true;
-}
-function tophat_item_visibility_AI_show_items($container)
-{
-	//debug('tophat_item_visibility_AI_show_items');
-
-	var refresh_needed = false;
-	var W = barpart_UsefulleWith($container);
-	var iW = tophat_container_item_width($container);
-
-	$items = [];
-	$container.find('.nav-item[data-burger="1"]').each(function(){
-		$items.push($(this));
-	});
-	$items.reverse();
-	$items.sort(function(a,b){ return a.data('tophatLevel') - b.data('tophatLevel'); });
-	$items.reverse();
-
-	// on construit des group d'items en fonction de leur LEVEL
-	var groups = [];
-	var group = [];
-	var itemLevel = null;
-	for(i=0 ; i < $items.length ; i++)
-	{
-		if(itemLevel != $items[i].data('tophatLevel'))
-		{
-			if(itemLevel!=null)
-				groups.push(group);
-			group = [];
-			itemLevel = $items[i].data('tophatLevel');
-		}
-		group.push($items[i]);
-	}
-	if(group.length)
-		groups.push(group);
-	delete group;
-	//debug(groups);
-
-	// pour réafficher un groupe il doit pouvoir être affiché en intégralité
-	for(i=0 ; i < groups.length ; i++)
-	{
-		var group = groups[i];
-		for(j=0 ; j < group.length ; j++)
-		{
-			iW += group[j].outerWidth();
-		}
-
-		//debug(W+' ? '+iW);
-		if(iW >= W)
-			break;
-
-		for(j=0 ; j < group.length ; j++)
-		{
-			group[j].show();
-			group[j].attr('data-burger',0);
-			refresh_needed = true;
-		}
-	}
-	return refresh_needed==true
-}
-
-//----------------------------------------------------------------------
-//----------------------------------------------------------------------
-function tophat_item_visibility_AI_adjust_width_middle($bar,param)
-{
-	//debug('tophat_item_visibility_AI_adjust_width_middle');
-	//debug('new flex ratio for middle part is reset to 1 before try some optimisation');
-
-	var wW = $(window).width();
-	var screen = wW>980 ? 'desktop':'mobile';
-
-	// si on à des éléments visible au milieu
-	if($bar.find('.tophat-bar-part[data-tophat-align="middle"] > [screen="'+screen+'"], .tophat-bar-part[data-tophat-align="middle"] > [screen="both"]').length>0)
-	{
-		if($bar.find('.tophat-bar-part[data-tophat-align="middle"]:visible').length==0)
-		{
-			$bar.find('.tophat-bar-part[data-tophat-align="middle"]').css({flex:'1 1'});
-			$bar.find('.tophat-bar-part[data-tophat-align="middle"]').show();
-		}
-
-		var W = $bar.width();
-		var lW = 0;
-		var mW = 0;
-		var rW = 0;
-
-		$bar.find('.tophat-bar-part[data-tophat-align="left"] > [screen="'+screen+'"]').each(function(){ lW += $(this).outerWidth(true); });
-		$bar.find('.tophat-bar-part[data-tophat-align="left"] > [screen="both"]').each(function(){ lW += $(this).outerWidth(true); });
-
-		$bar.find('.tophat-bar-part[data-tophat-align="middle"] > [screen="'+screen+'"]').each(function(){ mW += $(this).outerWidth(true); });
-		$bar.find('.tophat-bar-part[data-tophat-align="middle"] > [screen="both"]').each(function(){ mW += $(this).outerWidth(true); });
-
-		$bar.find('.tophat-bar-part[data-tophat-align="right"] > [screen="'+screen+'"]').each(function(){ rW += $(this).outerWidth(true); });
-		$bar.find('.tophat-bar-part[data-tophat-align="right"] > [screen="both"]').each(function(){ rW += $(this).outerWidth(true); });
-
-		//console.log(W,lW,mW,rW);
-
-		// New size fix (way better ^^)
-		var LW = lW / W;
-		var MW = mW / W;
-		var RW = rW / W;
-		var SW = Math.max(LW,RW);
-
-		//console.log(W,LW,MW,2*SW);
-
-		if(MW+2*SW > 1) // pas assé de place
-		{
-			var A = 0.95*(1-2*SW) * 1/SW;
-			//console.log('Not Enough width : new flex ratio for middle part is '+(A));
-			$bar.find('.tophat-bar-part[data-tophat-align="middle"]').css({flex:(A)+' 1'});
-		}
-		else
-		{
-			var A = MW * 1/SW;
-			//console.log('Enough width : new flex ratio for middle part is '+(A));
-			$bar.find('.tophat-bar-part[data-tophat-align="middle"]').css({flex:(A)+' 1'});
-		}
-		return true;
-	}
-	// sinon on travail comme si le milieu n'était pas présent
-	else
-	{
-		$bar.find('.tophat-bar-part[data-tophat-align="middle"]').css({flex:'1 1'});
-		$bar.find('.tophat-bar-part[data-tophat-align="middle"]').hide();
-		return false;
-	}
-}
-function tophat_item_visibility_AI_show_width_middle($bar,param)
-{
-	//debug('tophat_item_visibility_AI_show_width_middle');
-}
-
-//----------------------------------------------------------------------
-//----------------------------------------------------------------------
 tophat_cron_in_progress = false;
 function tophat_cron()
 {
 	if(!tophat_cron_in_progress)
 	{
 		tophat_cron_in_progress = true
-		tophat_item_visibility_refresh();
-		tophat_centered_logo_refresh();
-		tophat_item_visibility_refresh();
-		tophat_centered_logo_refresh();
 
-		$('.tophat-bar').find('.tophat-bar-part').each(function(){
-			$(this).show();
-			if($(this).find('>*:visible').length==0)
-			{
-				$(this).hide();
-			}
-		})
+		v3_tophat_bar_refresh();
 
-		if($('.tophat-bar.content-updated').length>0)
+		if(true || $('.tophat-bar.content-updated').length>0)
 		{
 			tophat_burger_refresh();
 		}
@@ -879,7 +446,7 @@ var deferal_cron_timeout = null;
 function deferal_cron()
 {
 	clearTimeout(deferal_cron_timeout);
-	deferal_cron_timeout = setTimeout(function(){ tophat_cron(); }, 100);
+	deferal_cron_timeout = setTimeout(function(){ tophat_cron(); }, 50);
 }
 
 //----------------------------------------------------------------------
@@ -891,6 +458,9 @@ $( document ).ready(function() {
 
 function _init() {
 	$('.tophat-bar').addClass('init').addClass('content-updated');
+
+	v3_tophat_init();
+
 	tophat_burger_init();
 	tophat_dropdown();
 	tophat_burger();
@@ -910,8 +480,6 @@ function _init() {
 		window.addEventListener('scroll', _handler); // defered refresh on scroll
 		window.addEventListener('orientationchange', _handler); // defered on orientation change too
 	},500);
-
-	deferal_cron();
 }
 
 var _requestAnimationFrame
@@ -926,3 +494,258 @@ _requestAnimationFrame = window.requestAnimationFrame ||
 						 function (callback) {
 							window.setTimeout(callback, 0)
 						 }
+
+//----------------------------------------------------------------------
+//----------------------------------------------------------------------
+
+var tophat_bar_idx = 0;
+function v3_tophat_init()
+{
+	$('.tophat-bar').each(function(){
+		var bar = $(this);
+
+		bar.find('.tophat-bar-logo').attr('logo-w',1);
+		bar.find('.tophat-bar-logo').show();
+		bar.find('.nav-item').each(function(idx){
+			$(this).data('idx',idx);
+			$(this).addClass('nav-item-'+idx);
+		});
+
+		var clone = bar.clone();
+
+		bar.data('idx',tophat_bar_idx);
+		bar.attr('id','bar'+tophat_bar_idx);
+
+		clone.data('idx',tophat_bar_idx);
+		clone.attr('id','barclone'+tophat_bar_idx);
+
+		tophat_bar_idx++;
+
+		bar.addClass('tophat-bar-real');
+		clone.addClass('tophat-bar-clone').css({pointerEvents:'none',position:'absolute',width:'100%',top:'-99999999999px'});
+		bar.parent().css({position:'relative'})
+		bar.parent().append(clone)
+	});
+}
+
+//----------------------------------------------------------------------
+//----------------------------------------------------------------------
+
+function v3_tophat_bar_refresh()
+{
+	$('.tophat-bar-real').each(function(){
+		var bar = $(this);
+		var screen = v3_getScreen();
+
+		// application de l'ordre mobile / desktop
+		if(screen=='desktop')
+		{
+			bar.find('.nav-item').not('.tophat-burger').each(function(i){
+				$(this).css({order:i*10});
+			});
+		}
+		else
+		{
+			bar.find('.nav-item').not('.tophat-burger').sort(function(a,b){
+				return $(b).attr('data-tophat-burgerlevel') - $(a).attr('data-tophat-burgerlevel');
+			}).each(function(i){
+				$(this).css({order:i*10});
+			});
+		}
+
+		var idx = $(this).data('idx');
+		var clone = $('#barclone'+idx);
+
+		var middleLogo = bar.find('.tophat-bar-part[data-tophat-align="middle"] .tophat-bar-logo[screen="'+screen+'"]');
+
+		var hiddenItemsWidth = v3_refresh_step1(bar,clone,screen,middleLogo) // hide nav item until all content fits in - do not care of logo position
+		v3_refresh_step2(bar,clone,screen,middleLogo) // try to center logo and hide more content if needed
+
+	});
+}
+
+//----------------------------------------------------------------------
+//----------------------------------------------------------------------
+
+function v3_refresh_step1(bar,clone,screen,middleLogo) {
+	// hide nav item until all content fits in - do not care of logo position
+	var barWidth = bar.width();
+	var cumulativeWidth = 0;
+	var navItems = bar.find('.tophat-bar-part > .nav-item[screen="'+screen+'"], .tophat-bar-part > .nav-item[screen="both"]');
+
+	var itemToHide = navItems.not('.tophat-burger').filter(function(){ return $(this).data('tophatLevel') < 999 }).sort(function(a,b){
+		var diff = a.getAttribute('data-tophat-level') - b.getAttribute('data-tophat-level')
+		return diff == 0 ? -1 : diff;
+	});
+
+	// si on à logo central on compensera une partie de sa taille pour son centrage
+	var middleLogoWidth = middleLogo.length>0 ? middleLogo.outerWidth(true) : 0;
+
+	var hiddenItemsWidth = 0;
+	var lastItemLevel = -999999;
+	itemToHide.each(function(){
+		var item = $(this);
+
+		var itemLevel = item.data('tophatLevel');
+		if(itemLevel!==lastItemLevel)
+		{
+			lastItemLevel = itemLevel;
+
+			itemWithSameLevel = itemToHide.filter('[data-tophat-level="'+itemLevel+'"]');
+			//console.log(itemLevel,itemWithSameLevel);
+
+			var itemWidth = v3_navItemWith(bar,clone,itemWithSameLevel);
+
+			itemWithSameLevel.show();
+			cumulativeWidth = v3_cumulativeWidth(bar,clone) - hiddenItemsWidth + v3_burgerWidth(bar,clone) + middleLogoWidth;
+
+			if(barWidth < cumulativeWidth)
+			{
+				hiddenItemsWidth += itemWidth
+				itemWithSameLevel.hide();
+				itemWithSameLevel.attr('data-burger',1);
+				navItems.filter('.tophat-burger[screen="'+screen+'"]').show();
+			}
+			else
+			{
+				itemWithSameLevel.show();
+				itemWithSameLevel.attr('data-burger',0);
+			}
+		}
+	});
+
+	if(hiddenItemsWidth==0)
+	{
+		//console.log('Hide burger')
+		navItems.filter('.tophat-burger').hide();
+	}
+
+	return hiddenItemsWidth;
+}
+
+//----------------------------------------------------------------------
+//----------------------------------------------------------------------
+
+function v3_refresh_step2(bar,clone,screen,middleLogo) {
+
+	if(middleLogo.length>0)
+	{
+		var fWidth = 0;
+		var lPart = 0;
+		var rPart = 0;
+		var logoOrderIndex = 0;
+		var items = bar.find('.tophat-bar-part[data-tophat-align="middle"] .nav-item:visible');
+
+		// on détermine l'espace dispo pour glisser sur les 2 cotés
+		var temp = null
+
+		var middleTranslate = bar.data('middleTranslate') || 0;
+
+		var L = bar.find('.tophat-bar-part[data-tophat-align="left"]').outerWidth(true);
+		temp = bar.find('.tophat-bar-part[data-tophat-align="left"] > *:visible').last();
+		var oL = temp.offset() ? temp.offset().left + temp.outerWidth(true) : 0;
+
+		var R = bar.find('.tophat-bar-part[data-tophat-align="right"]').outerWidth(true);
+		temp = bar.find('.tophat-bar-part[data-tophat-align="right"] > *:visible').first();
+		var oR = temp.offset() ? temp.offset().left : 0 ;
+
+		temp = bar.find('.tophat-bar-part[data-tophat-align="middle"] > *:visible').first();
+		var oMl = temp.offset() ? temp.offset().left + middleTranslate : 0 + middleTranslate;
+
+		temp = bar.find('.tophat-bar-part[data-tophat-align="middle"] > *:visible').last();
+		var oMr = temp.offset() ? temp.offset().left + temp.outerWidth(true) - middleTranslate + middleLogo.outerWidth(true) : 0 - middleTranslate + middleLogo.outerWidth(true);
+
+		var deltaLeft = oMl - oL;
+		var deltaRight= oR - oMr;
+
+		//console.log(deltaLeft,deltaRight,middleTranslate,middleLogo.outerWidth(true))
+	
+		items.each(function(){
+			//console.log(this)
+			fWidth += v3_navItemWith(bar,clone,$(this));
+		})
+
+		items.each(function(){
+			var item = $(this);
+			var w = v3_navItemWith(bar,clone,item);
+			if(lPart + rPart < fWidth/2 && lPart + rPart + w >= fWidth/2) // on franchit le milieu
+			{
+				// on détermine alors si il faut laisser le logo avant ou le placer après
+				var lDelta = fWidth/2 - lPart;
+				var rDelta = lPart + w - fWidth/2;
+
+				//console.log(deltaLeft-rDelta, deltaRight-lDelta)
+
+				if(deltaLeft-rDelta <= deltaRight-lDelta)
+				{
+					logoOrderIndex = v3_navItemOrderIndex(bar,clone,item) - 1;
+					rPart += w;
+				}
+				else
+				{
+					logoOrderIndex = v3_navItemOrderIndex(bar,clone,item) + 1;
+					lPart += w;
+				}
+			}
+			else if(lPart + rPart <= fWidth/2)
+			{
+				lPart += w;
+			}
+			else
+			{
+				rPart += w;
+			}
+			//console.log(fWidth/2, lPart, rPart);
+		})
+		var logoDelta = Math.ceil((rPart - lPart + R - L) / 2);
+
+		//console.log(fWidth/2, lPart, rPart, logoOrderIndex, logoDelta);
+		
+		// on place le logo à sa place
+		middleLogo.css({order:logoOrderIndex});
+		// et on recale la partie centrale
+		bar.find('.tophat-bar-part[data-tophat-align="middle"]').css({transform:'translateX('+logoDelta+'px)'})
+		bar.data('middleTranslate',logoDelta);
+	}
+	else
+	{
+		bar.find('.tophat-bar-part[data-tophat-align="middle"]').css({transform:''})
+	}
+}
+
+//----------------------------------------------------------------------
+//----------------------------------------------------------------------
+
+function v3_getScreen() {
+	return window.innerWidth > 980 ? 'desktop':'mobile';
+}
+
+function v3_cumulativeWidth(bar,clone) {
+	var cumulativeWidth = 0;
+	clone.find('.tophat-bar-part > *:visible').each(function(){
+		var item = $(this);
+		cumulativeWidth += Math.ceil(item.outerWidth(true));
+	})
+	return cumulativeWidth;
+}
+
+function v3_burgerWidth(bar,clone) {
+	var burgerWidth  = 0;
+	bar.find('.tophat-burger[screen="'+v3_getScreen()+'"]:visible').each(function(){
+		burgerWidth += Math.floor($(this).outerWidth(true));
+	})
+	return burgerWidth;
+}
+
+function v3_navItemWith(bar,clone,item) {
+	var w = 0;
+	item.each(function(){
+		var idx = item.data('idx');
+		w+=  Math.floor(clone.find('.nav-item-'+idx).outerWidth(true));
+	})
+	return w;
+}
+
+function v3_navItemOrderIndex(bar,clone,item) {
+	return parseInt(item.css('order'));
+}
