@@ -704,6 +704,9 @@ function v3_refresh_step2(bar,clone,screen,middleLogo) {
 		// on place le logo à sa place
 		middleLogo.css({order:logoOrderIndex});
 		// et on recale la partie centrale
+		if(!(logoDelta<0 && deltaLeft+logoDelta>0 || logoDelta>0 && deltaRight-logoDelta>0))
+			logoDelta = 0;
+
 		bar.find('.tophat-bar-part[data-tophat-align="middle"]').css({transform:'translateX('+logoDelta+'px)'})
 		bar.data('middleTranslate',logoDelta);
 	}
