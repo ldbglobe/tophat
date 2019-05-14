@@ -1,14 +1,24 @@
 &[data-tophat-align="left"] .nav-item {
 	margin-left: $nav-link-hspace;
 	margin-right: 0;
+	@media screen and (max-width: 980px) {
+		margin-left: $nav-link-hspace-mobile;
+	}
 }
 &[data-tophat-align="middle"] .nav-item {
 	margin-left: ($nav-link-hspace / 2);
 	margin-right: ($nav-link-hspace / 2);
+	@media screen and (max-width: 980px) {
+		margin-left: ($nav-link-hspace-mobile / 2);
+		margin-right: ($nav-link-hspace-mobile / 2);
+	}
 }
 &[data-tophat-align="right"] .nav-item {
 	margin-left: 0;
 	margin-right: $nav-link-hspace;
+	@media screen and (max-width: 980px) {
+		margin-right: $nav-link-hspace-mobile;
+	}
 }	
 
 .nav-item {
