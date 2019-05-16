@@ -694,12 +694,13 @@ function v3_refresh_step2(bar,clone,screen,middleLogo) {
 			if(lPart + rPart < fWidth/2 && lPart + rPart + w >= fWidth/2) // on franchit le milieu
 			{
 				// on détermine alors si il faut laisser le logo avant ou le placer après
+				// [ lpart | lDelta || rDelta |      ]
 				var lDelta = fWidth/2 - lPart;
 				var rDelta = lPart + w - fWidth/2;
 
-				//console.log(deltaLeft,rDelta, deltaRight,lDelta)
+				//console.log(lDelta, rDelta, deltaLeft - rDelta)
 
-				if(deltaLeft-rDelta <= deltaRight-lDelta)
+				if(lDelta <= rDelta && deltaLeft - rDelta > 0)
 				{
 					logoOrderIndex = v3_navItemOrderIndex(bar,clone,item) - 1;
 					rPart += w;
