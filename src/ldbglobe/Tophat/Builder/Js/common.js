@@ -638,11 +638,14 @@ function v3_refresh_step2(bar,clone,screen,middleLogo) {
 
 	if(middleLogo.length>0)
 	{
+		var middleLogoWidth = middleLogo.outerWidth(true);
 		var fWidth = 0;
 		var lPart = 0;
 		var rPart = 0;
 		var logoOrderIndex = 0;
-		var items = bar.find('.tophat-bar-part[data-tophat-align="middle"] .nav-item:visible');
+		var items = bar.find('.tophat-bar-part[data-tophat-align="middle"] .nav-item:visible').sort(function(a,b){
+			return parseInt($(a).css('order')) - parseInt($(b).css('order'));
+		});
 
 		// on détermine l'espace dispo pour glisser sur les 2 cotés
 		var temp = null
@@ -650,21 +653,33 @@ function v3_refresh_step2(bar,clone,screen,middleLogo) {
 		var middleTranslate = bar.data('middleTranslate') || 0;
 
 		var L = bar.find('.tophat-bar-part[data-tophat-align="left"]').outerWidth(true);
-		temp = bar.find('.tophat-bar-part[data-tophat-align="left"] > *:visible').last();
-		var oL = temp.offset() ? temp.offset().left + temp.outerWidth(true) : 0;
+		temp = bar.find('.tophat-bar-part[data-tophat-align="left"] > *:visible');
+		var oL = null;
+		temp.each(function(){ 
+			if(oL===null || oL < $(this).offset().left + temp.outerWidth(true)) oL = $(this).offset().left + temp.outerWidth(true);
+		})
 
 		var R = bar.find('.tophat-bar-part[data-tophat-align="right"]').outerWidth(true);
-		temp = bar.find('.tophat-bar-part[data-tophat-align="right"] > *:visible').first();
-		var oR = temp.offset() ? temp.offset().left : 0 ;
+		temp = bar.find('.tophat-bar-part[data-tophat-align="right"] > *:visible');
+		var oR = null;
+		temp.each(function(){ 
+			if(oR===null || oR > $(this).offset().left) oR = $(this).offset().left;
+		})
 
-		temp = bar.find('.tophat-bar-part[data-tophat-align="middle"] > *:visible').first();
-		var oMl = temp.offset() ? temp.offset().left + middleTranslate : 0 + middleTranslate;
-
-		temp = bar.find('.tophat-bar-part[data-tophat-align="middle"] > *:visible').last();
-		var oMr = temp.offset() ? temp.offset().left + temp.outerWidth(true) - middleTranslate + middleLogo.outerWidth(true) : 0 - middleTranslate + middleLogo.outerWidth(true);
+		temp = bar.find('.tophat-bar-part[data-tophat-align="middle"] > *:visible');
+		var oMl = null;
+		var oMr = null;
+		temp.each(function(){ 
+			if(oMl===null || oMl > $(this).offset().left) oMl = $(this).offset().left;
+			if(oMr===null || oMr < $(this).offset().left + temp.outerWidth(true)) oMr = $(this).offset().left + temp.outerWidth(true);
+		})
+		oMl = oMl - middleTranslate;
+		oMr = oMr - middleTranslate
 
 		var deltaLeft = oMl - oL;
-		var deltaRight= oR - oMr;
+		var deltaRight = oR - oMr;
+
+		//console.log(oL,oMl,oMr,oR)
 
 		//console.log(deltaLeft,deltaRight,middleTranslate,middleLogo.outerWidth(true))
 	
@@ -682,7 +697,7 @@ function v3_refresh_step2(bar,clone,screen,middleLogo) {
 				var lDelta = fWidth/2 - lPart;
 				var rDelta = lPart + w - fWidth/2;
 
-				//console.log(deltaLeft-rDelta, deltaRight-lDelta)
+				//console.log(deltaLeft,rDelta, deltaRight,lDelta)
 
 				if(deltaLeft-rDelta <= deltaRight-lDelta)
 				{
