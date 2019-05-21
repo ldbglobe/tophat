@@ -1,0 +1,11 @@
+&.compatibility-mode {
+	&[data-tophat-logo="middle"] .tophat-bar-part[data-tophat-align="middle"] .tophat-bar-logo {
+		display: block;
+	}
+	.tophat-bar-logo {
+		opacity: 1 !important;
+	}
+	.tophat-bar-part {
+		flex: auto !important;
+	}
+}

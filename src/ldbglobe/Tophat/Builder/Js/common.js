@@ -1,9 +1,19 @@
 // require jQuery 3.x
 var TOPHAT_DEBUG = false;
 
+function getIOSVersion() {
+    const ua = navigator.userAgent;
+    if (/(iPhone|iPod|iPad)/i.test(ua)) {
+        return ua.match(/OS [\d_]+/i)[0].substr(3).replace(',','_').split('_').map(function(n){ return parseInt(n); });
+    }
+    return [0];
+}
+var iosV = getIOSVersion();
+var TOPHAT_FULLY_ACTIVATED = iosV[0]==0 || iosV[0]>10;
+
 function tophat_touch_support()
 {
-	return window.TouchEvent && 'ontouchstart' in window && 'ontouchend' in document;
+	return window.TouchEvent && "ontouchstart" in window && "ontouchend" in document;
 }
 
 //----------------------------------------------------------------------
@@ -11,7 +21,7 @@ function tophat_touch_support()
 
 function tophat_dropdown(){
 	var menuDelay = null;
-	var menuToActivate = null;
+	var $menuToActivate = null;
 
 	// automatic startup fix dropdown position
 	$(".tophat-bar .nav-dropdown").each(function(){
@@ -21,7 +31,7 @@ function tophat_dropdown(){
 			var delta = $(window).width() - dd.offset().left - dd.outerWidth();
 			dd.css({marginLeft:(delta)+'px'});
 		}
-	})
+	});
 
 	$(document).on('click','.tophat-bar-part > .nav-item > .nav-group a',function(event){
 		event.stopPropagation();
@@ -47,7 +57,7 @@ function tophat_dropdown(){
 					// open menu
 					$menuToActivate.addClass('hover');
 
-					var dd = $menuToActivate.find(".nav-dropdown").eq(0)
+					var dd = $menuToActivate.find(".nav-dropdown").eq(0);
 					if(dd)
 					{
 						dd.css({marginLeft:0});
@@ -70,7 +80,7 @@ function tophat_dropdown(){
 				}
 			},150);
 		}
-	})
+	});
 	$(document).on('mouseout','.tophat-bar-part > .nav-item',function(){
 		if(tophat_touch_support() && event.type=='mouseout')
 		{
@@ -79,15 +89,15 @@ function tophat_dropdown(){
 		}
 		else
 		{
-			menuToActivate = null;
+			$menuToActivate = null;
 			clearTimeout(menuDelay);
 			menuDelay = setTimeout(function(){
 				$('.tophat-bar-part > .nav-item').removeClass('hover');
 			},250);
 		}
-	})
+	});
 	$(document).on('mouseover click','.tophat-bar-part > .nav-item > .nav-link',function(event){
-		if($(this).attr('href').match('javascript:'))
+		if($(this).attr('href').match(/javascript:/))
 		{
 			// bouton avec un link pure javascript on ne fait rien de particulier ici sous peine de tout casser
 		}
@@ -109,10 +119,9 @@ function tophat_dropdown(){
 	});
 }
 
-window.tophat_burger_toggle_active = function(el,event)
-{
-	$bar = $(el).parents('.tophat-bar').eq(0);
-	$burgerMenu = $(el).parents('.tophat-burger').eq(0);
+window.tophat_burger_toggle_active = function(el,event) {
+	var $bar = $(el).parents('.tophat-bar').eq(0);
+	var $burgerMenu = $(el).parents('.tophat-burger').eq(0);
 	if($burgerMenu.hasClass('active'))
 	{
 		$('.tophat-bar .tophat-burger').removeClass('active');
@@ -121,20 +130,20 @@ window.tophat_burger_toggle_active = function(el,event)
 	{
 		$burgerMenu.addClass('active');
 	}
-}
+};
 
 window.tophat_burger_close = function()
 {
 	$('.tophat-burger-container').removeClass('active');
 	$('.tophat-bar .tophat-burger').removeClass('active');
-}
+};
 
 window.tophat_burger_open = function(el,event)
 {
 	event.preventDefault();
-	$bar = $(el).parents('.tophat-bar').eq(0);
-	$burgerMenu = $(el).parents('.tophat-burger').eq(0);
-	$burgerPanel = $($bar.data('burger'));
+	var $bar = $(el).parents('.tophat-bar').eq(0);
+	var $burgerMenu = $(el).parents('.tophat-burger').eq(0);
+	var $burgerPanel = $($bar.data('burger'));
 	if($burgerPanel.hasClass('active'))
 	{
 		$('.tophat-burger-container').removeClass('active');
@@ -146,7 +155,7 @@ window.tophat_burger_open = function(el,event)
 		$burgerPanel.addClass('active');
 		$burgerMenu.addClass('active');
 	}
-}
+};
 
 function tophat_burger(){
 
@@ -155,10 +164,10 @@ function tophat_burger(){
 		console.log('click .burger-dropdown-trigger');
 		event.stopPropagation();
 		event.preventDefault();
-		var item = $(this).parents('.burger-item').eq(0)
+		var item = $(this).parents('.burger-item').eq(0);
 		$('.tophat-burger-container .burger-item').not(item).removeClass('active');
 		item.toggleClass('active');
-	})
+	});
 
 	$(document).on('click','.burger-back',function(event){
 		console.log('click .burger-back');
@@ -181,7 +190,7 @@ function tophat_burger(){
 	$(document).on('click touch','.tophat-burger-container, .tophat-burger-header, .tophat-burger-close',function(){
 		$('.tophat-burger-container').removeClass('active');
 		$('.tophat-bar .tophat-burger').removeClass('active');
-	})
+	});
 }
 
 //----------------------------------------------------------------------
@@ -189,10 +198,10 @@ function tophat_burger(){
 
 function tophat_burger_init()
 {
-	$bars = $('.tophat-bar-real');
+	var $bars = $('.tophat-bar-real');
 	$bars.each(function(){
 		tophat_burger_container($(this));
-	})
+	});
 }
 
 function tophat_burger_container($bar)
@@ -208,50 +217,54 @@ function tophat_burger_container($bar)
 	var extra_header = $bar.data('tophatBurgerHeader');
 	var extra_prepend = $bar.data('tophatBurgerPrepend');
 	var extra_append = $bar.data('tophatBurgerAppend');
+	var $burger = null;
 
 	if(!$bar.data('burger'))
 	{
 		var cases = [
 			{type:"desktop", position:$bar.data('tophatBurgerPosition'), order:$bar.data('tophatBurgerOrder') },
 			{type:"mobile", position:$bar.data('tophatBurgerMobilePosition'), order:$bar.data('tophatBurgerMobileOrder') },
-		]
-		var i = null
-		for(i in cases)
+		];
+		var i = null;
+		if(cases.length>0)
 		{
-			var type = cases[i].type;
-			var position = cases[i].position;
-			var order = cases[i].order;
-
-			var burger_button = null;
-			if(burger_custom_link)
-				burger_button = $('<div class="tophat-burger nav-item" screen="'+type+'" data-tophat-level="9999" data-tophat-skin="burger"><a href="'+burger_custom_link+'" onclick="tophat_burger_toggle_active(this,event)" class="nav-link"><span class="label"><span aria-label="Open menu">≡</span></span>'+(burger_label ? '<span class="label-text">'+burger_label+'</span>':'')+'</a></div>');
-			else
-				burger_button = $('<div class="tophat-burger nav-item" screen="'+type+'" data-tophat-level="9999" data-tophat-skin="burger"><a href="#" onclick="tophat_burger_open(this,event)" class="nav-link"><span class="label"><span aria-label="Open menu">≡</span></span>'+(burger_label ? '<span class="label-text">'+burger_label+'</span>':'')+'</a></div>');
-
-			var burgerInjectionOk = false;
-			if(position!="")
+			for(i in cases)
 			{
-				var part = $bar.find('.tophat-bar-part[data-tophat-align="'+position+'"]');
-				if(part.length>0)
-				{
-					burgerInjectionOk = true;
+				var type = cases[i].type;
+				var position = cases[i].position;
+				var order = cases[i].order;
 
-					if(order=='last')
-						part.append(burger_button);
-					else
-						part.prepend(burger_button);
+				var burger_button = null;
+				if(burger_custom_link)
+					burger_button = $('<div class="tophat-burger nav-item" screen="'+type+'" data-tophat-level="9999" data-tophat-skin="burger"><a href="'+burger_custom_link+'" onclick="tophat_burger_toggle_active(this,event)" class="nav-link"><span class="label"><span aria-label="Open menu">≡</span></span>'+(burger_label ? '<span class="label-text">'+burger_label+'</span>':'')+'</a></div>');
+				else
+					burger_button = $('<div class="tophat-burger nav-item" screen="'+type+'" data-tophat-level="9999" data-tophat-skin="burger"><a href="#" onclick="tophat_burger_open(this,event)" class="nav-link"><span class="label"><span aria-label="Open menu">≡</span></span>'+(burger_label ? '<span class="label-text">'+burger_label+'</span>':'')+'</a></div>');
+
+				var burgerInjectionOk = false;
+				if(position!="")
+				{
+					var part = $bar.find('.tophat-bar-part[data-tophat-align="'+position+'"]');
+					if(part.length>0)
+					{
+						burgerInjectionOk = true;
+
+						if(order=='last')
+							part.append(burger_button);
+						else
+							part.prepend(burger_button);
+					}
 				}
-			}
 
-			if(!burgerInjectionOk)
-			{
-				var items =  $bar.find('.nav-item');
-				if(items.length>0)
+				if(!burgerInjectionOk)
 				{
-					if(order=='last')
-						items.last().after(burger_button);
-					else
-						items.first().before(burger_button);
+					var items =  $bar.find('.nav-item');
+					if(items.length>0)
+					{
+						if(order=='last')
+							items.last().after(burger_button);
+						else
+							items.first().before(burger_button);
+					}
 				}
 			}
 		}
@@ -288,7 +301,7 @@ function tophat_burger_container($bar)
 		$burger = $($bar.data('burger'));
 
 	$burger.data('tophatBar',$bar);
-	$burger.data('tophatBarGroup',$bar.data('tophatGroup'))
+	$burger.data('tophatBarGroup',$bar.data('tophatGroup'));
 
 	return $burger;
 }
@@ -298,15 +311,16 @@ function tophat_burger_refresh()
 	// on vide tout les burger menu avant le refresh
 	$('.tophat-burger-container .nav-dropdown').empty();
 
-	$burgers = $('.tophat-burger-container');
+	var $burgers = $('.tophat-burger-container');
 	$burgers.each(function(){
 
+		var $bar = null;
 		var $burger = $(this);
 		var barGoup = $burger.data('tophatBarGroup');
 		if(barGoup)
-			var $bar = $('.tophat-bar-real[data-tophat-group="'+barGoup+'"]');
+			$bar = $('.tophat-bar-real[data-tophat-group="'+barGoup+'"]');
 		else
-			var $bar = $($burger.data('tophatBar'));
+			$bar = $($burger.data('tophatBar'));
 
 		// TODO gérer les sections pour les différencier dans le dropdown burger
 
@@ -327,7 +341,7 @@ function tophat_burger_refresh()
 				return b.getAttribute('data-tophat-level') - a.getAttribute('data-tophat-level');
 			}
 			return burgercomp;
-		})
+		});
 
 		var currentGroup = null;
 		$navItems.each(function(){
@@ -373,7 +387,7 @@ function tophat_burger_refresh()
 
 				if($subitems.length)
 				{
-					$subnav = $('<ul class="burger-subnav"><li class="burger-back"><a href="javascript:void(0);"><span class="label">&lt;</span></a></li></ul>');
+					var $subnav = $('<ul class="burger-subnav"><li class="burger-back"><a href="javascript:void(0);"><span class="label">&lt;</span></a></li></ul>');
 
 					if($link.attr('href') && $link.attr('href').length>0 && $link.attr('href')!='javascript:void(0);')
 					{
@@ -393,9 +407,9 @@ function tophat_burger_refresh()
 						{
 							$subnav.append($sublink);
 						}
-					})
+					});
 
-					$burgeritem.append($subnav)
+					$burgeritem.append($subnav);
 				}
 				$dropdown.append($burgeritem);
 			}
@@ -405,12 +419,12 @@ function tophat_burger_refresh()
 
 //----------------------------------------------------------------------
 //----------------------------------------------------------------------
-tophat_cron_in_progress = false;
+var tophat_cron_in_progress = false;
 function tophat_cron()
 {
 	if(!tophat_cron_in_progress)
 	{
-		tophat_cron_in_progress = true
+		tophat_cron_in_progress = true;
 
 		v3_tophat_bar_refresh();
 
@@ -449,47 +463,56 @@ function deferal_cron()
 //----------------------------------------------------------------------
 
 $( document ).ready(function() {
-	window.setTimeout(_init, 0)
+	window.setTimeout(_init, 0);
 });
 
 function _init() {
 	$('.tophat-bar').addClass('init').addClass('content-updated');
 
-	v3_tophat_init();
-
-	tophat_burger_init();
+	if(TOPHAT_FULLY_ACTIVATED)
+	{
+		v3_tophat_init();
+		tophat_burger_init();
+		tophat_burger();
+	}
+	else {
+		$('.tophat-bar').addClass('compatibility-mode')
+	}
+	
 	tophat_dropdown();
-	tophat_burger();
 
-	if(!TOPHAT_DEBUG)
+	if(TOPHAT_FULLY_ACTIVATED)
 	{
-		setTimeout(tophat_cron,50);
-		setInterval(deferal_cron,2000); // regular refresh every 2 seconds
-	}
-	else
-	{
-		setTimeout(tophat_cron,500);
-	}
+		if(!TOPHAT_DEBUG)
+		{
+			setTimeout(tophat_cron,50);
+			setInterval(deferal_cron,2000); // regular refresh every 2 seconds
+		}
+		else
+		{
+			setTimeout(tophat_cron,500);
+		}
 
-	setTimeout(function(){
-		window.addEventListener('resize', _handler); // immediat refrehs on resize
-		window.addEventListener('scroll', _handler); // defered refresh on scroll
-		window.addEventListener('orientationchange', _handler); // defered on orientation change too
-	},500);
+		setTimeout(function(){
+			window.addEventListener('resize', _handler); // immediat refrehs on resize
+			window.addEventListener('scroll', _handler); // defered refresh on scroll
+			window.addEventListener('orientationchange', _handler); // defered on orientation change too
+		},500);
+	}
 }
 
-var _requestAnimationFrame
+var _requestAnimationFrame;
 
 function _handler () {
-	_requestAnimationFrame(deferal_cron)
+	_requestAnimationFrame(deferal_cron);
 }
 
 _requestAnimationFrame = window.requestAnimationFrame ||
 						 window.webkitRequestAnimationFrame ||
 						 window.mozRequestAnimationFrame ||
 						 function (callback) {
-							window.setTimeout(callback, 0)
-						 }
+							window.setTimeout(callback, 0);
+						 };
 
 //----------------------------------------------------------------------
 //----------------------------------------------------------------------
@@ -528,8 +551,8 @@ function v3_tophat_init()
 
 		bar.addClass('tophat-bar-real');
 		clone.addClass('tophat-bar-clone').attr('style','pointer-events:none !important;position:fixed !important;width:100% !important;top:-99999999999px !important;');
-		bar.parent().css({position:'relative'})
-		bar.parent().append(clone)
+		bar.parent().css({position:'relative'});
+		bar.parent().append(clone);
 	});
 }
 
@@ -563,9 +586,8 @@ function v3_tophat_bar_refresh()
 
 		var middleLogo = bar.find('.tophat-bar-part[data-tophat-align="middle"] .tophat-bar-logo[screen="'+screen+'"]');
 
-		var hiddenItemsWidth = v3_refresh_step1(bar,clone,screen,middleLogo) // hide nav item until all content fits in - do not care of logo position
-		v3_refresh_step2(bar,clone,screen,middleLogo) // try to center logo and hide more content if needed
-
+		var hiddenItemsWidth = v3_refresh_step1(bar,clone,screen,middleLogo); // hide nav item until all content fits in - do not care of logo position
+		v3_refresh_step2(bar,clone,screen,middleLogo); // try to center logo and hide more content if needed
 	});
 }
 
@@ -578,8 +600,8 @@ function v3_refresh_step1(bar,clone,screen,middleLogo) {
 	var cumulativeWidth = 0;
 	var navItems = bar.find('.tophat-bar-part > .nav-item[screen="'+screen+'"], .tophat-bar-part > .nav-item[screen="both"]');
 
-	var itemToHide = navItems.not('.tophat-burger').filter(function(){ return $(this).data('tophatLevel') < 999 }).sort(function(a,b){
-		var diff = a.getAttribute('data-tophat-level') - b.getAttribute('data-tophat-level')
+	var itemToHide = navItems.not('.tophat-burger').filter(function(){ return $(this).data('tophatLevel') < 999; }).sort(function(a,b){
+		var diff = a.getAttribute('data-tophat-level') - b.getAttribute('data-tophat-level');
 		return diff == 0 ? -1 : diff;
 	});
 
@@ -596,7 +618,7 @@ function v3_refresh_step1(bar,clone,screen,middleLogo) {
 		{
 			lastItemLevel = itemLevel;
 
-			itemWithSameLevel = itemToHide.filter('[data-tophat-level="'+itemLevel+'"]');
+			var itemWithSameLevel = itemToHide.filter('[data-tophat-level="'+itemLevel+'"]');
 			//console.log(itemLevel,itemWithSameLevel);
 
 			var itemWidth = v3_navItemWith(bar,clone,itemWithSameLevel);
@@ -606,7 +628,7 @@ function v3_refresh_step1(bar,clone,screen,middleLogo) {
 
 			if(barWidth < cumulativeWidth)
 			{
-				hiddenItemsWidth += itemWidth
+				hiddenItemsWidth += itemWidth;
 				itemWithSameLevel.css({display:'none'});
 				itemWithSameLevel.attr('data-burger',1);
 				navItems.filter('.tophat-burger[screen="'+screen+'"]').show();
@@ -624,7 +646,7 @@ function v3_refresh_step1(bar,clone,screen,middleLogo) {
 		//console.log('Hide burger')
 		if(!bar.is('[data-tophat-burger-visibility="always"]'))
 			navItems.filter('.tophat-burger[screen="desktop"]').hide();
-		if(!bar.is('[data-tophat-burger-mobile-visibility="always"]').length==0)
+		if(!bar.is('[data-tophat-burger-mobile-visibility="always"]'));
 			navItems.filter('.tophat-burger[screen="mobile"]').hide();
 	}
 
@@ -648,7 +670,7 @@ function v3_refresh_step2(bar,clone,screen,middleLogo) {
 		});
 
 		// on détermine l'espace dispo pour glisser sur les 2 cotés
-		var temp = null
+		var temp = null;
 
 		var middleTranslate = bar.data('middleTranslate') || 0;
 
@@ -657,14 +679,14 @@ function v3_refresh_step2(bar,clone,screen,middleLogo) {
 		var oL = null;
 		temp.each(function(){ 
 			if(oL===null || oL < $(this).offset().left + temp.outerWidth(true)) oL = $(this).offset().left + temp.outerWidth(true);
-		})
+		});
 
 		var R = bar.find('.tophat-bar-part[data-tophat-align="right"]').outerWidth(true);
 		temp = bar.find('.tophat-bar-part[data-tophat-align="right"] > *:visible');
 		var oR = null;
 		temp.each(function(){ 
 			if(oR===null || oR > $(this).offset().left) oR = $(this).offset().left;
-		})
+		});
 
 		temp = bar.find('.tophat-bar-part[data-tophat-align="middle"] > *:visible');
 		var oMl = null;
@@ -672,9 +694,9 @@ function v3_refresh_step2(bar,clone,screen,middleLogo) {
 		temp.each(function(){ 
 			if(oMl===null || oMl > $(this).offset().left) oMl = $(this).offset().left;
 			if(oMr===null || oMr < $(this).offset().left + temp.outerWidth(true)) oMr = $(this).offset().left + temp.outerWidth(true);
-		})
+		});
 		oMl = oMl - middleTranslate;
-		oMr = oMr - middleTranslate
+		oMr = oMr - middleTranslate;
 
 		var deltaLeft = oMl - oL;
 		var deltaRight = oR - oMr;
@@ -686,7 +708,7 @@ function v3_refresh_step2(bar,clone,screen,middleLogo) {
 		items.each(function(){
 			//console.log(this)
 			fWidth += v3_navItemWith(bar,clone,$(this));
-		})
+		});
 
 		items.each(function(){
 			var item = $(this);
@@ -720,7 +742,7 @@ function v3_refresh_step2(bar,clone,screen,middleLogo) {
 				rPart += w;
 			}
 			//console.log(fWidth/2, lPart, rPart);
-		})
+		});
 		var logoDelta = Math.ceil((rPart - lPart + R - L) / 2);
 
 		//console.log(fWidth/2, lPart, rPart, logoOrderIndex, logoDelta);
@@ -731,12 +753,12 @@ function v3_refresh_step2(bar,clone,screen,middleLogo) {
 		if(!(logoDelta<0 && deltaLeft+logoDelta>0 || logoDelta>0 && deltaRight-logoDelta>0))
 			logoDelta = 0;
 
-		bar.find('.tophat-bar-part[data-tophat-align="middle"]').css({transform:'translateX('+logoDelta+'px)'})
+		bar.find('.tophat-bar-part[data-tophat-align="middle"]').css({transform:'translateX('+logoDelta+'px)'});
 		bar.data('middleTranslate',logoDelta);
 	}
 	else
 	{
-		bar.find('.tophat-bar-part[data-tophat-align="middle"]').css({transform:''})
+		bar.find('.tophat-bar-part[data-tophat-align="middle"]').css({transform:''});
 	}
 }
 
@@ -752,7 +774,7 @@ function v3_cumulativeWidth(bar,clone) {
 	clone.find('.tophat-bar-part > *:visible').each(function(){
 		var item = $(this);
 		cumulativeWidth += Math.ceil(item.outerWidth(true));
-	})
+	});
 	return cumulativeWidth;
 }
 
@@ -760,7 +782,7 @@ function v3_burgerWidth(bar,clone) {
 	var burgerWidth  = 0;
 	bar.find('.tophat-burger[screen="'+v3_getScreen()+'"]:visible').each(function(){
 		burgerWidth += Math.floor($(this).outerWidth(true));
-	})
+	});
 	return burgerWidth;
 }
 
@@ -769,7 +791,7 @@ function v3_navItemWith(bar,clone,item) {
 	item.each(function(){
 		var idx = item.data('idx');
 		w+=  Math.floor(clone.find('.nav-item-'+idx).outerWidth(true));
-	})
+	});
 	return w;
 }
 

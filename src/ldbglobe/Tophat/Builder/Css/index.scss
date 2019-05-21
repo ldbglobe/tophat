@@ -143,5 +143,7 @@ display: none;
 }
 
 &[data-tophat-logo="middle"] .tophat-bar-part[data-tophat-align="middle"] .tophat-bar-logo {
-	display: none; // centered logo will be handle by javasdcript => so they remain hidden at startup
+	display: none; // centered logo will be handle by javascript => so they remain hidden at startup
 }
+
+@import "./compat.scss";
