@@ -550,7 +550,7 @@ function v3_tophat_init()
 		tophat_bar_idx++;
 
 		bar.addClass('tophat-bar-real');
-		clone.addClass('tophat-bar-clone').attr('style','pointer-events:none !important;position:fixed !important;width:100% !important;top:-99999999999px !important;');
+		clone.addClass('tophat-bar-clone').attr('style','pointer-events:none !important;position:fixed !important;width:100% !important; visibility:hidden !important; top: -9999999999999px !important;');
 		bar.parent().css({position:'relative'});
 		bar.parent().append(clone);
 	});
