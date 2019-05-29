@@ -575,7 +575,7 @@ function v3_tophat_bar_refresh()
 		else
 		{
 			bar.find('.nav-item').not('.tophat-burger').sort(function(a,b){
-				return $(b).attr('data-tophat-burgerlevel') - $(a).attr('data-tophat-burgerlevel');
+				return $(a).attr('data-tophat-burgerlevel') - $(b).attr('data-tophat-burgerlevel');
 			}).each(function(i){
 				$(this).css({order:i*10});
 			});
