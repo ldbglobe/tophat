@@ -8,8 +8,23 @@ function getIOSVersion() {
     }
     return [0];
 }
+function getIOSPlatform() {
+    const ua = navigator.userAgent;
+    if (/(iPhone)/i.test(ua)) {
+        return 'iPhone';
+    }
+    if (/(iPod)/i.test(ua)) {
+        return 'iPod';
+    }
+    if (/(iPad)/i.test(ua)) {
+        return 'iPad';
+    }
+    return null;
+}
 var iosV = getIOSVersion();
-var TOPHAT_FULLY_ACTIVATED = iosV[0]==0 || iosV[0]>10;
+var iosP = getIOSPlatform();
+var TOPHAT_FULLY_ACTIVATED = iosV[0]==0 || iosP!='iPad' && iosV[0]>9 || iosP=='iPad' && iosV[0]>10 ;
+//console.log(iosV,TOPHAT_FULLY_ACTIVATED)
 
 function tophat_touch_support()
 {
