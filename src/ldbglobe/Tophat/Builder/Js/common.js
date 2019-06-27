@@ -481,6 +481,7 @@ $( document ).ready(function() {
 	window.setTimeout(_init, 0);
 });
 
+var tophat_interval = null;
 function _init() {
 	$('.tophat-bar').addClass('init').addClass('content-updated');
 
@@ -501,7 +502,7 @@ function _init() {
 		if(!TOPHAT_DEBUG)
 		{
 			setTimeout(tophat_cron,50);
-			setInterval(deferal_cron,2000); // regular refresh every 2 seconds
+			tophat_interval = setInterval(deferal_cron,2000); // regular refresh every 2 seconds
 		}
 		else
 		{
@@ -514,6 +515,14 @@ function _init() {
 			window.addEventListener('orientationchange', _handler); // defered on orientation change too
 		},500);
 	}
+}
+
+window.tophat_stop = function() {
+	clearTimeout(tophat_interval);
+}
+window.tophat_start = function() {
+	clearTimeout(tophat_interval);
+	tophat_interval = setInterval(deferal_cron,2000); 
 }
 
 var _requestAnimationFrame;
