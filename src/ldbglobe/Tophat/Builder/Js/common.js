@@ -704,6 +704,8 @@ function v3_refresh_step2(bar,clone,screen,middleLogo) {
 		temp.each(function(){ 
 			if(oL===null || oL < $(this).offset().left + temp.outerWidth(true)) oL = $(this).offset().left + temp.outerWidth(true);
 		});
+		if(oL===null)
+			oL=L;
 
 		var R = bar.find('.tophat-bar-part[data-tophat-align="right"]').outerWidth(true);
 		temp = bar.find('.tophat-bar-part[data-tophat-align="right"] > *:visible');
@@ -711,6 +713,8 @@ function v3_refresh_step2(bar,clone,screen,middleLogo) {
 		temp.each(function(){ 
 			if(oR===null || oR > $(this).offset().left) oR = $(this).offset().left;
 		});
+		if(oR===null)
+			oR=R;
 
 		temp = bar.find('.tophat-bar-part[data-tophat-align="middle"] > *:visible');
 		var oMl = null;
@@ -725,7 +729,7 @@ function v3_refresh_step2(bar,clone,screen,middleLogo) {
 		var deltaLeft = oMl - oL;
 		var deltaRight = oR - oMr;
 
-		//console.log(oL,oMl,oMr,oR)
+		//console.log(L,oL,oMl, R,oMr,oR)
 
 		//console.log(deltaLeft,deltaRight,middleTranslate,middleLogo.outerWidth(true))
 	
