@@ -674,6 +674,11 @@ function v3_refresh_step1(bar,clone,screen,middleLogo) {
 			navItems.filter('.tophat-burger[screen="mobile"]').hide();
 	}
 
+	if(bar.is('[data-tophat-burger-visibility="always"]'))
+		navItems.filter('.tophat-burger[screen="desktop"]').show();
+	if(bar.is('[data-tophat-burger-mobile-visibility="always"]'));
+		navItems.filter('.tophat-burger[screen="mobile"]').show();
+
 	return hiddenItemsWidth;
 }
 
