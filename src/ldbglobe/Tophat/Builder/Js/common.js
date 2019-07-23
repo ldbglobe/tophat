@@ -710,7 +710,7 @@ function v3_refresh_step2(bar,clone,screen,middleLogo) {
 			if(oL===null || oL < $(this).offset().left + temp.outerWidth(true)) oL = $(this).offset().left + temp.outerWidth(true);
 		});
 		if(oL===null)
-			oL=L;
+			oL=0;
 
 		var R = bar.find('.tophat-bar-part[data-tophat-align="right"]').outerWidth(true);
 		temp = bar.find('.tophat-bar-part[data-tophat-align="right"] > *:visible');
@@ -735,7 +735,6 @@ function v3_refresh_step2(bar,clone,screen,middleLogo) {
 		var deltaRight = oR - oMr;
 
 		//console.log(L,oL,oMl, R,oMr,oR)
-
 		//console.log(deltaLeft,deltaRight,middleTranslate,middleLogo.outerWidth(true))
 	
 		items.each(function(){
@@ -783,6 +782,7 @@ function v3_refresh_step2(bar,clone,screen,middleLogo) {
 		// on place le logo à sa place
 		middleLogo.css({order:logoOrderIndex});
 		// et on recale la partie centrale
+		//console.log(logoDelta, deltaLeft, deltaRight)
 		if(!(logoDelta<0 && deltaLeft+logoDelta>0 || logoDelta>0 && deltaRight-logoDelta>0))
 			logoDelta = 0;
 
