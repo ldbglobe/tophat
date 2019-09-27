@@ -16,7 +16,7 @@
 			}
 			&:first-child {
 				margin-bottom: 0.5em;
-				&:after {
+				&:before {
 					content: " ";
 					display: block;
 					border-bottom: 1px solid currentColor;

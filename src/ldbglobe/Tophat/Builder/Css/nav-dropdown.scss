@@ -6,24 +6,15 @@
 		padding: .5em 0;
 		margin: 0;
 		list-style: none;
-		background:$dropdown-background;
 		li {
 			padding: 0;
 			margin: 0;
-			>* {
-				font-family:$dropdown-ff;
-				font-size:$dropdown-fsz;
-				font-weight:$dropdown-fw;
-				letter-spacing:$dropdown-ls;
-			}
 			>a {
 				display: block;
 				text-decoration: none;
 				padding: 0.5em 1em;
 				cursor: default;
 				color:inherit;
-				background:$dropdown-background;
-				color:$dropdown-color;
 			}
 			>span {
 				display: block;
@@ -34,12 +25,9 @@
 			}
 			>a:hover {
 				cursor: pointer;
-				background:$dropdown-hover-background;
-				color:$dropdown-hover-color;
 			}
 			&.active > a, &.hover > a{
-				background:$dropdown-hover-background;
-				color:$dropdown-hover-color;
+
 			}
 		}
 	}

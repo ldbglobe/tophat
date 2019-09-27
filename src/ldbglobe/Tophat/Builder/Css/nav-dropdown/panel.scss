@@ -31,14 +31,13 @@
 		> * {
 			padding: 3em 1em;
 			transition:background ease 0.5s;
-		}
-		&.active > * {
-			background: rgba($panel-button-background,0.8);
-			color: $panel-button-color;
-		}
-		&:hover > * {
 			background: $panel-button-background;
 			color: $panel-button-color;
+		}
+		&:hover > *,
+		&.active > * {
+			background: $panel-button-hover-background;
+			color: $panel-button-hover-color;
 		}
 	}
 }

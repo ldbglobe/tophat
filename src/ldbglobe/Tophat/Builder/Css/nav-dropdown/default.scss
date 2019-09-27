@@ -1,4 +1,28 @@
 .nav-dropdown[data-tophat-skin="default"] {
+	background:$dropdown-background;
+	li {
+		>* {
+			font-family:$dropdown-ff;
+			font-size:$dropdown-fsz;
+			font-weight:$dropdown-fw;
+			letter-spacing:$dropdown-ls;
+		}
+		>a {
+			background:$dropdown-background;
+			color:$dropdown-color;
+		}
+		>a:hover {
+			background:$dropdown-hover-background;
+			color:$dropdown-hover-color;
+		}
+		&.active > a, &.hover > a{
+			background:$dropdown-hover-background;
+			color:$dropdown-hover-color;
+		}
+	}
+}
+
+.nav-dropdown[data-tophat-skin="default"] {
 	z-index: 10;
 	margin-top: -0.5em;
 	border-radius: .25em;
