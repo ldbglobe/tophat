@@ -707,7 +707,7 @@ function v3_refresh_step2(bar,clone,screen,middleLogo) {
 		temp = bar.find('.tophat-bar-part[data-tophat-align="left"] > *:visible');
 		var oL = null;
 		temp.each(function(){ 
-			if(oL===null || oL < $(this).offset().left + temp.outerWidth(true)) oL = $(this).offset().left + temp.outerWidth(true);
+			if(oL===null || oL < $(this).offset().left + $(this).outerWidth(true)) oL = $(this).offset().left + $(this).outerWidth(true);
 		});
 		if(oL===null)
 			oL=0;
@@ -726,7 +726,7 @@ function v3_refresh_step2(bar,clone,screen,middleLogo) {
 		var oMr = null;
 		temp.each(function(){ 
 			if(oMl===null || oMl > $(this).offset().left) oMl = $(this).offset().left;
-			if(oMr===null || oMr < $(this).offset().left + temp.outerWidth(true)) oMr = $(this).offset().left + temp.outerWidth(true);
+			if(oMr===null || oMr < $(this).offset().left + $(this).outerWidth(true)) oMr = $(this).offset().left + $(this).outerWidth(true);
 		});
 		oMl = oMl - middleTranslate;
 		oMr = oMr - middleTranslate;
