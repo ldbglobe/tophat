@@ -756,21 +756,25 @@ function v3_refresh_step2(bar,clone,screen,middleLogo) {
 
 				if(lDelta <= rDelta && deltaLeft - rDelta > 0)
 				{
+					//console.log('r!')
 					logoOrderIndex = v3_navItemOrderIndex(bar,clone,item) - 1;
 					rPart += w;
 				}
 				else
 				{
+					//console.log('l!')
 					logoOrderIndex = v3_navItemOrderIndex(bar,clone,item) + 1;
 					lPart += w;
 				}
 			}
-			else if(lPart + rPart <= fWidth/2)
+			else if(lPart + rPart < fWidth/2)
 			{
+				//console.log('l')
 				lPart += w;
 			}
 			else
 			{
+				//console.log('r')
 				rPart += w;
 			}
 			//console.log(fWidth/2, lPart, rPart);
@@ -778,7 +782,7 @@ function v3_refresh_step2(bar,clone,screen,middleLogo) {
 		var logoDelta = Math.ceil((rPart - lPart + R - L) / 2);
 
 		//console.log(fWidth/2, lPart, rPart, logoOrderIndex, logoDelta);
-		
+
 		// on place le logo à sa place
 		middleLogo.css({order:logoOrderIndex});
 		// et on recale la partie centrale
