@@ -2,14 +2,14 @@
 var TOPHAT_DEBUG = false;
 
 function getIOSVersion() {
-    const ua = navigator.userAgent;
+    var ua = navigator.userAgent;
     if (/(iPhone|iPod|iPad)/i.test(ua)) {
         return ua.match(/OS [\d_]+/i)[0].substr(3).replace(',','_').split('_').map(function(n){ return parseInt(n); });
     }
     return [0];
 }
 function getIOSPlatform() {
-    const ua = navigator.userAgent;
+    var ua = navigator.userAgent;
     if (/(iPhone)/i.test(ua)) {
         return 'iPhone';
     }
@@ -23,8 +23,13 @@ function getIOSPlatform() {
 }
 var iosV = getIOSVersion();
 var iosP = getIOSPlatform();
-var TOPHAT_FULLY_ACTIVATED = iosV[0]==0 || iosP!='iPad' && iosV[0]>9 || iosP=='iPad' && iosV[0]>10 ;
-//console.log(iosV,TOPHAT_FULLY_ACTIVATED)
+
+var TOPHAT_FULLY_ACTIVATED = iosV[0]==0 || iosP!='iPad' && iosV[0]>8 || iosP=='iPad' && iosV[0]>8 ;
+console.log(iosV,TOPHAT_FULLY_ACTIVATED)
+
+var TOPHAT_IOS_FLEX_FIX = iosV[0]==9;
+if(TOPHAT_IOS_FLEX_FIX)
+	document.querySelector('body').classList.add('TOPHAT_IOS_FLEX_FIX')
 
 function tophat_touch_support()
 {
@@ -264,7 +269,10 @@ function tophat_burger_container($bar)
 						burgerInjectionOk = true;
 
 						if(order=='last')
+						{
+							burger_button.css({order:99999999});
 							part.append(burger_button);
+						}
 						else
 							part.prepend(burger_button);
 					}
@@ -276,7 +284,10 @@ function tophat_burger_container($bar)
 					if(items.length>0)
 					{
 						if(order=='last')
+						{
+							burger_button.css({order:99999999});
 							items.last().after(burger_button);
+						}
 						else
 							items.first().before(burger_button);
 					}
@@ -494,7 +505,7 @@ function _init() {
 	else {
 		$('.tophat-bar').addClass('compatibility-mode')
 	}
-	
+
 	tophat_dropdown();
 
 	if(TOPHAT_FULLY_ACTIVATED)

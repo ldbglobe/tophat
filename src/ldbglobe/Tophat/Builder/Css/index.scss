@@ -141,6 +141,9 @@ display: none;
 &[data-tophat-parts*="middle"] .tophat-bar-part {
 	flex: 1;
 }
+.TOPHAT_IOS_FLEX_FIX &[data-tophat-parts*="middle"] .tophat-bar-part {
+	flex: initial;
+}
 
 &[data-tophat-logo="middle"] .tophat-bar-part[data-tophat-align="middle"] .tophat-bar-logo {
 	display: none; // centered logo will be handle by javascript => so they remain hidden at startup
