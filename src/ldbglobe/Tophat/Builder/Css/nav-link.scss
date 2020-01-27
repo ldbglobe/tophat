@@ -70,5 +70,9 @@
 	@import "./nav-link/background.scss"; // -alt
 	@import "./nav-link/button.scss"; // -alt -rounded
 
+	// dropdown special
+	@import "./nav-link/split.scss";
+
+	// language special
 	@import "./nav-link/switch.scss"; // [v|h]
 }
