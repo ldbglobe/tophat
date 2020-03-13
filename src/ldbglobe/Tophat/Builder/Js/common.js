@@ -690,6 +690,32 @@ function v3_refresh_step1(bar,clone,screen,middleLogo) {
 	if(bar.is('[data-tophat-burger-mobile-visibility="always"]'));
 		navItems.filter('.tophat-burger[screen="mobile"]').show();
 
+	var active_burger = false;
+	if(navItems.filter('.tophat-burger[screen="desktop"]:visible').length>0)
+	{
+		bar.addClass('burger-desktop-active'); active_burger = true
+	}
+	else
+	{
+		bar.removeClass('burger-desktop-active');
+	}
+	if(navItems.filter('.tophat-burger[screen="mobile"]:visible').length>0)
+	{
+		bar.addClass('burger-mobile-active'); active_burger = true
+	}
+	else
+	{
+		bar.removeClass('burger-mobile-active');
+	}
+	if(active_burger)
+	{
+		bar.addClass('burger-active'); active_burger = true
+	}
+	else
+	{
+		bar.removeClass('burger-active');
+	}
+
 	return hiddenItemsWidth;
 }
 
