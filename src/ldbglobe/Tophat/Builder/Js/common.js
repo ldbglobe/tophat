@@ -25,7 +25,7 @@ var iosV = getIOSVersion();
 var iosP = getIOSPlatform();
 
 var TOPHAT_FULLY_ACTIVATED = iosV[0]==0 || iosP!='iPad' && iosV[0]>8 || iosP=='iPad' && iosV[0]>8 ;
-console.log(iosV,TOPHAT_FULLY_ACTIVATED)
+//console.log(iosV,TOPHAT_FULLY_ACTIVATED)
 
 var TOPHAT_IOS_FLEX_FIX = iosV[0]==9;
 if(TOPHAT_IOS_FLEX_FIX)
@@ -513,11 +513,13 @@ function _init() {
 		if(!TOPHAT_DEBUG)
 		{
 			setTimeout(tophat_cron,50);
+			setTimeout(tophat_cron,500);
 			tophat_interval = setInterval(deferal_cron,2000); // regular refresh every 2 seconds
 		}
 		else
 		{
 			setTimeout(tophat_cron,500);
+			setTimeout(tophat_cron,1000);
 		}
 
 		setTimeout(function(){
