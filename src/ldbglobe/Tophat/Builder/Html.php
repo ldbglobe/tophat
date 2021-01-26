@@ -149,6 +149,8 @@ class Html
 
 	public function BuildModuleContent($module_code)
 	{
+		$content = '';
+
 		$data = $this->tophat->getModuleData($module_code);
 
 		$level = $data->get('level',0); // pour déterminer les éléments à conserver le plus longtemps possible (élevé = à garder longtemps)

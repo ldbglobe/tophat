@@ -32,8 +32,8 @@ class Css
 
 	public function BuildCommon($vars_to_inject=null) // [varname=>value, varname=>value, varname=>value, ...]
 	{
-		$scss_compiler = new \Leafo\ScssPhp\Compiler();
-		$scss_compiler->setFormatter('Leafo\ScssPhp\Formatter\Compressed');
+		$scss_compiler = new \ScssPhp\ScssPhp\Compiler();
+		$scss_compiler->setFormatter('ScssPhp\ScssPhp\Formatter\Compressed');
 
 		$scss = $this->ImportScss(__DIR__.'/Css/_common.scss');
 		if($this->tophat->debug)
@@ -103,8 +103,8 @@ class Css
 	{
 		if($bar->has('css'))
 		{
-			$scss_compiler = new \Leafo\ScssPhp\Compiler();
-			$scss_compiler->setFormatter('Leafo\ScssPhp\Formatter\Compressed');
+			$scss_compiler = new \ScssPhp\ScssPhp\Compiler();
+			$scss_compiler->setFormatter('ScssPhp\ScssPhp\Formatter\Compressed');
 
 			$scss = $this->__BuildBar_scss_parser($this->ImportScss(__DIR__.'/Css/index.scss'),$scss_compiler,$bar);
 			$scss = '.tophat-bar[data-tophat-key="'.$key.'"] { '.preg_replace("/[\r\n]+/","\n",$scss).' } ';

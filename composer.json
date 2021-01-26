@@ -17,8 +17,8 @@
     "require": {
         "php": ">=5.4.0",
         "dflydev/dot-access-data": "^1.1.0",
-        "leafo/scssphp": "^0.7.1",
-        "tedivm/jshrink": "^1.2"
+        "tedivm/jshrink": "^1.2",
+        "scssphp/scssphp": "^1.4"
     },
     "autoload": {
         "psr-0": {
