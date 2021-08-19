@@ -745,7 +745,7 @@ function v3_refresh_step2(bar,clone,screen,middleLogo) {
 		var L = bar.find('.tophat-bar-part[data-tophat-align="left"]').outerWidth(true);
 		temp = bar.find('.tophat-bar-part[data-tophat-align="left"] > *:visible');
 		var oL = null;
-		temp.each(function(){ 
+		temp.each(function(){
 			if(oL===null || oL < $(this).offset().left + $(this).outerWidth(true)) oL = $(this).offset().left + $(this).outerWidth(true);
 		});
 		if(oL===null)
@@ -754,7 +754,7 @@ function v3_refresh_step2(bar,clone,screen,middleLogo) {
 		var R = bar.find('.tophat-bar-part[data-tophat-align="right"]').outerWidth(true);
 		temp = bar.find('.tophat-bar-part[data-tophat-align="right"] > *:visible');
 		var oR = null;
-		temp.each(function(){ 
+		temp.each(function(){
 			if(oR===null || oR > $(this).offset().left) oR = $(this).offset().left;
 		});
 		if(oR===null)
@@ -763,7 +763,7 @@ function v3_refresh_step2(bar,clone,screen,middleLogo) {
 		temp = bar.find('.tophat-bar-part[data-tophat-align="middle"] > *:visible');
 		var oMl = null;
 		var oMr = null;
-		temp.each(function(){ 
+		temp.each(function(){
 			if(oMl===null || oMl > $(this).offset().left) oMl = $(this).offset().left;
 			if(oMr===null || oMr < $(this).offset().left + $(this).outerWidth(true)) oMr = $(this).offset().left + $(this).outerWidth(true);
 		});
@@ -775,7 +775,7 @@ function v3_refresh_step2(bar,clone,screen,middleLogo) {
 
 		//console.log(L,oL,oMl, R,oMr,oR)
 		//console.log(deltaLeft,deltaRight,middleTranslate,middleLogo.outerWidth(true))
-	
+
 		items.each(function(){
 			//console.log(this)
 			fWidth += v3_navItemWith(bar,clone,$(this));
@@ -802,7 +802,7 @@ function v3_refresh_step2(bar,clone,screen,middleLogo) {
 				else
 				{
 					//console.log('l!')
-					logoOrderIndex = v3_navItemOrderIndex(bar,clone,item) + 1;
+					logoOrderIndex = v3_navItemOrderIndex(bar,clone,item) + 0;
 					lPart += w;
 				}
 			}
