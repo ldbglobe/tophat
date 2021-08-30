@@ -802,7 +802,7 @@ function v3_refresh_step2(bar,clone,screen,middleLogo) {
 				else
 				{
 					//console.log('l!')
-					logoOrderIndex = v3_navItemOrderIndex(bar,clone,item) + 0;
+					logoOrderIndex = v3_navItemOrderIndex(bar,clone,item) + 1;
 					lPart += w;
 				}
 			}
