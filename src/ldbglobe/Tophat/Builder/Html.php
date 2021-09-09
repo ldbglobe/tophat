@@ -203,8 +203,9 @@ class Html
 					$__url = isset($btn['url']) ? $btn['url'] : null;
 					$__target = isset($btn['target']) ? $btn['target'] : null;
 					$__class = isset($btn['class']) ? $btn['class'] : null;
+					$__id = isset($btn['id']) ? $btn['id'] : null;
 
-					$content .= '<a class="nav-link '.$__class.' '.($__url ? 'react':'nolink').'" target="'.$__target.'" href="'.($__url ? $__url : 'javascript:void(0);').'">';
+					$content .= '<a '.($__id ? 'id="'.$__id.'"':'').' class="nav-link '.$__class.' '.($__url ? 'react':'nolink').'" target="'.$__target.'" href="'.($__url ? $__url : 'javascript:void(0);').'">';
 						$content .= '<span class="label"><span class="label-content">'.$__label.'</span></span>';
 		            $content .= '</a>';
 		        }
@@ -212,7 +213,8 @@ class Html
 			}
 			else
 			{
-	           	$content .= '<a class="nav-link '.($button->get('url') || $dropdown ? 'react':'').' '.($button->get('url') ? '':'nolink').'" target="'.$button->get('target').'" href="'.$button->get('url','javascript:void(0);').'">';
+				$__id = $button->get('id');
+	           	$content .= '<a '.($__id ? 'id="'.$__id.'"':'').' class="nav-link '.($button->get('url') || $dropdown ? 'react':'').' '.($button->get('url') ? '':'nolink').'" target="'.$button->get('target').'" href="'.$button->get('url','javascript:void(0);').'">';
 	                $content .= \ldbglobe\Tophat\Builder\Html::BuildModuleLabel($button);
 	            $content .= '</a>';
 	            if($dropdown)
