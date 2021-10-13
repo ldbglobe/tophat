@@ -26,13 +26,19 @@
 			>a:hover {
 				cursor: pointer;
 			}
+			>a:focus {
+				outline: 2px dotted rgba(0,0,0,0.5) !important;
+				outline-offset:-2px;
+			}
 			&.active > a, &.hover > a{
 
 			}
 		}
 	}
-	&.hover .nav-dropdown {
-		display: block;
+	&:focus-within, &.hover  {
+		.nav-dropdown {
+			display: block;
+		}
 	}
 
 	@import "./nav-dropdown/default.scss";
