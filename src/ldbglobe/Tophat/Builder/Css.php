@@ -3,7 +3,7 @@ namespace ldbglobe\Tophat\Builder;
 
 class Css
 {
-	public function __construct($tophat,$key,$vars_to_inject=null)
+	public function __construct($tophat,$key,$vars_to_inject=null,$additionnal_mixins=null)
 	{
 		$this->tophat = $tophat;
 
@@ -12,25 +12,25 @@ class Css
 			$bar = $tophat->getBarData($key);
 			if($bar)
 			{
-				$this->BuildBar($key,$bar);
+				$this->BuildBar($key,$bar,$additionnal_mixins);
 			}
 		}
 		else
 		{
-			$this->BuildCommon($vars_to_inject);
+			$this->BuildCommon($vars_to_inject,$additionnal_mixins);
 
 			if($key===true)
 			{
 				$bars = $tophat->getBars();
 				foreach($bars as $key=>$bar)
 				{
-					$this->BuildBar($key,$bar);
+					$this->BuildBar($key,$bar,$additionnal_mixins);
 				}
 			}
 		}
 	}
 
-	public function BuildCommon($vars_to_inject=null) // [varname=>value, varname=>value, varname=>value, ...]
+	public function BuildCommon($vars_to_inject=null,$additionnal_mixins=null) // [varname=>value, varname=>value, varname=>value, ...]
 	{
 		$scss_compiler = new \ScssPhp\ScssPhp\Compiler();
 		$scss_compiler->setFormatter('ScssPhp\ScssPhp\Formatter\Compressed');
@@ -99,7 +99,7 @@ class Css
 		return $scss;
 	}
 
-	public function BuildBar($key,$bar)
+	public function BuildBar($key,$bar,$additionnal_mixins=null)
 	{
 		if($bar->has('css'))
 		{
@@ -108,14 +108,14 @@ class Css
 
 			$scss = $this->__BuildBar_scss_parser($this->ImportScss(__DIR__.'/Css/index.scss'),$scss_compiler,$bar);
 			$scss = '.tophat-bar[data-tophat-key="'.$key.'"] { '.preg_replace("/[\r\n]+/","\n",$scss).' } ';
-			$css = $scss_compiler->compile($scss).' ';
+			$css = $scss_compiler->compile($additionnal_mixins."\n".$scss).' ';
 			echo $css;
 
 			echo "\n";
 
 			$scss = $this->__BuildBar_scss_parser($this->ImportScss(__DIR__.'/Css/burger-container.scss'),$scss_compiler,$bar);
 			$scss = '.tophat-burger-container[data-tophat-key="'.$key.'"] { '.preg_replace("/[\r\n]+/","\n",$scss).' } ';
-			$css = $scss_compiler->compile($scss).' ';
+			$css = $scss_compiler->compile($additionnal_mixins."\n".$scss).' ';
 			echo $css;
 		}
 	}

@@ -177,7 +177,7 @@ class Tophat {
 			new \ldbglobe\Tophat\Builder\Html($this);
 		return $debug->register($this->cacheWrite(($key ? $key:'_common').'.html',ob_get_clean()), 'runBuilder');
 	}
-	public function buildCss($key=null,$common_vars_to_inject=null)
+	public function buildCss($key=null,$common_vars_to_inject=null,$additionnal_mixins=null)
 	{
 		$debug = new \ldbglobe\Tophat\Tophat_Debugger('buildCss',$key);
 		$cacheCode = (is_string($key) ? $key : ($key ? '_all' : 'common')).'.css';
@@ -185,7 +185,7 @@ class Tophat {
 		if($this->cacheExist($cacheCode))
 			return $debug->register($this->cacheRead($cacheCode), 'cacheExist');
 		ob_start();
-		new \ldbglobe\Tophat\Builder\Css($this,$key,$common_vars_to_inject);
+		new \ldbglobe\Tophat\Builder\Css($this,$key,$common_vars_to_inject,$additionnal_mixins);
 		return $debug->register($this->cacheWrite($cacheCode,ob_get_clean()), 'runBuilder');
 	}
 	public function buildJs()
