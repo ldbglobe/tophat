@@ -222,7 +222,8 @@ class Html
 	                $content .= '<ul class="nav-dropdown" data-tophat-skin="'.$button->get('subskin','default').'">';
 	                foreach($dropdown as $dropdown_item)
 	                {
-	                    $content .= '<li class="'.($dropdown_item->get('active') ? 'active':'').'">';
+	                	$__id = $dropdown_item->get('id');
+	                    $content .= '<li '.($__id ? 'id="'.$__id.'"':'').' class="'.$dropdown_item->get('class').' '.($dropdown_item->get('active') ? 'active':'').'">';
 	                        $content .= '<a href="'.$dropdown_item->get('url').'" target="'.$dropdown_item->get('target').'">';
 	                            $content .= \ldbglobe\Tophat\Builder\Html::BuildModuleLabel($dropdown_item);
 	                        $content .= '</a>';
