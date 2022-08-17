@@ -132,7 +132,7 @@ function tophat_dropdown(){
 			{
 				if(tophat_touch_support() && !$(this).parent('.nav-item').hasClass('hover'))
 				{
-					event.preventDefault();
+					//event.preventDefault();
 				}
 			}
 		}
