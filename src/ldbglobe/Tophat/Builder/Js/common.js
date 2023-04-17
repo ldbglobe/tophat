@@ -57,6 +57,12 @@ function tophat_dropdown(){
 		event.stopPropagation();
 		return true;
 	});
+	$(document).on('click','.tophat-bar-part > .nav-item a[target="_blank"]',function(event){
+		$(this).find('*').blur()
+		this.blur();
+		document.body.focus();
+		$('.tophat-bar-part > .nav-item').removeClass('hover');
+	});
 	$(document).on('mouseover click','.tophat-bar-part > .nav-item',function(event){
 		if(tophat_touch_support() && event.type=='mouseover')
 		{
