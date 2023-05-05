@@ -574,6 +574,10 @@ function v3_tophat_init()
 			bar.find('.nav-item.LanguageMenu').attr('data-tophat-level',999);
 		}
 
+		bar.find('.LanguageMenu > .nav-link').click(function(e) {
+			e.preventDefault();
+		});
+
 
 		bar.find('.tophat-bar-logo').attr('logo-w',1);
 		bar.find('.tophat-bar-logo').show();
