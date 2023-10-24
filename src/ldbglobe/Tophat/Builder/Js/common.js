@@ -454,7 +454,7 @@ function tophat_burger_refresh()
 var tophat_cron_in_progress = false;
 function tophat_cron()
 {
-	if(!tophat_cron_in_progress)
+	if(!tophat_cron_in_progress && window.$ && window.$.fn && window.$.fn.jquery)
 	{
 		tophat_cron_in_progress = true;
 
